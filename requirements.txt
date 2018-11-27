@@ -6,6 +6,8 @@ ipython
 scikit-image
 pyqt5
 pymodm
+matplotlib
+seaborn
 flask
 gunicorn
 sendgrid
