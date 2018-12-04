@@ -1,6 +1,7 @@
 import sys
 from PyQt5 import QtWidgets
 from GUI.main_window_design import Ui_MainWindow
+from GUI.files_dialog import LoadDialog, SaveDialog
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -16,9 +17,22 @@ class MainWindow(QtWidgets.QMainWindow):
         # Callbacks for putton presses
         self.ui.pushButtonApply.clicked.connect(self.apply_clicked)
         self.ui.pushButtonDonwload.clicked.connect(self.download_clicked)
+        self.ui.toolButtonLoad.clicked.connect(self.load_image_dialog)
 
-        # Set up program dictionary
+        # Initialize dictionary for saving user inputs
         self.df = {}
+
+    def load_image_dialog(self):
+
+        # Launch the load image dialog
+        self.load_dialog = LoadDialog(self)
+        self.df['load_filenames'] = self.load_dialog.files
+        print(self.df)
+
+        # Close dialog box
+        self.load_dialog.close()
+
+        # TODO: if a file is selected un-grey out apply_cliked
 
     def apply_clicked(self):
         """The "Apply Processing" button was clicked
@@ -53,6 +67,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.df['TIFF'] = self.ui.radioButtonTIFF.isChecked()
 
         print(self.df)
+
+        # Launch the save image dialog box
+        self.save_dialog = SaveDialog(self, df=self.df)
+        self.df['save_filename'] = self.save_dialog.filename
+        print(self.df)
+
+        # Close dialog box
+        self.load_dialog.close()
 
         # TODO: Add call to communictation function
 
