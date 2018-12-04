@@ -19,8 +19,21 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.pushButtonDonwload.clicked.connect(self.download_clicked)
         self.ui.toolButtonLoad.clicked.connect(self.load_image_dialog)
 
+        # Gray out options before loading a file
+        self.process_flag = False
+        self.save_flag = False
+        self.disable_options()
+
         # Initialize dictionary for saving user inputs
         self.df = {}
+
+    def disable_options(self):
+
+        # Disable Apply push button if no image is loaded
+        self.ui.pushButtonApply.setEnabled(self.process_flag)
+
+        # Disable Download push button if no image is loaded
+        self.ui.pushButtonDonwload.setEnabled(self.save_flag)
 
     def load_image_dialog(self):
 
@@ -32,7 +45,10 @@ class MainWindow(QtWidgets.QMainWindow):
         # Close dialog box
         self.load_dialog.close()
 
-        # TODO: if a file is selected un-grey out apply_cliked
+        # Allow the loaded image to be processed
+        # TODO: add a check that the image exists
+        self.process_flag = True
+        self.disable_options()
 
     def apply_clicked(self):
         """The "Apply Processing" button was clicked
@@ -41,7 +57,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         """
 
-        # Load files and process
+        # Load files
+        # TODO: add a function to read images
 
         # Get processing settings
         self.df['hist'] = self.ui.radioButtonHist.isChecked()
@@ -52,6 +69,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         print(self.df)
 
+        # Allow image saving
+        self.save_flag = True
+        self.disable_options()
+
         # TODO: Add call to communictation function
 
     def download_clicked(self):
@@ -60,6 +81,8 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns:
 
         """
+        # TODO: add a check that the images have been processed
+        # TODO: get processed image(s)
 
         # Get save settings
         self.df['JPEG'] = self.ui.radioButtonJPEG.isChecked()
@@ -76,7 +99,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Close dialog box
         self.load_dialog.close()
 
-        # TODO: Add call to communictation function
+        # TODO: Add call to to write the images
 
 
 if __name__ == "__main__":
