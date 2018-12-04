@@ -5,7 +5,7 @@ requests
 ipython
 scikit-image
 pyqt5
-pyqt5-tools
+#pyqt5-tools
 pymodm
 matplotlib
 seaborn
