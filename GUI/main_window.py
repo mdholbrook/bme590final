@@ -14,20 +14,40 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        # Callbacks for putton presses
+        # Set up email field
+        # self.ui.lineEditEmail.text()
+
+        # Callbacks for button presses
         self.ui.pushButtonApply.clicked.connect(self.apply_clicked)
         self.ui.pushButtonDonwload.clicked.connect(self.download_clicked)
         self.ui.toolButtonLoad.clicked.connect(self.load_image_dialog)
+        self.ui.pushButtonEmail.clicked.connect(self.validate_email)
 
         # Gray out options before loading a file
         self.process_flag = False
         self.save_flag = False
+        self.load_flag = False
         self.disable_options()
 
         # Initialize dictionary for saving user inputs
         self.df = {}
 
+    def validate_email(self):
+
+        # TODO: add a validation check
+
+        # Add email to the dictionary
+        self.df['email'] = self.ui.lineEditEmail.text()
+        print(self.df['email'])
+
+        # Update disabled options
+        self.load_flag = True
+        self.disable_options()
+
     def disable_options(self):
+
+        # Disable loading images if there is not valid email address
+        self.ui.toolButtonLoad.setEnabled(self.load_flag)
 
         # Disable Apply push button if no image is loaded
         self.ui.pushButtonApply.setEnabled(self.process_flag)
