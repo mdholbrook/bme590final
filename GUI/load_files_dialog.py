@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QFileDialog
 from PyQt5.QtGui import QIcon
 
 
@@ -20,31 +20,36 @@ class App(QWidget):
 
         self.open_file_name_dialog()
         self.open_file_names_dialog()
-        self.save_file_dialog()
+        self.open_file_dialog()
 
         self.show()
 
     def open_file_name_dialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
-                                                  "All Files (*);;Python Files (*.py)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(
+            self, "QFileDialog.getOpenFileName()", "",
+            "All Files (*);;Python Files (*.py)", options=options)
         if fileName:
             print(fileName)
 
     def open_file_names_dialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        files, _ = QFileDialog.getOpenFileNames(self, "QFileDialog.getOpenFileNames()", "",
-                                                "All Files (*);;Python Files (*.py)", options=options)
+        files, _ = \
+            QFileDialog.getOpenFileNames(
+                self, "QFileDialog.getOpenFileNames()", "",
+                "All Files (*);;Python Files (*.py)", options=options)
         if files:
             print(files)
 
-    def save_file_dialog(self):
+    def open_file_dialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", "",
-                                                  "All Files (*);;Text Files (*.txt)", options=options)
+        fileName, _ = \
+            QFileDialog.getSaveFileName(
+                self, "QFileDialog.getSaveFileName()", "",
+                "All Files (*);;Text Files (*.txt)", options=options)
         if fileName:
             print(fileName)
 
