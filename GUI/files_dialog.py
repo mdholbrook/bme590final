@@ -1,6 +1,6 @@
-import sys, os
+import sys
+import os
 from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QFileDialog
-from PyQt5.QtGui import QIcon
 
 
 class LoadDialog(QWidget):
