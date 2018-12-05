@@ -145,8 +145,13 @@ def get_num_channels(df):
         int: the number of channels in the image
     """
     ind = df['imageInd']
-    im = df['orig_im'][ind].shape
-    num_chans = im[2]
+    im_shape = df['orig_im'][ind].shape
+
+    if len(im_shape) == 2:
+        num_chans = 1
+
+    else:
+        num_chans = im_shape[2]
 
     return num_chans
 
