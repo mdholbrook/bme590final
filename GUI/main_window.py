@@ -1,4 +1,5 @@
 import sys
+from GUI.validation_functions import valid_email
 from PyQt5 import QtWidgets
 from GUI.main_window_design import Ui_MainWindow
 from GUI.files_dialog import LoadDialog, SaveDialog
@@ -34,14 +35,27 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def validate_email(self):
 
-        # TODO: add a validation check
+        # Get input email address
+        email = self.ui.lineEditEmail.text()
 
-        # Add email to the dictionary
-        self.df['email'] = self.ui.lineEditEmail.text()
-        print(self.df['email'])
+        # Validate the emaail address
+        if valid_email(email):
 
-        # Update disabled options
-        self.load_flag = True
+            # Add email to the dictionary
+            self.df['email'] = self.ui.lineEditEmail.text()
+            print(self.df)
+
+            # Update disabled options
+            self.load_flag = True
+
+        else:
+
+            # Show error message
+            error_dialog = QtWidgets.QErrorMessage(self)
+            error_dialog.showMessage("Please enter a valid email address")
+
+            self.load_flag = False
+
         self.disable_options()
 
     def disable_options(self):
