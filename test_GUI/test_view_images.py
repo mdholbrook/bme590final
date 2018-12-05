@@ -6,8 +6,8 @@ def setup():
 
     from skimage import data
 
-    test_im = data.camera()
-
+    # test_im = data.camera()
+    test_im = np.ones((64, 64))
     df1 = {'imageInd': 0,
            'orig_im': [test_im],
            'proc_im': [test_im],
@@ -16,7 +16,8 @@ def setup():
            'imdims': [test_im.shape]
            }
 
-    test_im = data.coffee()
+    # test_im = data.coffee()
+    test_im = np.ones((128, 128, 3))
     df2 = {'imageInd': 0,
            'orig_im': [test_im],
            'proc_im': [test_im],
