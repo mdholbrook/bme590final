@@ -3,6 +3,7 @@ from GUI.validation_functions import valid_email
 from PyQt5 import QtWidgets
 from GUI.main_window_design import Ui_MainWindow
 from GUI.files_dialog import LoadDialog, SaveDialog
+from GUI.view_images import view_images
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -150,6 +151,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Get histomgram request
         self.df['showHist'] = self.ui.checkBoxShowHist
+
+        # Call image viewer
+        view_images(self.df)
 
     def download_clicked(self):
         """The "Download" button was clicked

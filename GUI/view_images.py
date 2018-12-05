@@ -3,6 +3,23 @@ from skimage.viewer import ImageViewer
 import numpy as np
 
 
+def view_images(df):
+    """Call image display functions to show original, processed, or both images
+
+    Args:
+        df (dict): dictionary containing images and display instructions
+
+    Returns:
+
+    """
+
+    # Get image to show
+    im = separate_ims(df)
+
+    # Display images
+    show_ims(im)
+
+
 def show_ims(im):
     """Function which uses skimage viewer to display the desired image(s).
     The window cretaed by this function needs be closed before the GUI can
