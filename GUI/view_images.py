@@ -7,20 +7,23 @@ import seaborn as sns
 sns.set_style('whitegrid')
 
 
-def view_images(df):
-    """Call image display functions to show original, processed, or both images
+def run_image_viewer(df):
+    """This functions calls the functions in this script to dispaly images
+    and histograms.
 
     Args:
-        df (dict): dictionary containing images and display instructions
+        df (dict): dictionary passed from the GUI
 
     Returns:
 
     """
-
-    # Get image to show
+    # Get images to show
     im = separate_ims(df)
 
-    # Display images
+    # Plot image histograms
+    show_hist(df)
+
+    # Show images
     show_ims(im)
 
 
@@ -37,7 +40,7 @@ def show_ims(im):
     """
 
     # Generate image viewer
-    viewer = ImageViewer(im, useblit=False)
+    viewer = ImageViewer(im)
 
     # Show image
     viewer.show()
@@ -60,7 +63,7 @@ def show_hist(df):
     colors, color_names = hist_colors(num_chans)
 
     # Get image index
-    ind = 0
+    ind = df['imageInd']
 
     # Loop over image channels
     for c in range(len(colors)):
@@ -141,8 +144,8 @@ def get_num_channels(df):
     Returns:
         int: the number of channels in the image
     """
-
-    im = df['orig_im'][0].shape
+    ind = df['imageInd']
+    im = df['orig_im'][ind].shape
     num_chans = im[2]
 
     return num_chans
@@ -183,8 +186,8 @@ def separate_ims(df):
         the image to be shown
     """
 
-    # TODO: upate image index based on which index is selected
-    ind = 0
+    # Use image selected in the GUI
+    ind = df['imageInd']
 
     if df['show1'] and df['show2']:
         im = np.concatenate((df['orig_im'][ind], df['proc_im'][ind]), axis=1)
@@ -212,6 +215,8 @@ if __name__ == "__main__":
     df['show1'] = True
     df['show2'] = True
 
+    df['imageInd'] = 0
+
     # Set up histograms
     df['histDataOrig'] = [[[0, 1, 2, 3, 4, 5, 6],
                           [[1, 1, 4, 9, 8, 4, 3],
@@ -223,6 +228,4 @@ if __name__ == "__main__":
                           [1, 2, 5, 2, 3, 4, 5]]]]
 
     # Show images
-    im = separate_ims(df)
-    show_hist(df)
-    show_ims(im)
+    run_image_viewer(df)
