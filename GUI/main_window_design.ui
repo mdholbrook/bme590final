@@ -174,7 +174,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QRadioButton" name="radioButtonShowOriginal">
         <property name="text">
          <string>Original</string>
         </property>
@@ -184,14 +184,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_2">
+       <widget class="QRadioButton" name="radioButtonShowProcessed">
         <property name="text">
          <string>Processed</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_3">
+       <widget class="QRadioButton" name="radioButtonShowBoth">
         <property name="text">
          <string>Both</string>
         </property>
@@ -199,7 +199,7 @@
       </item>
      </layout>
     </widget>
-    <widget class="QCheckBox" name="checkBox_3">
+    <widget class="QCheckBox" name="checkBoxShowHist">
      <property name="geometry">
       <rect>
        <x>160</x>
