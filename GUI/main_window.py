@@ -3,6 +3,7 @@ from GUI.validation_functions import valid_email
 from PyQt5 import QtWidgets
 from GUI.main_window_design import Ui_MainWindow
 from GUI.files_dialog import LoadDialog, SaveDialog
+from GUI.view_images import run_image_viewer
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -19,14 +20,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.save_dialog = ''
         self.load_dialog = ''
 
-        # Set up email field
-        # self.ui.lineEditEmail.text()
+        # Callback for changing image selection via the ComboBox
+        self.ui.comboBox.currentIndexChanged.connect(self.pullcombotext)
 
         # Callbacks for button presses
         self.ui.pushButtonApply.clicked.connect(self.apply_clicked)
         self.ui.pushButtonDonwload.clicked.connect(self.download_clicked)
         self.ui.toolButtonLoad.clicked.connect(self.load_image_dialog)
         self.ui.pushButtonEmail.clicked.connect(self.validate_email)
+        self.ui.pushButtonImageViewer.clicked.connect(self.image_viewer)
 
         # Gray out options before loading a file
         self.process_flag = False
@@ -105,6 +107,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # Update image path shown in GUI
         self.ui.lineEditLoad.setText(self.df['load_filenames'][0])
 
+        # Add images to combobox to allow for viewing
+        self.ui.comboBox.addItems(self.df['load_filenames'])
+
         # Allow the loaded image to be processed
         # TODO: add a check that the image exists
         self.process_flag = True
@@ -135,6 +140,25 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # TODO: Add call to communictation function
 
+    def image_viewer(self):
+
+        if self.ui.radioButtonShowBoth:
+
+            # Show both images
+            self.df['show1'] = True
+            self.df['show2'] = True
+
+        else:
+            # Show only one image
+            self.df['show1'] = self.ui.radioButtonShowOriginal
+            self.df['show2'] = self.ui.radioButtonShowProcessed
+
+        # Get histomgram request
+        self.df['showHist'] = self.ui.checkBoxShowHist
+
+        # Call image viewer
+        run_image_viewer(self.df)
+
     def download_clicked(self):
         """The "Download" button was clicked
 
@@ -163,6 +187,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.save_dialog.close()
 
         # TODO: Add call to to write the images
+
+    def pullcombotext(self, ind):
+
+        self.df['imageInd'] = ind
 
 
 if __name__ == "__main__":

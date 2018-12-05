@@ -12,11 +12,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(602, 347)
+        MainWindow.resize(592, 347)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(0, 100, 301, 201))
+        self.groupBox.setGeometry(QtCore.QRect(10, 90, 301, 211))
         self.groupBox.setObjectName("groupBox")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.groupBox)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 20, 171, 171))
@@ -24,31 +24,30 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.radioButtonHist = QtWidgets.QRadioButton(
-            self.verticalLayoutWidget)
+        self.radioButtonHist = \
+            QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.radioButtonHist.setChecked(True)
         self.radioButtonHist.setObjectName("radioButtonHist")
         self.buttonGroup = QtWidgets.QButtonGroup(MainWindow)
         self.buttonGroup.setObjectName("buttonGroup")
         self.buttonGroup.addButton(self.radioButtonHist)
         self.verticalLayout.addWidget(self.radioButtonHist)
-        self.radioButtonContrast = QtWidgets.QRadioButton(
-            self.verticalLayoutWidget)
+        self.radioButtonContrast = \
+            QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.radioButtonContrast.setObjectName("radioButtonContrast")
         self.buttonGroup.addButton(self.radioButtonContrast)
         self.verticalLayout.addWidget(self.radioButtonContrast)
-        self.radioButtonLog = QtWidgets.QRadioButton(
-            self.verticalLayoutWidget)
+        self.radioButtonLog = QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.radioButtonLog.setObjectName("radioButtonLog")
         self.buttonGroup.addButton(self.radioButtonLog)
         self.verticalLayout.addWidget(self.radioButtonLog)
-        self.radioButtonReverse = QtWidgets.QRadioButton(
-            self.verticalLayoutWidget)
+        self.radioButtonReverse = \
+            QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.radioButtonReverse.setObjectName("radioButtonReverse")
         self.buttonGroup.addButton(self.radioButtonReverse)
         self.verticalLayout.addWidget(self.radioButtonReverse)
-        self.radioButtonMedian = QtWidgets.QRadioButton(
-            self.verticalLayoutWidget)
+        self.radioButtonMedian = \
+            QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.radioButtonMedian.setObjectName("radioButtonMedian")
         self.buttonGroup.addButton(self.radioButtonMedian)
         self.verticalLayout.addWidget(self.radioButtonMedian)
@@ -62,37 +61,62 @@ class Ui_MainWindow(object):
         self.lineEditLoad.setGeometry(QtCore.QRect(130, 60, 331, 20))
         self.lineEditLoad.setObjectName("lineEditLoad")
         self.groupBox_2 = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox_2.setGeometry(QtCore.QRect(330, 100, 241, 80))
+        self.groupBox_2.setGeometry(QtCore.QRect(330, 90, 251, 121))
         self.groupBox_2.setObjectName("groupBox_2")
-        self.commandLinkButtonViewer = QtWidgets.QCommandLinkButton(
-            self.groupBox_2)
-        self.commandLinkButtonViewer.setGeometry(
-            QtCore.QRect(20, 20, 185, 41))
-        self.commandLinkButtonViewer.setObjectName("commandLinkButtonViewer")
+        self.pushButtonImageViewer = QtWidgets.QPushButton(self.groupBox_2)
+        self.pushButtonImageViewer.setGeometry(QtCore.QRect(160, 20, 75, 23))
+        self.pushButtonImageViewer.setObjectName("pushButtonImageViewer")
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.groupBox_2)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(10, 50, 131, 65))
+        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+        self.verticalLayout_2 = \
+            QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.radioButtonShowOriginal = \
+            QtWidgets.QRadioButton(self.verticalLayoutWidget_2)
+        self.radioButtonShowOriginal.setChecked(True)
+        self.radioButtonShowOriginal.setObjectName("radioButtonShowOriginal")
+        self.verticalLayout_2.addWidget(self.radioButtonShowOriginal)
+        self.radioButtonShowProcessed =\
+            QtWidgets.QRadioButton(self.verticalLayoutWidget_2)
+        self.radioButtonShowProcessed.setObjectName("radioButtonShowProcessed")
+        self.verticalLayout_2.addWidget(self.radioButtonShowProcessed)
+        self.radioButtonShowBoth =\
+            QtWidgets.QRadioButton(self.verticalLayoutWidget_2)
+        self.radioButtonShowBoth.setObjectName("radioButtonShowBoth")
+        self.verticalLayout_2.addWidget(self.radioButtonShowBoth)
+        self.checkBoxShowHist = QtWidgets.QCheckBox(self.groupBox_2)
+        self.checkBoxShowHist.setGeometry(QtCore.QRect(160, 50, 91, 17))
+        self.checkBoxShowHist.setObjectName("checkBoxShowHist")
+        self.comboBox = QtWidgets.QComboBox(self.groupBox_2)
+        self.comboBox.setGeometry(QtCore.QRect(10, 20, 141, 22))
+        self.comboBox.setObjectName("comboBox")
         self.groupBox_3 = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox_3.setGeometry(QtCore.QRect(330, 190, 251, 111))
+        self.groupBox_3.setGeometry(QtCore.QRect(330, 220, 251, 81))
         self.groupBox_3.setObjectName("groupBox_3")
         self.verticalLayoutWidget_3 = QtWidgets.QWidget(self.groupBox_3)
-        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(10, 20, 131, 80))
+        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(10, 20, 131, 51))
         self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(
-            self.verticalLayoutWidget_3)
+        self.verticalLayout_3 = \
+            QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.radioButtonJPEG = QtWidgets.QRadioButton(
-            self.verticalLayoutWidget_3)
+        self.radioButtonJPEG = \
+            QtWidgets.QRadioButton(self.verticalLayoutWidget_3)
+        self.radioButtonJPEG.setChecked(True)
         self.radioButtonJPEG.setObjectName("radioButtonJPEG")
         self.verticalLayout_3.addWidget(self.radioButtonJPEG)
-        self.radioButtonPNG = QtWidgets.QRadioButton(
-            self.verticalLayoutWidget_3)
+        self.radioButtonPNG = \
+            QtWidgets.QRadioButton(self.verticalLayoutWidget_3)
         self.radioButtonPNG.setObjectName("radioButtonPNG")
         self.verticalLayout_3.addWidget(self.radioButtonPNG)
-        self.radioButtonTIFF = QtWidgets.QRadioButton(
-            self.verticalLayoutWidget_3)
+        self.radioButtonTIFF = \
+            QtWidgets.QRadioButton(self.verticalLayoutWidget_3)
         self.radioButtonTIFF.setObjectName("radioButtonTIFF")
         self.verticalLayout_3.addWidget(self.radioButtonTIFF)
         self.pushButtonDonwload = QtWidgets.QPushButton(self.groupBox_3)
-        self.pushButtonDonwload.setGeometry(QtCore.QRect(160, 80, 75, 23))
+        self.pushButtonDonwload.setGeometry(QtCore.QRect(160, 50, 75, 23))
         self.pushButtonDonwload.setObjectName("pushButtonDonwload")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(40, 60, 71, 20))
@@ -108,7 +132,7 @@ class Ui_MainWindow(object):
         self.pushButtonEmail.setObjectName("pushButtonEmail")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 602, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 592, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -136,8 +160,14 @@ class Ui_MainWindow(object):
             _translate("MainWindow", "Apply Processing"))
         self.toolButtonLoad.setText(_translate("MainWindow", "..."))
         self.groupBox_2.setTitle(_translate("MainWindow", "Show Images"))
-        self.commandLinkButtonViewer.setText(
-            _translate("MainWindow", "Launch Image Viewer"))
+        self.pushButtonImageViewer.setText(
+            _translate("MainWindow", "ImageViewer"))
+        self.radioButtonShowOriginal.setText(
+            _translate("MainWindow", "Original"))
+        self.radioButtonShowProcessed.setText(
+            _translate("MainWindow", "Processed"))
+        self.radioButtonShowBoth.setText(_translate("MainWindow", "Both"))
+        self.checkBoxShowHist.setText(_translate("MainWindow", "Histograms"))
         self.groupBox_3.setTitle(
             _translate("MainWindow", "Download Processed Image"))
         self.radioButtonJPEG.setText(_translate("MainWindow", "JPEG"))
@@ -148,3 +178,13 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Email address"))
         self.pushButtonEmail.setText(
             _translate("MainWindow", "Validate Email"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
