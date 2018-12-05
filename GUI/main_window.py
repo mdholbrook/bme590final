@@ -162,7 +162,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Close dialog box
         self.save_dialog.close()
 
-        # TODO: Add call to to write the images
+        # TODO: Add call to to write the images 
 
 
 if __name__ == "__main__":
