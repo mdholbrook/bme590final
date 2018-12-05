@@ -99,6 +99,25 @@ def show_hist(df):
     plt.show()
 
 
+def get_channels(df):
+    """Get the number of image channels of the input image.
+
+    We make the assumption that the number of channels will not be different
+    for the processed image
+
+    Args:
+        df (dict): dictionary containing original images
+
+    Returns:
+        int: the number of channels in the image
+    """
+
+    im = df['orig_im'][0].shape
+    num_chans = im[2]
+
+    return num_chans
+
+
 def separate_ims(df):
     """Creates an image which is to be send to a viewer function. For
     cases in which both the original and processed images are to be
@@ -143,7 +162,8 @@ if __name__ == "__main__":
 
     # Set up histograms
     df['histDataOrig'] = [[0, 1, 2, 3, 4, 5, 6],
-                          [1, 1, 4, 9, 8, 4, 3]]
+                          np.array([[1, 1, 4, 9, 8, 4, 3],
+                           [1, 0, 3, 10, 7, 5, 2]])]
     df['histDataProc'] = [[0, 1, 2, 3, 4, 5, 6],
                           [2, 3, 4, 6, 5, 4, 3]]
 
