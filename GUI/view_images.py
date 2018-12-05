@@ -55,51 +55,81 @@ def show_hist(df):
     Returns:
 
     """
+    # Get colors to use for grayscale or RGB images
+    num_chans = get_num_channels(df)
+    colors, color_names = hist_colors(num_chans)
 
-    if df['show1'] and df['show2']:  # If both images are shown
+    # Get image index
+    ind = 0
 
-        fig, ax = plt.subplots(1, 2)
+    # Loop over image channels
+    for c in range(len(colors)):
 
-        # Plot original image
-        ax[0].bar(df['histDataOrig'][0], df['histDataOrig'][1])
+        # If both images are shown
+        if df['show1'] and df['show2']:
 
-        ax[0].set_xlabel('Image Values')
-        ax[0].set_ylabel('Counts')
-        ax[0].set_title('Original Image')
+            if c == 0:
+                fig, ax = plt.subplots(len(colors), 2)
 
-        # Plot processed image
-        ax[1].bar(df['histDataProc'][0], df['histDataProc'][1])
+            # Plot original image
+            ax[c][0].bar(df['histDataOrig'][ind][0],
+                         df['histDataOrig'][ind][1][c], color=colors[c])
 
-        ax[1].set_xlabel('Image Values')
-        ax[1].set_ylabel('Counts')
-        ax[1].set_title('Processed Image')
+            ax[c][0].set_xlabel('Image Values')
+            ax[c][0].set_ylabel('Counts')
+            ttl = 'Original Image - ' + color_names[c]
+            ax[c][0].set_title(ttl)
 
-    elif df['show1']:
+            # Plot processed image
+            ax[c][1].bar(df['histDataProc'][ind][0],
+                         df['histDataProc'][ind][1][c], color=colors[c])
 
-        fig, ax = plt.subplots()
+            ax[c][1].set_xlabel('Image Values')
+            ax[c][1].set_ylabel('Counts')
+            ttl = 'Processed Image - ' + color_names[c]
+            ax[c][1].set_title(ttl)
 
-        # Plot original image
-        ax.bar(df['histDataOrig'][0], df['histDataOrig'][1])
+        # If we only want the original image
+        elif df['show1']:
 
-        ax.set_xlabel('Image Values')
-        ax.set_ylabel('Counts')
-        ax.set_title('Original Image')
+            if c == 0:
+                fig, ax = plt.subplots(1, len(colors))
 
-    elif df['show2']:
+            # Allow BW images to be indexed
+            if len(ax) == 1:
+                ax = [ax]
 
-        fig, ax = plt.subplots()
+            # Plot original image
+            ax[c].bar(df['histDataOrig'][ind][0],
+                   df['histDataOrig'][ind][1][c], color=colors[c])
 
-        # Plot processed image
-        ax.bar(df['histDataProc'][0], df['histDataProc'][1])
+            ax[c].set_xlabel('Image Values')
+            ax[c].set_ylabel('Counts')
+            ttl = 'Processed Image - ' + color_names[c]
+            ax[c].set_title(ttl)
 
-        ax.set_xlabel('Image Values')
-        ax.set_ylabel('Counts')
-        ax.set_title('Processed Image')
+        # If we only want the processed image
+        elif df['show2']:
+
+            if c == 0:
+                fig, ax = plt.subplots(1, len(colors))
+
+            # Allow BW images to be indexed
+            if len(ax) == 1:
+                ax = [ax]
+
+            # Plot processed image
+            ax[c].bar(df['histDataProc'][ind][0],
+                   df['histDataProc'][ind][1][c], color=colors[c])
+
+            ax[c].set_xlabel('Image Values')
+            ax.set_ylabel('Counts')
+            ax.set_title('Processed Image')
 
     plt.show()
 
 
-def get_channels(df):
+def get_num_channels(df):
     """Get the number of image channels of the input image.
 
     We make the assumption that the number of channels will not be different
@@ -116,6 +146,28 @@ def get_channels(df):
     num_chans = im[2]
 
     return num_chans
+
+
+def hist_colors(num_chans):
+    """This function returns a list of colors to be used for histogram
+    plotting based on whether the image is grayscale or RGB.
+
+    Args:
+        num_chans (int): the number of channels contained
+
+    Returns:
+        list: colors, a list of colors of len=1 or len=3
+        list: color_names, names of the colors, will be used for labeling
+    """
+    if num_chans == 1:
+        colors = ['k']
+        color_names = ['BW']
+
+    if num_chans == 3:
+        colors = ['r', 'g', 'b']
+        color_names = ['Red', 'Green', 'Blue']
+
+    return colors, color_names
 
 
 def separate_ims(df):
@@ -158,14 +210,17 @@ if __name__ == "__main__":
     df['proc_im'] = [im2]
 
     df['show1'] = True
-    df['show2'] = False
+    df['show2'] = True
 
     # Set up histograms
-    df['histDataOrig'] = [[0, 1, 2, 3, 4, 5, 6],
-                          np.array([[1, 1, 4, 9, 8, 4, 3],
-                           [1, 0, 3, 10, 7, 5, 2]])]
-    df['histDataProc'] = [[0, 1, 2, 3, 4, 5, 6],
-                          [2, 3, 4, 6, 5, 4, 3]]
+    df['histDataOrig'] = [[[0, 1, 2, 3, 4, 5, 6],
+                          [[1, 1, 4, 9, 8, 4, 3],
+                           [1, 0, 3, 10, 7, 5, 2],
+                           [1, 2, 5, 2, 3, 4, 5]]]]
+    df['histDataProc'] = [[[0, 1, 2, 3, 4, 5, 6],
+                          [[1, 1, 4, 9, 8, 4, 3],
+                          [1, 0, 3, 10, 7, 5, 2],
+                          [1, 2, 5, 2, 3, 4, 5]]]]
 
     # Show images
     im = separate_ims(df)
