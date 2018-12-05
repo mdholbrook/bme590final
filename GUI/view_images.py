@@ -1,6 +1,10 @@
 from skimage import data
 from skimage.viewer import ImageViewer
 import numpy as np
+from matplotlib import pyplot as plt
+import seaborn as sns
+
+sns.set_style('whitegrid')
 
 
 def view_images(df):
@@ -37,6 +41,60 @@ def show_ims(im):
 
     # Show image
     viewer.show()
+
+
+def show_hist(df):
+    """Plot histograms of the shown images.
+
+    Histogram values were calculated on the server. They are only plotted here.
+
+    Args:
+        df (dict): dictionary containing calculated histograms and display
+            metadata
+
+    Returns:
+
+    """
+
+    if df['show1'] and df['show2']:  # If both images are shown
+
+        fig, ax = plt.subplots(1, 2)
+
+        # Plot original image
+        ax[0].bar(df['histDataOrig'][0], df['histDataOrig'][1])
+
+        plt.xlabel('Image Values')
+        plt.ylabel('Counts')
+        plt.title('Original Image')
+
+        # Plot processed image
+        ax[1].bar(df['histDataProc'][0], df['histDataProc'][1])
+
+        plt.xlabel('Image Values')
+        plt.ylabel('Counts')
+        plt.title('Processed Image')
+
+    elif df['show1']:
+
+        fig, ax = plt.subplots()
+
+        # Plot original image
+        ax.bar(df['histDataOrig'][0], df['histDataOrig'][1])
+
+        plt.xlabel('Image Values')
+        plt.ylabel('Counts')
+        plt.title('Original Image')
+
+    elif df['show2']:
+
+        fig, ax = plt.subplots()
+
+        # Plot processed image
+        ax.bar(df['histDataProc'][0], df['histDataProc'][1])
+
+        plt.xlabel('Image Values')
+        plt.ylabel('Counts')
+        plt.title('Processed Image')
 
 
 def separate_ims(df):
