@@ -140,16 +140,6 @@
     <property name="title">
      <string>Show Images</string>
     </property>
-    <widget class="QFontComboBox" name="fontComboBoxShowImage">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>141</width>
-       <height>21</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushButtonImageViewer">
      <property name="geometry">
       <rect>
@@ -169,7 +159,7 @@
        <x>10</x>
        <y>57</y>
        <width>131</width>
-       <height>61</height>
+       <height>65</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -210,6 +200,16 @@
      </property>
      <property name="text">
       <string>Histograms</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>141</width>
+       <height>22</height>
+      </rect>
      </property>
     </widget>
    </widget>
