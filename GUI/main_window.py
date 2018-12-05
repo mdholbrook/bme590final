@@ -160,7 +160,7 @@ class MainWindow(QtWidgets.QMainWindow):
         print(self.df)
 
         # Close dialog box
-        self.load_dialog.close()
+        self.save_dialog.close()
 
         # TODO: Add call to to write the images
 
