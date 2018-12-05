@@ -104,7 +104,7 @@ def show_hist(df):
 
             # Plot original image
             ax[c].bar(df['histDataOrig'][ind][0],
-                   df['histDataOrig'][ind][1][c], color=colors[c])
+                      df['histDataOrig'][ind][1][c], color=colors[c])
 
             ax[c].set_xlabel('Image Values')
             ax[c].set_ylabel('Counts')
@@ -123,7 +123,7 @@ def show_hist(df):
 
             # Plot processed image
             ax[c].bar(df['histDataProc'][ind][0],
-                   df['histDataProc'][ind][1][c], color=colors[c])
+                      df['histDataProc'][ind][1][c], color=colors[c])
 
             ax[c].set_xlabel('Image Values')
             ax.set_ylabel('Counts')
