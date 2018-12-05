@@ -70,6 +70,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.pushButtonDonwload.setEnabled(self.save_flag)
 
     def load_image_dialog(self):
+        """Calls files_dialog to create a window explorer in which a single
+        or multiple files may be selected.
+
+        Returns:
+
+        """
 
         # Launch the load image dialog
         self.load_dialog = LoadDialog(self)
@@ -78,6 +84,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Close dialog box
         self.load_dialog.close()
+
+        # Update image path shown in GUI
+        self.ui.lineEditLoad.setText(self.df['load_filenames'][0])
 
         # Allow the loaded image to be processed
         # TODO: add a check that the image exists
