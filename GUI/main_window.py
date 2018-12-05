@@ -15,6 +15,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        # Set up self fields
+        self.save_dialog = ''
+        self.load_dialog = ''
+
         # Set up email field
         # self.ui.lineEditEmail.text()
 
@@ -34,8 +38,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.df = {}
 
     def validate_email(self):
+        """Determines that the input email address is valid (eg. is of the
+        format '*@*.*')
 
-        # Get input email address
+        Returns:
+
+        """
+
+        # Get input email address from image path
         email = self.ui.lineEditEmail.text()
 
         # Validate the emaail address
@@ -59,6 +69,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.disable_options()
 
     def disable_options(self):
+        """This function prohibits a user from trying to access GUI commands
+        before they are ready. For example, an image cannot be processed
+        before a valid email has been entered or a file has been loaded.
+
+        Returns:
+
+        """
 
         # Disable loading images if there is not valid email address
         self.ui.toolButtonLoad.setEnabled(self.load_flag)
@@ -120,6 +137,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def download_clicked(self):
         """The "Download" button was clicked
+
+        This function grabs the selected GUI options and calls a function to
+        save the processed images.
 
         Returns:
 
