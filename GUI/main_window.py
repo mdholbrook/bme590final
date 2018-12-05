@@ -135,6 +135,22 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # TODO: Add call to communictation function
 
+    def image_viewer(self):
+
+        if self.ui.radioButtonShowBoth:
+
+            # Show both images
+            self.df['show1'] = True
+            self.df['show2'] = True
+
+        else:
+            # Show only one image
+            self.df['show1'] = self.ui.radioButtonShowOriginal
+            self.df['show2'] = self.ui.radioButtonShowProcessed
+
+        # Get histomgram request
+        self.df['showHist'] = self.ui.checkBoxShowHist
+
     def download_clicked(self):
         """The "Download" button was clicked
 
