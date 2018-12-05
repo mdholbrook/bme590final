@@ -21,7 +21,7 @@ def setup():
     df2 = {'imageInd': 0,
            'orig_im': [test_im],
            'proc_im': [test_im],
-           'orig_im': False,
+           'show1': False,
            'show2': True,
            'imdims': [test_im.shape]
            }
@@ -80,5 +80,4 @@ def test_separate_ims():
     # Test 2
     im = separate_ims(df2)
     size = df2['imdims'][0]
-    assert im.shape == (size[0], size[1])
-
+    assert im.shape == (size[0], size[1], size[2])
