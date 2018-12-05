@@ -63,16 +63,16 @@ def show_hist(df):
         # Plot original image
         ax[0].bar(df['histDataOrig'][0], df['histDataOrig'][1])
 
-        plt.xlabel('Image Values')
-        plt.ylabel('Counts')
-        plt.title('Original Image')
+        ax[0].set_xlabel('Image Values')
+        ax[0].set_ylabel('Counts')
+        ax[0].set_title('Original Image')
 
         # Plot processed image
         ax[1].bar(df['histDataProc'][0], df['histDataProc'][1])
 
-        plt.xlabel('Image Values')
-        plt.ylabel('Counts')
-        plt.title('Processed Image')
+        ax[1].set_xlabel('Image Values')
+        ax[1].set_ylabel('Counts')
+        ax[1].set_title('Processed Image')
 
     elif df['show1']:
 
@@ -81,9 +81,9 @@ def show_hist(df):
         # Plot original image
         ax.bar(df['histDataOrig'][0], df['histDataOrig'][1])
 
-        plt.xlabel('Image Values')
-        plt.ylabel('Counts')
-        plt.title('Original Image')
+        ax.set_xlabel('Image Values')
+        ax.set_ylabel('Counts')
+        ax.set_title('Original Image')
 
     elif df['show2']:
 
@@ -92,9 +92,11 @@ def show_hist(df):
         # Plot processed image
         ax.bar(df['histDataProc'][0], df['histDataProc'][1])
 
-        plt.xlabel('Image Values')
-        plt.ylabel('Counts')
-        plt.title('Processed Image')
+        ax.set_xlabel('Image Values')
+        ax.set_ylabel('Counts')
+        ax.set_title('Processed Image')
+
+    plt.show()
 
 
 def separate_ims(df):
@@ -137,8 +139,15 @@ if __name__ == "__main__":
     df['proc_im'] = [im2]
 
     df['show1'] = True
-    df['show2'] = True
+    df['show2'] = False
+
+    # Set up histograms
+    df['histDataOrig'] = [[0, 1, 2, 3, 4, 5, 6],
+                          [1, 1, 4, 9, 8, 4, 3]]
+    df['histDataProc'] = [[0, 1, 2, 3, 4, 5, 6],
+                          [2, 3, 4, 6, 5, 4, 3]]
 
     # Show images
     im = separate_ims(df)
+    show_hist(df)
     show_ims(im)
