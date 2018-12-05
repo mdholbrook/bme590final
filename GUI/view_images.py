@@ -4,8 +4,21 @@ import numpy as np
 
 
 def show_ims(im):
+    """Function which uses skimage viewer to display the desired image(s).
+    The window cretaed by this function needs be closed before the GUI can
+    continue.
 
-    viewer = ImageViewer(im)
+    Args:
+        im (numpy array): a 2D numpy array (or 3D with channels)
+
+    Returns:
+
+    """
+
+    # Generate image viewer
+    viewer = ImageViewer(im, useblit=False)
+
+    # Show image
     viewer.show()
 
 
@@ -22,6 +35,7 @@ def separate_ims(df):
         the image to be shown
     """
 
+    # TODO: upate image index based on which index is selected
     ind = 0
 
     if df['show1'] and df['show2']:
@@ -37,14 +51,12 @@ def separate_ims(df):
 
 if __name__ == "__main__":
 
-    from PIL import Image
-    import numpy as np
-
-    im1 = Image.open('../peppers.jpg')
-    im1.load()
+    # Load sample image
+    im1 = data.coffee()
     im1 = np.asarray(im1, dtype="int32")
     im2 = im1.copy()
 
+    # Set up sample dict
     df = {}
     df['orig_im'] = [im1]
     df['proc_im'] = [im2]
@@ -52,5 +64,6 @@ if __name__ == "__main__":
     df['show1'] = True
     df['show2'] = True
 
+    # Show images
     im = separate_ims(df)
     show_ims(im)
