@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>602</width>
+    <width>592</width>
     <height>347</height>
    </rect>
   </property>
@@ -17,10 +17,10 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>100</y>
+      <x>10</x>
+      <y>90</y>
       <width>301</width>
-      <height>201</height>
+      <height>211</height>
      </rect>
     </property>
     <property name="title">
@@ -132,25 +132,84 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>100</y>
-      <width>241</width>
-      <height>80</height>
+      <y>90</y>
+      <width>251</width>
+      <height>121</height>
      </rect>
     </property>
     <property name="title">
      <string>Show Images</string>
     </property>
-    <widget class="QCommandLinkButton" name="commandLinkButtonViewer">
+    <widget class="QFontComboBox" name="fontComboBoxShowImage">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>20</y>
-       <width>185</width>
-       <height>41</height>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonImageViewer">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>20</y>
+       <width>75</width>
+       <height>23</height>
       </rect>
      </property>
      <property name="text">
-      <string>Launch Image Viewer</string>
+      <string>ImageViewer</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>57</y>
+       <width>131</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="radioButton">
+        <property name="text">
+         <string>Original</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioButton_2">
+        <property name="text">
+         <string>Processed</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioButton_3">
+        <property name="text">
+         <string>Both</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_3">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>60</y>
+       <width>91</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Histograms</string>
      </property>
     </widget>
    </widget>
@@ -158,9 +217,9 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>190</y>
+      <y>220</y>
       <width>251</width>
-      <height>111</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="title">
@@ -172,7 +231,7 @@
        <x>10</x>
        <y>20</y>
        <width>131</width>
-       <height>80</height>
+       <height>51</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -180,6 +239,9 @@
        <widget class="QRadioButton" name="radioButtonJPEG">
         <property name="text">
          <string>JPEG</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -203,7 +265,7 @@
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>80</y>
+       <y>50</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -268,7 +330,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>602</width>
+     <width>592</width>
      <height>21</height>
     </rect>
    </property>
