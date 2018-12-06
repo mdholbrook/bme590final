@@ -39,6 +39,14 @@ def get_zip_names(zipfilename):
 
 
 def load_zipped_image(zipfilename):
+    """Loads image files contained in a zip file
+
+    Args:
+        zipfilename (str): path to the selected zip file
+
+    Returns:
+        list of numpy arrays: a list image image data found in the zip file
+    """
 
     # Read each image and append in a list
     img = []
