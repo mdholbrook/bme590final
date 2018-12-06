@@ -1,12 +1,18 @@
-import matplotlib
-import matplotlib.pyplot as plt
+import cv2
 import numpy as np
 
 from skimage import data, img_as_float
 from skimage import exposure
 from skimage import util
+from matplotlib import pyplot as plt
 
-def view_histogram():
+
+def view_histogram(image):
+    img = cv2.imread(image, 0)
+    hist = cv2.calcHist([img], [0], None, [256], [0, 256])
+    plt.hist(img.ravel(), 256, [0, 256]);
+    plt.show()
+    return hist
 
 
 def histogram_eq(image):
@@ -59,7 +65,7 @@ def reverse_video(image):
 def gamma_correction(image):
     """
     Args:Gamma correction, or often simply gamma, is a nonlinear operation used to encode and decode luminance or
-    tristimulus values in video or still image systems.[1] Gamma correction is, in the simplest cases, defined by the
+    tristimulus values in video or still image systems. Gamma correction is, in the simplest cases, defined by the
     power-law expression.
         image: float array for the image
     Returns: gamma corrected version of the image
