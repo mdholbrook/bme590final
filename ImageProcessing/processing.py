@@ -1,7 +1,7 @@
-import cv2
+# import cv2
 import numpy as np
-import os
-from skimage import data, img_as_float
+# import os
+# from skimage import data, img_as_float
 from skimage.color import rgb2gray
 from skimage import util, io, exposure
 from matplotlib import pyplot as plt
@@ -12,7 +12,6 @@ def view_histogram(image):
     Args: View the histogram of the image
         image: Float array of the image
     Returns: Hist and its bin array
-
     """
     hist, bins = np.histogram(image.ravel(), 256, [0, 256])
     plt.hist(image.ravel(), 256, [0, 256])
@@ -48,8 +47,8 @@ def log_compression(image):
     Args:The logarithmic operator is a simple point processor where the mapping function is a logarithmic curve.
     In other words, each pixel value is replaced with its logarithm. Most implementations take either the natural
     logarithm or the base 10 logarithm. However, the basis does not influence the shape of the logarithmic curve,
-    only the scale of the output values which are scaled for display on an 8-bit system. Hence, the basis does not influence
-    the degree of compression of the dynamic range.
+    only the scale of the output values which are scaled for display on an 8-bit system. Hence, the basis does not
+    influence the degree of compression of the dynamic range.
         image: float array for the image
     Returns: Log compressed version of the image
     """
@@ -87,6 +86,4 @@ if __name__ == '__main__':
     img2 = reverse_video(img)
     plt.imshow(img2, 'gray')
     plt.show()
-
-
 
