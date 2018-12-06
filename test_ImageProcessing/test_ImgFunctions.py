@@ -16,6 +16,29 @@ def test_contrast_stretching():
     filename = "Lenna.png"
     img = io.imread(filename)
     img = rgb2gray(img)
-    test = histogram_eq(img)
+    test = contrast_stretching(img)
     assert test.size == img.size
 
+
+def test_log_compression():
+    filename = "Lenna.png"
+    img = io.imread(filename)
+    img = rgb2gray(img)
+    test = log_compression(img)
+    assert test.size == img.size
+
+
+def test_reverse_video():
+    filename = "Lenna.png"
+    img = io.imread(filename)
+    img = rgb2gray(img)
+    test = reverse_video(img)
+    assert test.size == img.size
+
+
+def test_gamma_correction():
+    filename = "Lenna.png"
+    img = io.imread(filename)
+    img = rgb2gray(img)
+    test = gamma_correction(img)
+    assert test.size == img.size
