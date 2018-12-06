@@ -8,10 +8,16 @@ from matplotlib import pyplot as plt
 
 
 def view_histogram(image):
+    """
+    Args: View the histogram of the image
+        image: Float array of the image
+    Returns: Hist and its bin array
+
+    """
     hist, bins = np.histogram(image.ravel(), 256, [0, 256])
     plt.hist(image.ravel(), 256, [0, 256])
     plt.show()
-    return hist
+    return hist, bins
 
 
 def histogram_eq(image):
