@@ -1,9 +1,5 @@
-# import cv2
 import numpy as np
-# import os
-# from skimage import data, img_as_float
-from skimage.color import rgb2gray
-from skimage import util, io, exposure
+from skimage import util, exposure
 from matplotlib import pyplot as plt
 
 
@@ -77,13 +73,12 @@ def gamma_correction(image):
     gamma_corrected = exposure.adjust_gamma(image, 2)
     return gamma_corrected
 
-
-if __name__ == '__main__':
-    filename = "Lenna.png"
-    img = io.imread(filename)
-    # his = view_histogram(img)
-    img = rgb2gray(img)
-    img2 = reverse_video(img)
-    plt.imshow(img2, 'gray')
-    plt.show()
-
+#
+# if __name__ == '__main__':
+#     filename = "Lenna.png"
+#     img = io.imread(filename)
+#     his = view_histogram(img)
+#     img = rgb2gray(img)
+#     img2 = reverse_video(img)
+#     plt.imshow(img2, 'gray')
+#     plt.show()
