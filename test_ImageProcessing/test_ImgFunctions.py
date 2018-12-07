@@ -5,7 +5,7 @@ from skimage.color import rgb2gray
 
 
 def test_histogram_eq():
-    filename = "Lenna.png"
+    filename = "test_ImageProcessing/Lenna.png"
     img = io.imread(filename)
     img = rgb2gray(img)
     test = histogram_eq(img)
@@ -13,7 +13,7 @@ def test_histogram_eq():
 
 
 def test_contrast_stretching():
-    filename = "Lenna.png"
+    filename = "test_ImageProcessing/Lenna.png"
     img = io.imread(filename)
     img = rgb2gray(img)
     test = contrast_stretching(img)
@@ -21,7 +21,7 @@ def test_contrast_stretching():
 
 
 def test_log_compression():
-    filename = "Lenna.png"
+    filename = "test_ImageProcessing/Lenna.png"
     img = io.imread(filename)
     img = rgb2gray(img)
     test = log_compression(img)
@@ -29,7 +29,7 @@ def test_log_compression():
 
 
 def test_reverse_video():
-    filename = "Lenna.png"
+    filename = "test_ImageProcessing/Lenna.png"
     img = io.imread(filename)
     img = rgb2gray(img)
     test = reverse_video(img)
@@ -37,7 +37,7 @@ def test_reverse_video():
 
 
 def test_gamma_correction():
-    filename = "Lenna.png"
+    filename = "test_ImageProcessing/Lenna.png"
     img = io.imread(filename)
     img = rgb2gray(img)
     test = gamma_correction(img)
