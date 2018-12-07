@@ -127,7 +127,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
             self.process_flag = False
 
-            self.disable_options()
+        self.disable_options()
 
     def apply_clicked(self):
         """The "Apply Processing" button was clicked

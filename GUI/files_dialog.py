@@ -30,8 +30,8 @@ class LoadDialog(QWidget):
         options |= QFileDialog.DontUseNativeDialog
         files, _ = \
             QFileDialog.getOpenFileNames(
-                self, "QFileDialog.getOpenFileNames()", "",
-                "Image Files (*.jpg, *.png, *.tif, *.zip);;JPEG (*.jpg);;"
+                self, "QFileDialog.getOpenFileNames()", "../TestImages/",
+                "Image Files (*.jpg *.png *.tif *.zip);;JPEG (*.jpg);;"
                 "PNG (*.png);;TIFF (*.tif);;Zip files (*.zip);;All Files (*)",
                 options=options)
         if files:
