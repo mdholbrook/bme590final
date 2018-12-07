@@ -1,5 +1,5 @@
 import sys
-from GUI.validation_functions import valid_email
+from GUI.validation_functions import valid_email, validate_file_exists
 from PyQt5 import QtWidgets
 from GUI.main_window_design import Ui_MainWindow
 from GUI.files_dialog import LoadDialog, SaveDialog
@@ -112,14 +112,22 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.comboBox.addItems(self.df['load_filenames'])
 
         # Check that the images exist
-        # TODO: add a check that the image exists
+        if validate_file_exists(self.df['load_filenames']):
 
-        # Load the images
-        self.df['orig_im'] = load_image_series(self.df['load_filenames'])
+            # Load the images
+            self.df['orig_im'] = load_image_series(self.df['load_filenames'])
 
-        # Enable process flag
-        self.process_flag = True
-        self.disable_options()
+            # Enable process flag
+            self.process_flag = True
+
+        else:
+            # Show error message
+            error_dialog = QtWidgets.QErrorMessage(self)
+            error_dialog.showMessage("Please enter a valid email address")
+
+            self.process_flag = False
+
+            self.disable_options()
 
     def apply_clicked(self):
         """The "Apply Processing" button was clicked
