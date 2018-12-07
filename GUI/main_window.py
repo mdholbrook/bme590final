@@ -5,6 +5,7 @@ from GUI.main_window_design import Ui_MainWindow
 from GUI.files_dialog import LoadDialog, SaveDialog
 from GUI.view_images import run_image_viewer
 from ClientFunctions.read_files import load_image_series
+from GUI.utils import save_email, load_email
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -40,6 +41,30 @@ class MainWindow(QtWidgets.QMainWindow):
         # Initialize dictionary for saving user inputs
         self.df = {}
 
+        # Load previous data
+        self.preload_email()
+
+    def preload_email(self):
+        """If a previous email has been used, upload it to the GUI and allow
+        the user to access more options.
+
+        Returns:
+
+        """
+
+        email = load_email()
+        if email:
+            # Update dictionary
+            self.df['email'] = email
+
+            # Update GUI field
+            self.ui.lineEditEmail.setText(email)
+
+            # Allow the user to access other options
+            self.load_flag = True
+
+            self.disable_options()
+
     def validate_email(self):
         """Determines that the input email address is valid (eg. is of the
         format '*@*.*')
@@ -51,7 +76,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Get input email address from image path
         email = self.ui.lineEditEmail.text()
 
-        # Validate the emaail address
+        # Validate the email address
         if valid_email(email):
 
             # Add email to the dictionary
@@ -60,6 +85,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # Update disabled options
             self.load_flag = True
+
+            # Save valid email for future use
+            save_email(self.df['email'])
 
         else:
 
