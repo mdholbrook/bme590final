@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 from GUI.main_window_design import Ui_MainWindow
 from GUI.files_dialog import LoadDialog, SaveDialog
 from GUI.view_images import run_image_viewer
+from ClientFunctions.read_files import load_image_series
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -110,8 +111,13 @@ class MainWindow(QtWidgets.QMainWindow):
         # Add images to combobox to allow for viewing
         self.ui.comboBox.addItems(self.df['load_filenames'])
 
-        # Allow the loaded image to be processed
+        # Check that the images exist
         # TODO: add a check that the image exists
+
+        # Load the images
+        self.df['orig_im'] = load_image_series(self.df['load_filenames'])
+
+        # Enable process flag
         self.process_flag = True
         self.disable_options()
 
@@ -150,7 +156,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         else:
             # Show only one image
-            self.df['show1'] = self.ui.radioButtonShowOriginal
+            self.df['show1'] = self.ui.radioButtonShowinal
             self.df['show2'] = self.ui.radioButtonShowProcessed
 
         # Get histomgram request
