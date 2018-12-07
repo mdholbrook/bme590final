@@ -12,6 +12,7 @@ class LoadDialog(QWidget):
         self.top = 10
         self.width = 640
         self.height = 480
+        self.files = []
         self.initUI()
 
     def initUI(self):
@@ -30,7 +31,7 @@ class LoadDialog(QWidget):
         options |= QFileDialog.DontUseNativeDialog
         files, _ = \
             QFileDialog.getOpenFileNames(
-                self, "QFileDialog.getOpenFileNames()", "../TestImages/",
+                self, "Open Image Files", "TestImages/",
                 "Image Files (*.jpg *.png *.tif *.zip);;JPEG (*.jpg);;"
                 "PNG (*.png);;TIFF (*.tif);;Zip files (*.zip);;All Files (*)",
                 options=options)
@@ -46,7 +47,14 @@ class SaveDialog(QWidget):
         super(SaveDialog, self).__init__(parent)
         self.df = df
 
+        # Initialize self
+        self.default_path = ''
+        self.filename = ''
+        self.fileformat = ''
+        self.new_file = ''
+
         # Make default filename
+        self.default_savepath()
         self.default_saveformat()
         self.default_savefile()
 
@@ -55,6 +63,7 @@ class SaveDialog(QWidget):
         self.top = 10
         self.width = 640
         self.height = 480
+        self.filename = ''
         self.initUI()
 
     def default_saveformat(self):
@@ -79,8 +88,22 @@ class SaveDialog(QWidget):
 
     def default_savefile(self):
 
-        [file, _] = os.path.splitext(self.df['load_filenames'][0])
-        self.new_file = file + '_processed' + self.fileformat[-5:-1]
+        [_, file_ext] = os.path.split(self.df['load_filenames'][0])
+        [file, _] = os.path.splitext(file_ext)
+        self.new_file = self.default_path + file + self.fileformat[-5:-1]
+
+    def default_savepath(self):
+        """Creates a directory inside the project for saving processed images
+
+        Returns:
+
+        """
+        # Set up default save directory
+        self.default_path = 'ProcessedImages/'
+
+        # The directory does not already exist, create it
+        if not os.path.exists(self.default_path):
+            os.mkdir(self.default_path)
 
     def initUI(self):
         self.setWindowTitle(self.title)
@@ -97,7 +120,7 @@ class SaveDialog(QWidget):
         options |= QFileDialog.DontUseNativeDialog
         fileName, _ = \
             QFileDialog.getSaveFileName(
-                self, "QFileDialog.getSaveFileName()", self.new_file,
+                self, "Save Processed Image Files", self.new_file,
                 self.fileformat,
                 options=options)
         if fileName:
