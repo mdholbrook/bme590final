@@ -1,0 +1,116 @@
+# IMPORTS
+import logging.handlers
+import datetime
+import binascii
+from flask import Flask, jsonify, request
+from pymodm import errors
+from pymodm import connect
+from Server.mongoSetup import User
+from Server.validateServer import check_user_data, decode_images, encode_images
+from ImageProcessing.ImgFunctions import histogram_eq, contrast_stretching, \
+    log_compression, reverse_video, gamma_correction
+
+
+# FLASK SERVER SETUP
+app = Flask(__name__)
+formatter = logging.Formatter(
+    "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s")
+handler = logging.handlers.RotatingFileHandler(
+        'app.log',
+        maxBytes=1024 * 1024)
+handler.setFormatter(formatter)
+handler.setLevel("DEBUG")
+app.logger.addHandler(handler)
+
+
+# SERVER ENDPOINT
+@app.route("/imageprocessing", methods=["POST"])
+def process_images():
+    """
+    Takes in a request dictionary containing:
+        'email' : String representing the user's email
+        'load_filenames' : list of String(s) representing the filepath(s)
+        'hist' : boolean of whether this post-processing method was toggled
+        'cont' : boolean of whether this post-processing method was toggled
+        'log' : boolean of whether this post-processing method was toggled
+        'rev' : boolean of whether this post-processing method was toggled
+        'median' : boolean of whether this post-processing method was toggled
+        # TODO --> write these on client side first
+        'images' : list of ByteString(s)
+        'extension' : String representing requested return image ext. type
+
+    Returns: A tuple of length 2.  The first entry is a JSON dictionary for use
+    by the client GUI containing the following key-value pairs:
+
+    # TODO --> figure out what exactly the client needs returned
+    <Insert key-value pairs here>
+
+    The second entry is an integer representing the HTTP status code.
+    """
+    user_data = request.get_json()
+    upload_time = datetime.datetime.now()
+    try:
+        validated_user_data = check_user_data(user_data)
+    except KeyError:
+        return jsonify("User data dictionary missing keys."), 400
+    except ValueError:
+        return jsonify("Invalid user attribute sent to server."), 400
+    except TypeError:
+        return jsonify("User attribute of incorrect type sent to server."), 400
+    except RuntimeError:
+        return jsonify("Too many postprocessing options chosen."), 400
+
+    try:
+        user = User.Objects.raw(({"_email": validated_user_data["email"]})
+                                .first())
+        user.uploadedImages = validated_user_data["images"],
+        user.uploadTimestamp = upload_time,
+        user.processedImages = [],
+        user.processTimestamp = "",
+        user.returnExtension = validated_user_data["extension"]
+    except errors.DoesNotExist:
+        user = User(validated_user_data["email"],
+                    previousMetrics={"hist": [0, []],
+                                     "cont": [0, []],
+                                     "log": [0, []],
+                                     "rev": [0, []],
+                                     "median": [0, []]},
+                    uploadedImages=validated_user_data["images"],
+                    uploadTimestamp=upload_time,
+                    processedImages=[],
+                    processTimestamp="",
+                    returnExtension=validated_user_data["extension"]
+                    )
+    user.save()
+
+    try:
+        raw_images = decode_images(user.uploadedImages)
+    except binascii.Error:
+        return jsonify("One of the images was not encoded properly."), 400
+
+    transformed_image = []
+    for image in raw_images:
+        if validated_user_data["hist"]:
+            transformed_image.append(histogram_eq(image))
+        elif validated_user_data["cont"]:
+            transformed_image.append(contrast_stretching(image))
+        elif validated_user_data["log"]:
+            transformed_image.append(log_compression(image))
+        elif validated_user_data["rev"]:
+            transformed_image.append(reverse_video(image))
+        elif validated_user_data["median"]:
+            transformed_image.append(gamma_correction(image))
+
+    user.processedImages = transformed_image
+    process_time = datetime.datetime.now()
+    user.processTimestamp = process_time
+
+    images_to_return = encode_images(user.processedImages)
+
+    # TODO: Construct final JSON of data to be returned
+    return jsonify(), 200
+
+
+if __name__ == "__main__":
+    connect("mongodb://alanr:bme590final@ds241493.mlab.com:41493/bme590final")
+    app.run()
