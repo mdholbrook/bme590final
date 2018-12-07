@@ -1,3 +1,4 @@
+import os
 import cv2
 import numpy as np
 from PIL import Image
@@ -11,12 +12,12 @@ def load_image(imfile):
         imfile (str): path to an image
 
     Returns:
-        2D or
+        2D or 3D numpy array of image values
     """
 
     im = cv2.imread(imfile)
 
-    return im
+    return [im]
 
 
 def get_zip_names(zipfilename):
@@ -53,9 +54,58 @@ def load_zipped_image(zipfilename):
     with ZipFile(zipfilename) as archive:
         for entry in archive.infolist():
             with archive.open(entry) as file:
-                print(file)
                 tmp = Image.open(file)
                 img.append(np.array(tmp))
 
     # Return the read images
     return img
+
+
+def flatten(filenames):
+    """Takes a list which may contain other lists and returns a single,
+    flattened list
+
+    Args:
+        filenames (list): list of filenames
+
+    Returns:
+        flattened list of filenames
+    """
+
+    flat_filenames = [file for i in filenames for file in i]
+
+    return flat_filenames
+
+
+def load_image_series(filenames):
+    """This function takes a list of filenames and returns a list of numpy
+    arrays containing image data.
+
+    Args:
+        filenames (list of str): a list of filenames selected in the GUI
+
+    Returns:
+        list numpy arrays containing image data
+    """
+
+    # Get the number of files to read
+    num_files = len(filenames)
+
+    # Cycle through each file
+    ims = []
+    for file in filenames:
+
+        # Get file extension
+        _, ext = os.path.splitext(file)
+
+        # If file is a zip file read with load_zipped_image
+        if ext == '.zip':
+            ims.append(load_zipped_image(file))
+
+        else:
+            ims.append(load_image(file))
+
+    # Convert lists of lists into lists
+    ims = flatten(ims)
+
+    return ims
