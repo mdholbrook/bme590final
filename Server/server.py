@@ -6,9 +6,9 @@ from flask import Flask, jsonify, request
 from pymodm import errors
 from pymodm import connect
 from Server.mongoSetup import User
-from Server.validateServer import check_user_data, decode_images, encode_images
+from Server.serverHelper import check_user_data, decode_images, encode_images
 from ImageProcessing.ImgFunctions import histogram_eq, contrast_stretching, \
-    log_compression, reverse_video, gamma_correction
+    log_compression, reverse_video, gamma_correction, view_histogram
 
 
 # FLASK SERVER SETUP
@@ -35,18 +35,20 @@ def process_images():
         'log' : boolean of whether this post-processing method was toggled
         'rev' : boolean of whether this post-processing method was toggled
         'median' : boolean of whether this post-processing method was toggled
-        # TODO --> write these on client side first
+        # TODO: write these on client side first
         'images' : list of ByteString(s)
         'extension' : String representing requested return image ext. type
+        # TODO: add whatever other inputs aren't reflected here yet
 
     Returns: A tuple of length 2.  The first entry is a JSON dictionary for use
     by the client GUI containing the following key-value pairs:
 
-    # TODO --> figure out what exactly the client needs returned
+    # TODO: figure out what exactly the client needs returned
     <Insert key-value pairs here>
 
     The second entry is an integer representing the HTTP status code.
     """
+    # Reads in and validates the inputs from the request JSON
     user_data = request.get_json()
     upload_time = datetime.datetime.now()
     try:
@@ -60,6 +62,8 @@ def process_images():
     except RuntimeError:
         return jsonify("Too many postprocessing options chosen."), 400
 
+    # Pulls from the database if there is an existing user, otherwise
+    # initializes a new one
     try:
         user = User.Objects.raw(({"_email": validated_user_data["email"]})
                                 .first())
@@ -83,32 +87,87 @@ def process_images():
                     )
     user.save()
 
+    # Decodes the uploaded images
     try:
         raw_images = decode_images(user.uploadedImages)
     except binascii.Error:
         return jsonify("One of the images was not encoded properly."), 400
 
+    # Calculates histogram data for all original images and packages it
+    # to return to GUI client
+    # TODO: Account for channels
+    orig_histogram_data = []
+    for image in user.uploadedImages:
+        data_per_image = []
+        hist, bins = view_histogram(image)
+        data_per_image[0] = bins
+        data_per_image[1] = hist
+        orig_histogram_data.append(data_per_image)
+
+    # Processes the images and updates the database accordingly
     transformed_image = []
+    processing_latency = []
     for image in raw_images:
         if validated_user_data["hist"]:
             transformed_image.append(histogram_eq(image))
+            process_time = datetime.datetime.now()
+            user.previousMetrics["hist"][0] += 1
+            processing_latency.append(process_time-upload_time)
+            user.previousMetrics["hist"][1].append(process_time-upload_time)
         elif validated_user_data["cont"]:
             transformed_image.append(contrast_stretching(image))
+            process_time = datetime.datetime.now()
+            user.previousMetrics["cont"][0] += 1
+            processing_latency.append(process_time-upload_time)
+            user.previousMetrics["cont"][1].append(process_time-upload_time)
         elif validated_user_data["log"]:
             transformed_image.append(log_compression(image))
+            process_time = datetime.datetime.now()
+            user.previousMetrics["log"][0] += 1
+            processing_latency.append(process_time-upload_time)
+            user.previousMetrics["log"][1].append(process_time-upload_time)
         elif validated_user_data["rev"]:
             transformed_image.append(reverse_video(image))
+            process_time = datetime.datetime.now()
+            user.previousMetrics["rev"][0] += 1
+            processing_latency.append(process_time-upload_time)
+            user.previousMetrics["rev"][1].append(process_time-upload_time)
         elif validated_user_data["median"]:
             transformed_image.append(gamma_correction(image))
-
+            process_time = datetime.datetime.now()
+            user.previousMetrics["median"][0] += 1
+            processing_latency.append(process_time-upload_time)
+            user.previousMetrics["median"][1].append(process_time-upload_time)
     user.processedImages = transformed_image
-    process_time = datetime.datetime.now()
     user.processTimestamp = process_time
 
+    # Calculates histogram data for all processed images and packages it
+    # to return to GUI client
+    # TODO: Account for channels
+    proc_histogram_data = []
+    for image in user.processedImages:
+        data_per_image = []
+        hist, bins = view_histogram(image)
+        data_per_image[0] = bins
+        data_per_image[1] = hist
+        proc_histogram_data.append(data_per_image)
+
+    # Encodes the processed images to prepare to return them to the client
     images_to_return = encode_images(user.processedImages)
 
-    # TODO: Construct final JSON of data to be returned
-    return jsonify(), 200
+    # Calculates the total latency of processing all images
+    total_latency = upload_time-upload_time
+    for latency in processing_latency:
+        total_latency += latency
+
+    # TODO: Construct final JSON of data to be returned.  Need image sizes in
+    # TODO: ...pixels
+
+    return jsonify({"proc_im": images_to_return,
+                    "histDataOrig": orig_histogram_data,
+                    "histDataProc": proc_histogram_data,
+                    "upload_timestamp": user.uploadTimestamp,
+                    "latency": total_latency}), 200
 
 
 if __name__ == "__main__":
