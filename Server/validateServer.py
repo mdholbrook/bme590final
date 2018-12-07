@@ -1,3 +1,6 @@
+import base64
+
+
 def check_user_data(user_data):
     """
     Checks to see that the input for the /new_user endpoint is
@@ -15,7 +18,9 @@ def check_user_data(user_data):
             "cont" not in user_data or \
             "log" not in user_data or \
             "rev" not in user_data or \
-            "median" not in user_data:
+            "median" not in user_data or \
+            "images" not in user_data or \
+            "extension" not in user_data:
         # app.logger.error("A key is missing from the user data dictionary.")
         raise KeyError
 
@@ -49,6 +54,24 @@ def check_user_data(user_data):
         # app.logger.error("Too many post-processing methods chosen.")
         raise RuntimeError
 
+    # Ensures that the images are of type String (i.e. a ByteString)
+    if type(user_data["images"]) == list:
+        for image in user_data["images"]:
+            if type(image) != str:
+                # app.logger.error("One of the images was not encoded.")
+                raise TypeError
+    elif type(user_data["images"]) != str:
+        # app.logger.error("The image was not properly encoded.")
+        raise TypeError
+
+    # Ensures that the extension type is a String, and one that makes sense
+    if type(user_data["extension"]) != str:
+        raise TypeError
+    if user_data["extension"] != "JPEG" or \
+            user_data["extension"] != "PNG" or \
+            user_data["extension"] != "TIFF":
+        raise ValueError
+
     # if "@" not in user_data["email"] or \
     #         "." not in user_data["email"]:
     #     # app.logger.error("Email address missing a special character "
@@ -56,3 +79,33 @@ def check_user_data(user_data):
     #     raise ValueError
 
     return user_data
+
+
+def decode_images(images):
+    """
+    Decodes the uploaded image(s).
+
+    Args:
+        images: A list of image(s) encoded in base64 format
+
+    Returns: A list of decoded image(s), i.e. as float array(s)
+    """
+    ret = []
+    for image in images:
+        ret.append(base64.b64decode(image))
+    return ret
+
+
+def encode_images(images):
+    """
+    Encodes the processed image(s).
+
+    Args:
+        images: A list of raw image(s), i.e. as float array(s)
+
+    Returns: A list of encoded image(s) as ByteStrings
+    """
+    ret = []
+    for image in images:
+        ret.append(base64.b64encode(image))
+    return ret
