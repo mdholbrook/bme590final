@@ -1,3 +1,4 @@
+import os
 import logging
 import re
 
@@ -25,3 +26,21 @@ def valid_email(email):
 
     else:
         return False
+
+
+def validate_file_exists(filenames):
+    """Check if an input filename exists
+
+    Args:
+        filenames(list of str): a list of filenames to read
+
+    Returns:
+        bool: False if one of the names does not exist, True if all names exist
+
+    """
+
+    for file in filenames:
+        if not os.path.exists(file):
+            return False
+
+    return True

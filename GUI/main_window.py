@@ -1,9 +1,11 @@
 import sys
-from GUI.validation_functions import valid_email
+from GUI.validation_functions import valid_email, validate_file_exists
 from PyQt5 import QtWidgets
 from GUI.main_window_design import Ui_MainWindow
 from GUI.files_dialog import LoadDialog, SaveDialog
 from GUI.view_images import run_image_viewer
+from ClientFunctions.read_files import load_image_series
+from GUI.utils import save_email, load_email
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -39,6 +41,30 @@ class MainWindow(QtWidgets.QMainWindow):
         # Initialize dictionary for saving user inputs
         self.df = {}
 
+        # Load previous data
+        self.preload_email()
+
+    def preload_email(self):
+        """If a previous email has been used, upload it to the GUI and allow
+        the user to access more options.
+
+        Returns:
+
+        """
+
+        email = load_email()
+        if email:
+            # Update dictionary
+            self.df['email'] = email
+
+            # Update GUI field
+            self.ui.lineEditEmail.setText(email)
+
+            # Allow the user to access other options
+            self.load_flag = True
+
+            self.disable_options()
+
     def validate_email(self):
         """Determines that the input email address is valid (eg. is of the
         format '*@*.*')
@@ -50,7 +76,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Get input email address from image path
         email = self.ui.lineEditEmail.text()
 
-        # Validate the emaail address
+        # Validate the email address
         if valid_email(email):
 
             # Add email to the dictionary
@@ -59,6 +85,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # Update disabled options
             self.load_flag = True
+
+            # Save valid email for future use
+            save_email(self.df['email'])
 
         else:
 
@@ -110,9 +139,22 @@ class MainWindow(QtWidgets.QMainWindow):
         # Add images to combobox to allow for viewing
         self.ui.comboBox.addItems(self.df['load_filenames'])
 
-        # Allow the loaded image to be processed
-        # TODO: add a check that the image exists
-        self.process_flag = True
+        # Check that the images exist
+        if validate_file_exists(self.df['load_filenames']):
+
+            # Load the images
+            self.df['orig_im'] = load_image_series(self.df['load_filenames'])
+
+            # Enable process flag
+            self.process_flag = True
+
+        else:
+            # Show error message
+            error_dialog = QtWidgets.QErrorMessage(self)
+            error_dialog.showMessage("Please enter a valid email address")
+
+            self.process_flag = False
+
         self.disable_options()
 
     def apply_clicked(self):
@@ -150,7 +192,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         else:
             # Show only one image
-            self.df['show1'] = self.ui.radioButtonShowOriginal
+            self.df['show1'] = self.ui.radioButtonShowinal
             self.df['show2'] = self.ui.radioButtonShowProcessed
 
         # Get histomgram request
