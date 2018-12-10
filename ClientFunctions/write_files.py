@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from PIL import Image
 from zipfile import ZipFile, ZipInfo
-import io
+from io import BytesIO
 
 
 def write_image(filename, im):
@@ -20,18 +20,58 @@ def write_image(filename, im):
     cv2.imwrite(filename, im)
 
 
-def write_zip(filename, files, ims):
+def write_zip(filename, files, ims, file_format):
+
+    # Set up in-memory file
+    memory_file = BytesIO()
+
+    # Make a zip file in memory_file
+    zf = ZipFile(memory_file, mode='w')
 
     for z in range(len(files)):
-        memory_file = io.BytesIO()
 
-        zf = ZipFile(filename, mode='w')
-
+        # Get image
         im = Image.fromarray(ims[z])
 
-        im.save(memory_file, 'JPEG')
+        # Set up a temporary image buffer
+        tmp = BytesIO()
+
+        # Save image to temporoary buffer
+        im.save(memory_file, file_format)
+
+        # Generate new filename using filename and extension
+        new_file = files[z] + file_format
+
+
+
+
 
     zf.write(filename, memory_file.getvalue())
+
+
+def gen_file_extension(df):
+    """Generates file extensions from the data structure
+
+    Args:
+        df (dict): dictionary which contains file format information
+
+    Returns:
+        tuple: save file format for PIL, and file extension
+    """
+
+    if df['JPEG']:
+        fileformat = 'JPEG'
+        file_ext = '.jpg'
+
+    elif df['PNG']:
+        fileformat = 'PNG'
+        file_ext = '.png'
+
+    elif df['TIFF']:
+        fileformat = 'TIFF'
+        file_ext = '.tif'
+
+    return fileformat, file_ext
 
 
 if __name__ == "__main__":
