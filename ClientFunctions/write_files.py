@@ -112,6 +112,36 @@ def gen_file_extension(df):
     return fileformat, file_ext
 
 
+def save_images(df):
+    """
+    This function serves as the parent function for writing processed images
+    to disk
+
+    Args:
+        df (dict): dictionary containing the processed images 'proc_im',
+            original image filenames 'loaded_filenames'], the save file name
+            'save_filename' and file extension information.
+
+    Returns:
+
+    """
+
+    # Determine if we save an image or zip file
+    if len(df['loaded_filenames']) == 1:
+
+        # Save a single image
+        write_image(df['save_filename'], df['proc_im'])
+
+    else:
+
+        # Get save file extension and encoding
+        fileformat, file_ext = gen_file_extension(df)
+
+        # Save a zip file of images
+        write_zip(df['save_filename'], df['load_filenames'],
+                  df['proc_im'], file_ext)
+
+
 if __name__ == "__main__":
 
     filename = '../ProcessedImages/zipfile.png'
