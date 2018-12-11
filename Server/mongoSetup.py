@@ -1,4 +1,4 @@
-from pymodm import MongoModel, fields
+from pymodm import MongoModel, fields, connect
 
 """
     Fields for database:
@@ -17,6 +17,8 @@ from pymodm import MongoModel, fields
         (datetime)
         -current extension type of requested return image --> String
 """
+
+connect("mongodb://alanr:bme590final@ds241493.mlab.com:41493/bme590final")
 
 
 class User(MongoModel):
