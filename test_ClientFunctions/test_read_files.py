@@ -44,9 +44,18 @@ def test_load_zipped_image():
                   (220, 220, 3),
                   (205, 232),
                   (1632, 1224, 3)]
+    names = ['circles.png',
+             'circlesBrightDark.png',
+             'coins.png', 'foosball.jpg',
+             'foosballraw.tiff',
+             'football.jpg',
+             'Lenna.png',
+             'tire.tif',
+             'yellowlily.jpg'
+             ]
 
     # Test function
-    ims = load_zipped_image(filename)
+    ims, all_filenames = load_zipped_image(filename)
 
     # Assert that the correct number of images were found
     assert len(ims) == len(file_sizes)
@@ -54,6 +63,10 @@ def test_load_zipped_image():
     # Assert that the images shapes are correct
     for i in range(len(ims)):
         assert ims[i].shape == file_sizes[i]
+
+    for i in range(len(all_filenames)):
+
+        assert all_filenames[i] == names[i]
 
 
 @pytest.mark.parametrize("lists, answer", [
@@ -100,7 +113,7 @@ def test_load_image_series():
               (1632, 1224, 3)]
 
     # Load test images
-    ims = load_image_series(filenames)
+    ims, all_filenames = load_image_series(filenames)
 
     # Check the length of the ims list
     assert len(ims) == len(shapes)

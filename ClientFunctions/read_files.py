@@ -51,14 +51,16 @@ def load_zipped_image(zipfilename):
 
     # Read each image and append in a list
     img = []
+    filenames = []
     with ZipFile(zipfilename) as archive:
         for entry in archive.infolist():
             with archive.open(entry) as file:
                 tmp = Image.open(file)
                 img.append(np.array(tmp))
+                filenames.append(file.name)
 
     # Return the read images
-    return img
+    return img, filenames
 
 
 def flatten(filenames):
@@ -88,11 +90,9 @@ def load_image_series(filenames):
         list numpy arrays containing image data
     """
 
-    # Get the number of files to read
-    num_files = len(filenames)
-
     # Cycle through each file
     ims = []
+    all_filenames = []
     for file in filenames:
 
         # Get file extension
@@ -100,12 +100,16 @@ def load_image_series(filenames):
 
         # If file is a zip file read with load_zipped_image
         if ext == '.zip':
-            ims.append(load_zipped_image(file))
+            im, filename = load_zipped_image(file)
+            ims.append(im)
+            all_filenames.append(filename)
 
         else:
             ims.append(load_image(file))
+            all_filenames.append(file)
 
     # Convert lists of lists into lists
     ims = flatten(ims)
+    all_filenames = flatten(all_filenames)
 
-    return ims
+    return ims, all_filenames

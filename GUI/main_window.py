@@ -5,6 +5,7 @@ from GUI.main_window_design import Ui_MainWindow
 from GUI.files_dialog import LoadDialog, SaveDialog
 from GUI.view_images import run_image_viewer
 from ClientFunctions.read_files import load_image_series
+from ClientFunctions.write_files import save_images
 from GUI.utils import save_email, load_email
 
 
@@ -165,7 +166,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
 
         # Load files
-        # TODO: add a function to read images
+        self.df['orig_im'] = load_image_series(self.df['load_filenames'])
 
         # Get processing settings
         self.df['hist'] = self.ui.radioButtonHist.isChecked()
@@ -228,7 +229,8 @@ class MainWindow(QtWidgets.QMainWindow):
         # Close dialog box
         self.save_dialog.close()
 
-        # TODO: Add call to to write the images
+        # Write images
+        save_images(self.df)
 
     def pullcombotext(self, ind):
 

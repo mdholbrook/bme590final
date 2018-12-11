@@ -1,6 +1,5 @@
 import os
 import cv2
-import numpy as np
 from PIL import Image
 from zipfile import ZipFile, ZipInfo
 from io import BytesIO
