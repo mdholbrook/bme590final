@@ -1,4 +1,5 @@
 import sys
+import os
 from GUI.validation_functions import valid_email, validate_file_exists
 from PyQt5 import QtWidgets
 from GUI.main_window_design import Ui_MainWindow
@@ -138,7 +139,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.lineEditLoad.setText(self.df['load_filenames'][0])
 
         # Add images to combobox to allow for viewing
-        self.ui.comboBox.addItems(self.df['load_filenames'])
+        filenames = [os.path.basename(i) for i in self.df['load_filenames']]
+        self.ui.comboBox.addItems(filenames)
 
         # Check that the images exist
         if validate_file_exists(self.df['load_filenames']):
