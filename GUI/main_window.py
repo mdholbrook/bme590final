@@ -144,7 +144,8 @@ class MainWindow(QtWidgets.QMainWindow):
         if validate_file_exists(self.df['load_filenames']):
 
             # Load the images
-            self.df['orig_im'] = load_image_series(self.df['load_filenames'])
+            self.df['orig_im'], self.df['orig_im_names'] = \
+                load_image_series(self.df['load_filenames'])
 
             # Enable process flag
             self.process_flag = True

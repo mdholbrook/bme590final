@@ -1,11 +1,10 @@
 import os
-import cv2
 from PIL import Image
 from zipfile import ZipFile, ZipInfo
 from io import BytesIO
 
 
-def write_image(filename, im):
+def write_image(filename, im, fileformat):
     """Writes a single images to file
 
     Args:
@@ -16,7 +15,8 @@ def write_image(filename, im):
 
     """
 
-    cv2.imwrite(filename, im)
+    img = Image.fromarray(im[0])
+    img.save(filename, fileformat)
 
 
 def write_zip(filename, files, ims, fileformat):
@@ -56,7 +56,7 @@ def write_zip(filename, files, ims, fileformat):
         im.save(tmp, fileformat)
 
         # Save image into the in-memory zip file
-        zf.write(files[i], tmp.getvalue())
+        zf.writestr(files[i], tmp.getvalue())
 
     # Close the in-memory zip file
     zf.close()
@@ -66,7 +66,7 @@ def write_zip(filename, files, ims, fileformat):
         f.write(memory_file.getvalue())
 
 
-def gen_save_filename(file, file_ext):
+def gen_save_filename(files, file_ext):
     """
     Generates a new filename for saving zipfile images based on the name
     naming convention as the original file
@@ -78,12 +78,25 @@ def gen_save_filename(file, file_ext):
         str: a new filename which will be used in the saved zip file
     """
 
-    # Split path to original filename to get only the name with a new extension
-    base = os.path.basename(file)
-    file, _ = os.path.splitext(base)
+    new_names = []
+    for file in files:
+
+        # Split path to original filename with a new extension
+        base = os.path.basename(file)
+        new_name, _ = os.path.splitext(base)
+
+        # Rename if filename already exists
+        if new_name in new_names:
+            new_name = new_name + '_1'
+
+        # Append to list of new names
+        new_names.append(new_name)
+
+    # Append extension
+    new_names = [i + file_ext for i in new_names]
 
     # Return filename with appended extension
-    return file + file_ext
+    return new_names
 
 
 def gen_file_extension(df):
@@ -124,17 +137,19 @@ def save_images(df):
     Returns:
 
     """
+    # Get save file extension and encoding
+    fileformat, file_ext = gen_file_extension(df)
 
     # Determine if we save an image or zip file
     if len(df['loaded_filenames']) == 1:
 
         # Save a single image
-        write_image(df['save_filename'], df['proc_im'])
+        write_image(df['save_filename'], df['proc_im'], fileformat)
 
     else:
 
-        # Get save file extension and encoding
-        fileformat, file_ext = gen_file_extension(df)
+        # Generate image save names
+        gen_save_filename(df['orig_im_names'], file_ext)
 
         # Save a zip file of images
         write_zip(df['save_filename'], df['load_filenames'],

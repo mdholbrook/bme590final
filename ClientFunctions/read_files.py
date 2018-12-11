@@ -110,6 +110,6 @@ def load_image_series(filenames):
 
     # Convert lists of lists into lists
     ims = flatten(ims)
-    all_filenames = flatten(all_filenames)
+    all_filenames = flatten([all_filenames])
 
     return ims, all_filenames
