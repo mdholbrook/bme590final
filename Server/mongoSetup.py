@@ -1,4 +1,4 @@
-from pymodm import MongoModel, fields
+from pymodm import MongoModel, fields, connect
 
 """
     Fields for database:
