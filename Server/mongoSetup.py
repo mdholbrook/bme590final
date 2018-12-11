@@ -18,6 +18,7 @@ from pymodm import MongoModel, fields
         -current extension type of requested return image --> String
 """
 
+connect("mongodb://alanr:bme590final@ds241493.mlab.com:41493/bme590final")
 
 class User(MongoModel):
     email = fields.CharField(primary_key=True)
