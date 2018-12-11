@@ -20,6 +20,7 @@ from pymodm import MongoModel, fields, connect
 
 connect("mongodb://alanr:bme590final@ds241493.mlab.com:41493/bme590final")
 
+
 class User(MongoModel):
     email = fields.CharField(primary_key=True)
     previousMetrics = fields.DictField()
