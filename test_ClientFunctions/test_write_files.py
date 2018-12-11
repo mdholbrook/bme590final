@@ -13,6 +13,9 @@ def clean_up(files):
 def test_write_image():
 
     # Load test data
+    out_path = 'ProcessedImages/'
+    if not os.path.exists(out_path):
+        os.mkdir(out_path)
     infile = ['TestImages/circles.png']
     im, filenames = load_image_series(infile)
 
@@ -56,9 +59,12 @@ def test_gen_file_extension(candidate, fileformat, file_ext):
     assert file_ext == file_ex
 
 
-def tset_write_zip():
+def test_write_zip():
 
     # Load data
+    out_path = 'ProcessedImages/'
+    if not os.path.exists(out_path):
+        os.mkdir(out_path)
     infiles = ['TestImages/coins.png', 'TestImages/Lenna.png']
     ims, all_filenames = load_image_series(infiles)
 
@@ -76,4 +82,4 @@ def tset_write_zip():
 
     assert zipnames == files
 
-    clean_up(outfile)
+    clean_up([outfile])
