@@ -31,6 +31,17 @@ def view_color_histogram(image):
     return hist_all, bins
 
 
+def histogram_eq(image):
+    """
+    Args: Histogram equalization is a method in image processing of contrast
+    adjustment using the image's histogram.
+        image: float array for the image
+    Returns: Histogram equalize version of the image
+    """
+    img_eq = exposure.equalize_hist(image)
+    return img_eq
+
+
 def contrast_stretching(image):
     """
     Args: Contrast stretching (often called normalization) is a simple image

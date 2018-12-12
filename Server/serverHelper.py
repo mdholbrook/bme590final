@@ -107,4 +107,3 @@ def encode_images(image_path):
     """
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read())
-
