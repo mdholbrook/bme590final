@@ -1,8 +1,24 @@
 import os
 import cv2
+import base64
 import numpy as np
 from PIL import Image
 from zipfile import ZipFile
+
+
+def load_file_bytes(imfile):
+    """This function takes the name of a file and returns an base 64 encoded
+    in-memory file
+
+    Args:
+        imfile (str): path to string object
+
+    Returns:
+        bytes: an in-memory base64 encoding of the input file
+    """
+
+    with open(imfile, "rb") as image_file:
+        return base64.b64encode(image_file.read())
 
 
 def load_image(imfile):
@@ -100,7 +116,8 @@ def load_image_series(filenames):
 
         # If file is a zip file read with load_zipped_image
         if ext == '.zip':
-            im, filename = load_zipped_image(file)
+            filename = get_zip_names(file)
+            im = image(file)
             ims.append(im)
             all_filenames.append(filename)
 
