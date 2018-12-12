@@ -1,10 +1,9 @@
 import base64
 import numpy as np
 import io
-from skimage import util, exposure
+from skimage import util, exposure, io
 from matplotlib import pyplot as plt
 import matplotlib.image as mpimg
-
 
 
 def check_user_data(user_data):
@@ -97,22 +96,21 @@ def decode_images(base64_string):
     Returns: A list of decoded image(s), i.e. as float array(s)
     """
     image_bytes = base64.b64decode(base64_string)
-    image_buf = io.imread(image_bytes)
-    plt.imshow(image_buf)
+    image_buf = io.BytesIO(image_bytes)
+    i = mpimg.imread(image_buf, format='JPG')
+    plt.imshow(i, interpolation='nearest')
     plt.show()
-    return image_buf
+    return i
 
 
-def encode_images(filename):
+def encode_images(image_path):
     """
     Encodes the processed image(s).
 
     Args:
-        filename: input image ex).jpg , .png, .tiff
+        image_path: input image ex).jpg , .png, .tiff
 
     Returns: A list of encoded image(s) as ByteStrings
     """
-    with open(filename, "rb") as image_file:
+    with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read())
-    image_files = io.imread(filename)
-    return base64.b64encode(image_files)
