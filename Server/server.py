@@ -29,7 +29,6 @@ def process_images():
     """
     Takes in a request dictionary containing:
         'email' : String representing the user's email
-        'load_filenames' : list of String(s) representing the filepath(s)
         'hist' : boolean of whether this post-processing method was toggled
         'cont' : boolean of whether this post-processing method was toggled
         'log' : boolean of whether this post-processing method was toggled

@@ -13,8 +13,7 @@ def check_user_data(user_data):
     """
 
     # Ensures that all expected keys are in the dictionary
-    if "load_filenames" not in user_data or \
-            "hist" not in user_data or \
+    if "hist" not in user_data or \
             "cont" not in user_data or \
             "log" not in user_data or \
             "rev" not in user_data or \
@@ -29,15 +28,15 @@ def check_user_data(user_data):
         # app.logger.error("One of the fields is empty.")
         raise ValueError
 
-    # Ensures that the filenames are of type String
-    if type(user_data["load_filenames"]) == list:
-        for filename in user_data["load_filenames"]:
-            if type(filename) != str:
-                # app.logger.error("Filepath of one of the files not String.")
-                raise TypeError
-    elif type(user_data["load_filenames"]) != str:
-        # app.logger.error("Filepath of single file not String.")
-        raise TypeError
+    # # Ensures that the filenames are of type String
+    # if type(user_data["load_filenames"]) == list:
+    #     for filename in user_data["load_filenames"]:
+    #         if type(filename) != str:
+    #            # app.logger.error("Filepath of one of the files not String.")
+    #             raise TypeError
+    # elif type(user_data["load_filenames"]) != str:
+    #     # app.logger.error("Filepath of single file not String.")
+    #     raise TypeError
 
     # Ensures that the postprocessing flags are of type bool
     if type(user_data["hist"]) != bool or \
@@ -71,12 +70,6 @@ def check_user_data(user_data):
             user_data["extension"] != "PNG" or \
             user_data["extension"] != "TIFF":
         raise ValueError
-
-    # if "@" not in user_data["email"] or \
-    #         "." not in user_data["email"]:
-    #     # app.logger.error("Email address missing a special character "
-    #     # "('@' or '.')")
-    #     raise ValueError
 
     return user_data
 
