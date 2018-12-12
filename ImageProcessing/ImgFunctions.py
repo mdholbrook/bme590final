@@ -1,5 +1,6 @@
 import numpy as np
-from skimage import util, exposure
+from skimage import util, exposure, io
+
 from matplotlib import pyplot as plt
 
 
@@ -79,12 +80,11 @@ def gamma_correction(image):
     gamma_corrected = exposure.adjust_gamma(image, 2)
     return gamma_corrected
 
-#
-# if __name__ == '__main__':
-#     filename = "Lenna.png"
-#     img = io.imread(filename)
-#     his = view_histogram(img)
-#     img = rgb2gray(img)
-#     img2 = reverse_video(img)
-#     plt.imshow(img2, 'gray')
-#     plt.show()
+
+if __name__ == '__main__':
+    filename = "../TestImages/Lenna.png"
+    img = io.imread(filename)
+    his = view_histogram(img)
+    img2 = reverse_video(img)
+    plt.imshow(img2)
+    plt.show()
