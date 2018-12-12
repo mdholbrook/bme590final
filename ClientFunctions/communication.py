@@ -17,13 +17,15 @@ def send_to_server(df):
         ext = "PNG"
     elif df["TIFF"]:
         ext = "TIFF"
-    requests.post("https://vcm-7640.vm.duke.edu/imageprocessing", json={
-        "email": df['email'],
-        "hist": df['hist'],
-        "cont": df['cont'],
-        "log": df['log'],
-        "rev": df['rev'],
-        "median": df['median'],
-        "images": df['orig_im'],
-        "extension": ext
-    })
+    json_dict, code = requests.post(
+        "https://vcm-7640.vm.duke.edu/imageprocessing", json={
+            "email": df['email'],
+            "hist": df['hist'],
+            "cont": df['cont'],
+            "log": df['log'],
+            "rev": df['rev'],
+            "median": df['median'],
+            "images": df['orig_im'],
+            "extension": ext
+        }).json()
+    return json_dict, code
