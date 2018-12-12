@@ -1,4 +1,10 @@
 import base64
+import numpy as np
+import io
+from skimage import util, exposure
+from matplotlib import pyplot as plt
+import matplotlib.image as mpimg
+
 
 
 def check_user_data(user_data):
@@ -81,31 +87,32 @@ def check_user_data(user_data):
     return user_data
 
 
-def decode_images(images):
+def decode_images(base64_string):
     """
     Decodes the uploaded image(s).
 
     Args:
-        images: A list of image(s) encoded in base64 format
+        base64_string: A list of image(s) encoded in base64 format
 
     Returns: A list of decoded image(s), i.e. as float array(s)
     """
-    ret = []
-    for image in images:
-        ret.append(base64.b64decode(image))
-    return ret
+    image_bytes = base64.b64decode(base64_string)
+    image_buf = io.imread(image_bytes)
+    plt.imshow(image_buf)
+    plt.show()
+    return image_buf
 
 
-def encode_images(images):
+def encode_images(filename):
     """
     Encodes the processed image(s).
 
     Args:
-        images: A list of raw image(s), i.e. as float array(s)
+        filename: input image ex).jpg , .png, .tiff
 
     Returns: A list of encoded image(s) as ByteStrings
     """
-    ret = []
-    for image in images:
-        ret.append(base64.b64encode(image))
-    return ret
+    with open(filename, "rb") as image_file:
+        return base64.b64encode(image_file.read())
+    image_files = io.imread(filename)
+    return base64.b64encode(image_files)

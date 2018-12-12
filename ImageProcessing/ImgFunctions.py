@@ -86,5 +86,5 @@ def gamma_correction(image):
 #     his = view_histogram(img)
 #     img = rgb2gray(img)
 #     img2 = reverse_video(img)
-#     plt.imshow(img2, 'gray')
+#     plt.imshow(img2)
 #     plt.show()
