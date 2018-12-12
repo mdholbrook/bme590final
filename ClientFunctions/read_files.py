@@ -30,7 +30,7 @@ def load_image(imfile):
         2D or 3D numpy array of image values
     """
 
-    im = Image.open(imfile)
+    im = np.array(Image.open(imfile))
 
     return [im]
 
@@ -116,7 +116,9 @@ def load_image_series(filenames):
         # If file is a zip file read with load_zipped_image
         if ext == '.zip':
             filename = get_zip_names(file)
-            all_filenames.append(filename)
+
+            for i in filename:
+                all_filenames.append(i)
 
         else:
             all_filenames.append(file)
