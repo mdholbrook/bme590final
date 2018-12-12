@@ -7,6 +7,7 @@ from GUI.files_dialog import LoadDialog, SaveDialog
 from GUI.view_images import run_image_viewer
 from ClientFunctions.read_files import load_image_series
 from ClientFunctions.write_files import save_images
+from ClientFunctions.communication import send_to_server
 from GUI.utils import save_email, load_email
 
 
@@ -185,6 +186,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.disable_options()
 
         # TODO: Add call to communictation function
+        send_to_server(self.df)
 
     def image_viewer(self):
 
