@@ -98,8 +98,8 @@ def decode_images(base64_string):
     image_bytes = base64.b64decode(base64_string)
     image_buf = io.BytesIO(image_bytes)
     i = mpimg.imread(image_buf, format='JPG')
-    plt.imshow(i, interpolation='nearest')
-    plt.show()
+    # plt.imshow(i, interpolation='nearest')
+    # plt.show()
     return i
 
 
