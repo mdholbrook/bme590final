@@ -1,5 +1,4 @@
 import os
-import cv2
 import base64
 import numpy as np
 from PIL import Image
@@ -31,7 +30,7 @@ def load_image(imfile):
         2D or 3D numpy array of image values
     """
 
-    im = cv2.imread(imfile)
+    im = Image.open(imfile)
 
     return [im]
 
