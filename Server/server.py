@@ -8,7 +8,8 @@ from pymodm import connect
 from Server.mongoSetup import User
 from Server.serverHelper import check_user_data, decode_images, encode_images
 from ImageProcessing.ImgFunctions import histogram_eq, contrast_stretching, \
-    log_compression, reverse_video, gamma_correction, view_histogram
+    log_compression, reverse_video, gamma_correction, view_histogram_bw, \
+    view_color_histogram
 
 
 # FLASK SERVER SETUP
@@ -44,6 +45,7 @@ def process_images():
 
     # TODO: figure out what exactly the client needs returned
     <Insert key-value pairs here>
+    -list of images that couldn't be read
 
     The second entry is an integer representing the HTTP status code.
     """
@@ -98,7 +100,10 @@ def process_images():
     orig_histogram_data = []
     for image in user.uploadedImages:
         data_per_image = []
-        hist, bins = view_histogram(image)
+        if image.shape[2] == 1:
+            hist, bins = view_histogram_bw(image)
+        else:
+            hist, bins = view_color_histogram(image)
         data_per_image[0] = bins
         data_per_image[1] = hist
         orig_histogram_data.append(data_per_image)
@@ -146,7 +151,10 @@ def process_images():
     proc_histogram_data = []
     for image in user.processedImages:
         data_per_image = []
-        hist, bins = view_histogram(image)
+        if image.shape[2] == 1:
+            hist, bins = view_histogram_bw(image)
+        else:
+            hist, bins = view_color_histogram(image)
         data_per_image[0] = bins
         data_per_image[1] = hist
         proc_histogram_data.append(data_per_image)

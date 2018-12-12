@@ -185,8 +185,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.save_flag = True
         self.disable_options()
 
-        # TODO: Add call to communictation function
-        send_to_server(self.df)
+        # TODO: Add call to communication function
+        # code = 0
+        json_dict, code = send_to_server(self.df)
+        # while code == 0:
+        #
+        #     code, images = get_back_data()
+        #
+        #     import time
+        #     time.sleep(0.5)
 
     def image_viewer(self):
 

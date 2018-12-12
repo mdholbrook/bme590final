@@ -4,9 +4,9 @@ from skimage import util, exposure, io
 from matplotlib import pyplot as plt
 
 
-def view_histogram(image):
+def view_histogram_bw(image):
     """
-    Args: View the histogram of the image
+    Args: View the histogram of a black and white image
         image: Float array of the image
     Returns: Hist and its bin array
     """
@@ -16,15 +16,19 @@ def view_histogram(image):
     return hist, bins
 
 
-def histogram_eq(image):
+def view_color_histogram(image):
     """
-    Args: Histogram equalization is a method in image processing of contrast
-    adjustment using the image's histogram.
-        image: float array for the image
-    Returns: Histogram equalize version of the image
+    Args: View the histogram of a color image
+        image: Float array of the image
+    Returns: Hist and its bin array
     """
-    img_eq = exposure.equalize_hist(image)
-    return img_eq
+    hist_all = []
+    for i in range(image.shape[2]):
+        hist, bins = np.histogram(image[:, :, i].ravel(), 256, [0, 256])
+        hist_all.append(hist)
+        # plt.hist(image.ravel(), 256, [0, 256])
+        # plt.show()
+    return hist_all, bins
 
 
 def contrast_stretching(image):
@@ -84,7 +88,8 @@ def gamma_correction(image):
 if __name__ == '__main__':
     filename = "../TestImages/Lenna.png"
     img = io.imread(filename)
-    his = view_histogram(img)
+    his = view_histogram_bw(img)
+    his2 = view_color_histogram(img)
     img2 = reverse_video(img)
     plt.imshow(img2)
     plt.show()
