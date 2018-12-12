@@ -1,7 +1,7 @@
 import base64
 import numpy as np
 import io
-from skimage import util, exposure, io
+from skimage import util, exposure
 from matplotlib import pyplot as plt
 import matplotlib.image as mpimg
 
@@ -114,3 +114,4 @@ def encode_images(image_path):
     """
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read())
+
