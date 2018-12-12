@@ -117,13 +117,13 @@ def load_image_series(filenames):
         # If file is a zip file read with load_zipped_image
         if ext == '.zip':
             filename = get_zip_names(file)
-            im = image(file)
-            ims.append(im)
             all_filenames.append(filename)
 
         else:
-            ims.append(load_image(file))
             all_filenames.append(file)
+
+        im = load_file_bytes(file)
+        ims.append(im)
 
     # Convert lists of lists into lists
     ims = flatten(ims)
