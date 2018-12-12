@@ -1,7 +1,7 @@
 import base64
 import numpy as np
 import io
-from skimage import util, exposure, io
+from skimage import util, exposure
 from matplotlib import pyplot as plt
 import matplotlib.image as mpimg
 
@@ -91,8 +91,8 @@ def decode_images(base64_string):
     image_bytes = base64.b64decode(base64_string)
     image_buf = io.BytesIO(image_bytes)
     i = mpimg.imread(image_buf, format='JPG')
-    plt.imshow(i, interpolation='nearest')
-    plt.show()
+    # plt.imshow(i, interpolation='nearest')
+    # plt.show()
     return i
 
 
@@ -107,3 +107,4 @@ def encode_images(image_path):
     """
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read())
+
