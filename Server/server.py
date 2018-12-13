@@ -161,7 +161,7 @@ def process_images():
     # TODO: Properly record image sizes in pixels
     image_sizes = []
     for image in user.processedImages:
-        # image_sizes.append(image.size)
+        image_sizes.append([image.shape[0], image.shape[1]])
         data_per_image = []
         if len(image.shape) == 2:
             hist, bins = view_histogram_bw(image)
