@@ -77,8 +77,8 @@ def process_images():
     # Pulls from the database if there is an existing user, otherwise
     # initializes a new one
     try:
-        user = User.Objects.raw(({"_email": validated_user_data["email"]})
-                                .first())
+        user = User.objects.raw(({"_email": validated_user_data["email"]}))\
+            .first()
         user.uploadedImages = validated_user_data["images"],
         user.uploadTimestamp = upload_time,
         user.processedImages = [],
@@ -93,8 +93,8 @@ def process_images():
                                      "median": [0, []]},
                     uploadedImages=validated_user_data["images"],
                     uploadTimestamp=upload_time,
-                    processedImages=[],
-                    processTimestamp="",
+                    processedImages=["placeholder"],
+                    processTimestamp="placeholder",
                     # returnExtension=validated_user_data["extension"]
                     )
     user.save()
@@ -108,14 +108,14 @@ def process_images():
     # Calculates histogram data for all original images and packages it
     # to return to GUI client
     orig_histogram_data = []
-    for image in user.uploadedImages:
+    for image in raw_images:
         data_per_image = []
         if image.shape[2] == 1:
             hist, bins = view_histogram_bw(image)
         else:
             hist, bins = view_color_histogram(image)
-        data_per_image[0] = bins
-        data_per_image[1] = hist
+        data_per_image.append(bins)
+        data_per_image.append(hist)
         orig_histogram_data.append(data_per_image)
 
     # Processes the images and updates the database accordingly
@@ -167,8 +167,8 @@ def process_images():
             hist, bins = view_histogram_bw(image)
         else:
             hist, bins = view_color_histogram(image)
-        data_per_image[0] = bins
-        data_per_image[1] = hist
+        data_per_image.append(bins)
+        data_per_image.append(hist)
         proc_histogram_data.append(data_per_image)
 
     # Encodes the processed images to prepare to return them to the client

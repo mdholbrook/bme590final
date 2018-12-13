@@ -4,6 +4,7 @@ import io
 from skimage import util, exposure
 from matplotlib import pyplot as plt
 import matplotlib.image as mpimg
+import logging
 
 
 def check_user_data(user_data):
@@ -18,14 +19,14 @@ def check_user_data(user_data):
     """
 
     # Ensures that all expected keys are in the dictionary
-    if "hist" not in user_data or \
+    if "email" not in user_data or \
+            "hist" not in user_data or \
             "cont" not in user_data or \
             "log" not in user_data or \
             "rev" not in user_data or \
             "median" not in user_data or \
-            "images" not in user_data or \
-            "extension" not in user_data:
-        # app.logger.error("A key is missing from the user data dictionary.")
+            "images" not in user_data:
+        logging.error("A key is missing from the user data dictionary.")
         raise KeyError
 
     # Ensures that there are no empty values in the dictionary
@@ -69,12 +70,12 @@ def check_user_data(user_data):
         raise TypeError
 
     # Ensures that the extension type is a String, and one that makes sense
-    if type(user_data["extension"]) != str:
-        raise TypeError
-    if user_data["extension"] != "JPEG" or \
-            user_data["extension"] != "PNG" or \
-            user_data["extension"] != "TIFF":
-        raise ValueError
+    # if type(user_data["extension"]) != str:
+    #     raise TypeError
+    # if user_data["extension"] != "JPEG" or \
+    #         user_data["extension"] != "PNG" or \
+    #         user_data["extension"] != "TIFF":
+    #     raise ValueError
 
     return user_data
 
@@ -88,12 +89,15 @@ def decode_images(base64_string):
 
     Returns: A list of decoded image(s), i.e. as float array(s)
     """
-    image_bytes = base64.b64decode(base64_string)
-    image_buf = io.BytesIO(image_bytes)
-    i = mpimg.imread(image_buf, format='JPG')
-    # plt.imshow(i, interpolation='nearest')
-    # plt.show()
-    return i
+    ret = []
+    for bytestring in base64_string:
+        image_bytes = base64.b64decode(bytestring)
+        image_buf = io.BytesIO(image_bytes)
+        i = mpimg.imread(image_buf, format='JPG')
+        ret.append(i)
+        # plt.imshow(i, interpolation='nearest')
+        # plt.show()
+    return ret
 
 
 def encode_images(image_path):

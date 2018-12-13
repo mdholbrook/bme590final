@@ -187,7 +187,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # TODO: Add call to communication function
         # code = 0
-        json_dict, code = send_to_server(self.df)
+        json_dict = send_to_server(self.df)
+        print(json_dict)
         self.df['proc_im'] = json_dict["proc_im"]
 
         # while code == 0:
