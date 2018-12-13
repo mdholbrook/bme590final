@@ -1,46 +1,27 @@
 import os
-import base64
+import cv2
 import numpy as np
 from PIL import Image
 from zipfile import ZipFile
 
 
-def load_file_bytes(imfile):
-    """This function takes the name of a file and returns an base 64 encoded
-    in-memory file
-
-    Args:
-        imfile (str): path to string object
-
-    Returns:
-        bytes: an in-memory base64 encoding of the input file
-    """
-
-    with open(imfile, "rb") as image_file:
-        return base64.b64encode(image_file.read())
-
-
 def load_image(imfile):
     """This function reads an input image from file
-
     Args:
         imfile (str): path to an image
-
     Returns:
         2D or 3D numpy array of image values
     """
 
-    im = np.array(Image.open(imfile))
+    im = cv2.imread(imfile)
 
     return [im]
 
 
 def get_zip_names(zipfilename):
     """This function pulls the names of files found in a zip file
-
     Args:
         zipfilename (str): path to the selected zip file
-
     Returns:
         list of str: a list of files found in the zip file
     """
@@ -56,10 +37,8 @@ def get_zip_names(zipfilename):
 
 def load_zipped_image(zipfilename):
     """Loads image files contained in a zip file
-
     Args:
         zipfilename (str): path to the selected zip file
-
     Returns:
         list of numpy arrays: a list image image data found in the zip file
     """
@@ -81,10 +60,8 @@ def load_zipped_image(zipfilename):
 def flatten(filenames):
     """Takes a list which may contain other lists and returns a single,
     flattened list
-
     Args:
         filenames (list): list of filenames
-
     Returns:
         flattened list of filenames
     """
@@ -97,10 +74,8 @@ def flatten(filenames):
 def load_image_series(filenames):
     """This function takes a list of filenames and returns a list of numpy
     arrays containing image data.
-
     Args:
         filenames (list of str): a list of filenames selected in the GUI
-
     Returns:
         list numpy arrays containing image data
     """
@@ -115,16 +90,13 @@ def load_image_series(filenames):
 
         # If file is a zip file read with load_zipped_image
         if ext == '.zip':
-            filename = get_zip_names(file)
-
-            for i in filename:
-                all_filenames.append(i)
+            im, filename = load_zipped_image(file)
+            ims.append(im)
+            all_filenames.append(filename)
 
         else:
+            ims.append(load_image(file))
             all_filenames.append(file)
-
-        im = load_file_bytes(file)
-        ims.append(im)
 
     # Convert lists of lists into lists
     ims = flatten(ims)
