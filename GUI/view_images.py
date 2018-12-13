@@ -2,6 +2,7 @@ from skimage import data
 from skimage.viewer import ImageViewer
 import numpy as np
 from matplotlib import pyplot as plt
+from PIL import Image
 import seaborn as sns
 
 sns.set_style('whitegrid')
@@ -21,7 +22,8 @@ def run_image_viewer(df):
     im = separate_ims(df)
 
     # Plot image histograms
-    show_hist(df)
+    if df['showHist']:
+        show_hist(df)
 
     # Show images
     show_ims(im)
@@ -40,10 +42,11 @@ def show_ims(im):
     """
 
     # Generate image viewer
-    viewer = ImageViewer(im)
-
+    # viewer = ImageViewer(im)
+    im = Image.fromarray(im)
+    im.show()
     # Show image
-    viewer.show()
+    # viewer.show()
 
 
 def show_hist(df):
@@ -145,7 +148,7 @@ def get_num_channels(df):
         int: the number of channels in the image
     """
     ind = df['imageInd']
-    im_shape = df['orig_im'][ind].shape
+    im_shape = df['orig_im_array'][ind].shape
 
     if len(im_shape) == 2:
         num_chans = 1
@@ -195,10 +198,11 @@ def separate_ims(df):
     ind = df['imageInd']
 
     if df['show1'] and df['show2']:
-        im = np.concatenate((df['orig_im'][ind], df['proc_im'][ind]), axis=1)
+        im = np.concatenate((df['orig_im_array'][ind], df['proc_im'][ind]),
+                            axis=1)
 
     elif df['show1']:
-        im = df['orig_im'][ind]
+        im = df['orig_im_array'][ind]
     elif df['show2']:
         im = df['proc_im'][ind]
 
@@ -214,7 +218,7 @@ if __name__ == "__main__":
 
     # Set up sample dict
     df = {}
-    df['orig_im'] = [im1]
+    df['orig_im_array'] = [im1]
     df['proc_im'] = [im2]
 
     df['show1'] = True

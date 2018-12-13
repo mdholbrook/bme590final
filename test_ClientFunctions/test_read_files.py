@@ -83,18 +83,42 @@ def test_flatten(lists, answer):
 def test_load_image_series():
 
     # Set up test cases using TestImages
-    tfilename = ['TestImages/circles.png',
+    filenames = ['TestImages/circles.png',
                  'TestImages/circlesBrightDark.png',
                  'TestImages/coins.png',
                  'TestImages/foosball.jpg',
                  'TestImages/foosballraw.tiff',
                  'TestImages/football.jpg',
                  'TestImages/Lenna.png',
+                 'TestImages/TestImages.zip',
                  'TestImages/tire.tif',
                  'TestImages/yellowlily.jpg']
+    shapes = [(256, 256),
+              (512, 512),
+              (246, 300),
+              (2336, 3504, 3),
+              (2348, 3522),
+              (256, 320, 3),
+              (220, 220, 3),
+              (256, 256),
+              (512, 512),
+              (246, 300),
+              (2336, 3504, 3),
+              (2348, 3522),
+              (256, 320, 3),
+              (220, 220, 3),
+              (205, 232),
+              (1632, 1224, 3),
+              (205, 232),
+              (1632, 1224, 3)]
 
     # Load test images
-    ims, all_filenames = load_image_series(tfilename)
+    ims, all_filenames = load_image_series(filenames)
 
     # Check the length of the ims list
-    assert 9 == len(all_filenames)
+    assert len(ims) == len(shapes)
+
+    # Check the images sizes
+    for z in range(len(ims)):
+
+        assert ims[z].shape == shapes[z]
