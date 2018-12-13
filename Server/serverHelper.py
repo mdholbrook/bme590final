@@ -113,17 +113,3 @@ def encode_images_from_file(image_paths):
             ret.append((base64.b64encode(image_file.read())).decode('utf-8'))
     return ret
 
-
-def encode_images(images):
-    """
-    Encodes the processed image(s).
-
-    Args:
-        images: A list of input images (nparrays)
-
-    Returns: A list of encoded image(s) as ByteStrings
-    """
-    ret = []
-    for image in images:
-        ret.append((base64.b64encode(image)).decode('utf-8'))
-    return ret
