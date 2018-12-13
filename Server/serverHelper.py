@@ -105,5 +105,8 @@ def encode_images(image_path):
 
     Returns: A list of encoded image(s) as ByteStrings
     """
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read())
+    ret = []
+    for path in image_path:
+        with open(path, "rb") as image_file:
+            ret.append((base64.b64encode(image_file.read())).decode('utf-8'))
+    return ret
