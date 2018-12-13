@@ -196,6 +196,9 @@ class MainWindow(QtWidgets.QMainWindow):
         print(json_dict)
         print("Testing")
         self.df['proc_im'] = json_dict["proc_im"]
+        self.df['im_dims'] = json_dict["image_sizes"]
+        self.df["processing_time"] = json_dict["latency"]
+        self.df["timestamp"] = json_dict["upload_timestamp"]
 
         # while code == 0:
         #
