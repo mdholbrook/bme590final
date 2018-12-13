@@ -1,5 +1,4 @@
 import pytest
-from PIL import Image
 from skimage import io
 from Server.serverHelper import *
 
@@ -16,8 +15,10 @@ def test_base64():
     test_add_parametrize is called with all of the input & expected output
     combinations specified in the decorator above.
     """
-    a = encode_images_from_file(["TestImages/Lenna.png"])
+    imglist = ["TestImages/circlesBrightDark.png",
+               "TestImages/circles.png",
+               "TestImages/yellowlily.jpg"]
+    a = encode_images_from_file(imglist)
     de = decode_images(a)
-    aa = de[0]
-    im = Image.open("TestImages/Lenna.png")
-    assert aa.size == im.size
+    aa = de[-1]
+    assert aa.size == 5992704
