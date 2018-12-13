@@ -5,6 +5,7 @@ from PyQt5 import QtWidgets
 from GUI.main_window_design import Ui_MainWindow
 from GUI.files_dialog import LoadDialog, SaveDialog
 from GUI.view_images import run_image_viewer
+from ClientFunctions.read_files import load_image_series_bytes
 from ClientFunctions.read_files import load_image_series
 from ClientFunctions.write_files import save_images
 from ClientFunctions.communication import send_to_server
@@ -37,6 +38,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Gray out options before loading a file
         self.process_flag = False
+        self.viewer_flag = False
         self.save_flag = False
         self.load_flag = False
         self.disable_options()
@@ -117,6 +119,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # Disable Apply push button if no image is loaded
         self.ui.pushButtonApply.setEnabled(self.process_flag)
 
+        # Disable viewing image if images are not loaded, do not exist
+        self.ui.pushButtonImageViewer.setEnabled(self.viewer_flag)
+
         # Disable Download push button if no image is loaded
         self.ui.pushButtonDonwload.setEnabled(self.save_flag)
 
@@ -139,19 +144,21 @@ class MainWindow(QtWidgets.QMainWindow):
         # Update image path shown in GUI
         self.ui.lineEditLoad.setText(self.df['load_filenames'][0])
 
-        # Add images to combobox to allow for viewing
-        filenames = [os.path.basename(i) for i in self.df['load_filenames']]
-        self.ui.comboBox.addItems(filenames)
-
         # Check that the images exist
         if validate_file_exists(self.df['load_filenames']):
 
             # Load the images
             self.df['orig_im'], self.df['orig_im_names'] = \
-                load_image_series(self.df['load_filenames'])
+                load_image_series_bytes(self.df['load_filenames'])
+
+            # Add images to combobox to allow for viewing
+            filenames = [os.path.basename(i) for i in self.df['orig_im_names']]
+            self.ui.comboBox.clear()
+            self.ui.comboBox.addItems(filenames)
 
             # Enable process flag
             self.process_flag = True
+            self.viewer_flag = True
 
         else:
             # Show error message
@@ -159,6 +166,7 @@ class MainWindow(QtWidgets.QMainWindow):
             error_dialog.showMessage("Please enter a valid email address")
 
             self.process_flag = False
+            self.viewer_flag = False
 
         self.disable_options()
 
@@ -168,9 +176,6 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns:
 
         """
-
-        # Load files
-        self.df['orig_im'] = load_image_series(self.df['load_filenames'])
 
         # Get processing settings
         self.df['hist'] = self.ui.radioButtonHist.isChecked()
@@ -201,7 +206,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def image_viewer(self):
 
-        if self.ui.radioButtonShowBoth:
+        # Load original images
+        self.df['orig_im_array'], _ = load_image_series(self.df[
+                                                           'load_filenames'])
+
+        # Get viewer options
+        if self.ui.radioButtonShowBoth.isChecked():
 
             # Show both images
             self.df['show1'] = True
@@ -209,11 +219,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
         else:
             # Show only one image
-            self.df['show1'] = self.ui.radioButtonShowinal
-            self.df['show2'] = self.ui.radioButtonShowProcessed
+            self.df['show1'] = self.ui.radioButtonShowOriginal.isChecked()
+            self.df['show2'] = self.ui.radioButtonShowProcessed.isChecked()
 
         # Get histomgram request
-        self.df['showHist'] = self.ui.checkBoxShowHist
+        self.df['showHist'] = self.ui.checkBoxShowHist.isChecked()
+
+        # TODO: update status box with image info
 
         # Call image viewer
         run_image_viewer(self.df)
@@ -251,6 +263,17 @@ class MainWindow(QtWidgets.QMainWindow):
     def pullcombotext(self, ind):
 
         self.df['imageInd'] = ind
+
+        # Update image metadata
+        if self.df['show2']:
+
+            data = ['Image timestamp: %s' % self.df['timestamp'],
+                    'Processing time: %d' % self.df['processing_time'],
+                    'Image dimensions: [%d, %d]' % (self.df['im_dims'][0],
+                                                    self.df['im_dims'][1])]
+
+            # Update list box
+            self.ui.listWidgetStatus.addItems(data)
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(592, 347)
+        MainWindow.resize(595, 428)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
@@ -78,11 +78,11 @@ class Ui_MainWindow(object):
         self.radioButtonShowOriginal.setChecked(True)
         self.radioButtonShowOriginal.setObjectName("radioButtonShowOriginal")
         self.verticalLayout_2.addWidget(self.radioButtonShowOriginal)
-        self.radioButtonShowProcessed =\
+        self.radioButtonShowProcessed = \
             QtWidgets.QRadioButton(self.verticalLayoutWidget_2)
         self.radioButtonShowProcessed.setObjectName("radioButtonShowProcessed")
         self.verticalLayout_2.addWidget(self.radioButtonShowProcessed)
-        self.radioButtonShowBoth =\
+        self.radioButtonShowBoth = \
             QtWidgets.QRadioButton(self.verticalLayoutWidget_2)
         self.radioButtonShowBoth.setObjectName("radioButtonShowBoth")
         self.verticalLayout_2.addWidget(self.radioButtonShowBoth)
@@ -93,10 +93,10 @@ class Ui_MainWindow(object):
         self.comboBox.setGeometry(QtCore.QRect(10, 20, 141, 22))
         self.comboBox.setObjectName("comboBox")
         self.groupBox_3 = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox_3.setGeometry(QtCore.QRect(330, 220, 251, 81))
+        self.groupBox_3.setGeometry(QtCore.QRect(330, 210, 251, 91))
         self.groupBox_3.setObjectName("groupBox_3")
         self.verticalLayoutWidget_3 = QtWidgets.QWidget(self.groupBox_3)
-        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(10, 20, 131, 51))
+        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(10, 20, 131, 65))
         self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
         self.verticalLayout_3 = \
             QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
@@ -130,9 +130,17 @@ class Ui_MainWindow(object):
         self.pushButtonEmail = QtWidgets.QPushButton(self.centralwidget)
         self.pushButtonEmail.setGeometry(QtCore.QRect(470, 20, 75, 23))
         self.pushButtonEmail.setObjectName("pushButtonEmail")
+        self.groupBox_4 = QtWidgets.QGroupBox(self.centralwidget)
+        self.groupBox_4.setGeometry(QtCore.QRect(10, 310, 571, 101))
+        self.groupBox_4.setObjectName("groupBox_4")
+        self.listWidgetStatus = QtWidgets.QListWidget(self.groupBox_4)
+        self.listWidgetStatus.setGeometry(QtCore.QRect(10, 20, 551, 71))
+        self.listWidgetStatus.viewport().\
+            setProperty("cursor", QtGui.QCursor(QtCore.Qt.IBeamCursor))
+        self.listWidgetStatus.setObjectName("listWidgetStatus")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 592, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 595, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -158,7 +166,8 @@ class Ui_MainWindow(object):
             _translate("MainWindow", "Gamma Correction"))
         self.pushButtonApply.setText(
             _translate("MainWindow", "Apply Processing"))
-        self.toolButtonLoad.setText(_translate("MainWindow", "..."))
+        self.toolButtonLoad.setText(
+            _translate("MainWindow", "..."))
         self.groupBox_2.setTitle(_translate("MainWindow", "Show Images"))
         self.pushButtonImageViewer.setText(
             _translate("MainWindow", "ImageViewer"))
@@ -178,13 +187,4 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Email address"))
         self.pushButtonEmail.setText(
             _translate("MainWindow", "Validate Email"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+        self.groupBox_4.setTitle(_translate("MainWindow", "Status"))

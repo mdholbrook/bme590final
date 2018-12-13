@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>592</width>
-    <height>347</height>
+    <width>595</width>
+    <height>428</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -217,9 +217,9 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>220</y>
+      <y>210</y>
       <width>251</width>
-      <height>81</height>
+      <height>91</height>
      </rect>
     </property>
     <property name="title">
@@ -231,7 +231,7 @@
        <x>10</x>
        <y>20</y>
        <width>131</width>
-       <height>51</height>
+       <height>65</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -324,13 +324,39 @@
      <string>Validate Email</string>
     </property>
    </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>310</y>
+      <width>571</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Status</string>
+    </property>
+    <widget class="QListWidget" name="listWidgetStatus">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>551</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="cursor" stdset="0">
+      <cursorShape>IBeamCursor</cursorShape>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>592</width>
+     <width>595</width>
      <height>21</height>
     </rect>
    </property>
