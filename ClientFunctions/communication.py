@@ -1,5 +1,6 @@
 import requests
-from Server.serverHelper import encode_images, decode_images
+from Server.serverHelper import encode_images, encode_images_from_file, \
+    decode_images
 
 
 def send_to_server(df):
@@ -11,7 +12,7 @@ def send_to_server(df):
 
     Returns: The output of the new_user endpoint (see documentation)
     """
-    encoded_images = encode_images(df['orig_im_names'])
+    encoded_images = encode_images_from_file(df['orig_im_names'])
     # json_dict, code = requests.post(
     #     "https://vcm-7291.vm.duke.edu/new_user", json={
     #         "email": df['email'],
@@ -33,5 +34,8 @@ def send_to_server(df):
             "median": df['median'],
             "images": encoded_images,
         }).json()
+
+    # TODO: Figure out this image decoding error...
+    # json_dict["proc_im"] = decode_images(json_dict["proc_im"])
 
     return json_dict

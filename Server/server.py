@@ -10,6 +10,7 @@ from Server.serverHelper import check_user_data, decode_images, encode_images
 from ImageProcessing.ImgFunctions import histogram_eq, contrast_stretching, \
     log_compression, reverse_video, gamma_correction, view_histogram_bw, \
     view_color_histogram
+import base64
 
 
 # FLASK SERVER SETUP
@@ -35,7 +36,6 @@ def process_images():
         'log' : boolean of whether this post-processing method was toggled
         'rev' : boolean of whether this post-processing method was toggled
         'median' : boolean of whether this post-processing method was toggled
-        # TODO: write image encode on client side
         'images' : list of ByteString(s)
         # TODO: add whatever other inputs aren't reflected here yet
 
@@ -110,7 +110,7 @@ def process_images():
     orig_histogram_data = []
     for image in raw_images:
         data_per_image = []
-        if image.shape[2] == 1:
+        if len(image.shape) == 2:
             hist, bins = view_histogram_bw(image)
         else:
             hist, bins = view_color_histogram(image)
@@ -163,7 +163,7 @@ def process_images():
     for image in user.processedImages:
         # image_sizes.append(image.size)
         data_per_image = []
-        if image.shape[2] == 1:
+        if len(image.shape) == 2:
             hist, bins = view_histogram_bw(image)
         else:
             hist, bins = view_color_histogram(image)
@@ -180,10 +180,13 @@ def process_images():
         total_latency += latency
 
     return jsonify({"proc_im": images_to_return,
-                    "histDataOrig": orig_histogram_data,
-                    "histDataProc": proc_histogram_data,
-                    "upload_timestamp": user.uploadTimestamp,
-                    "latency": total_latency,
+
+                    # TODO: figure out how to serialize histogram data
+                    # "histDataOrig": encode_images(orig_histogram_data),
+                    # "histDataProc": encode_images(proc_histogram_data),
+
+                    "upload_timestamp": str(user.uploadTimestamp),
+                    "latency": str(total_latency),
                     "image_sizes": image_sizes}), 200
 
 
