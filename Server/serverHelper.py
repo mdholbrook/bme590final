@@ -5,6 +5,7 @@ from skimage import util, exposure
 from matplotlib import pyplot as plt
 import matplotlib.image as mpimg
 import logging
+from PIL import Image
 
 
 def check_user_data(user_data):
@@ -94,7 +95,7 @@ def decode_images(base64_string):
     for bytestring in base64_string:
         image_bytes = base64.b64decode(bytestring)
         image_buf = io.BytesIO(image_bytes)
-        i = mpimg.imread(image_buf, format='JPG')
+        i = Image.open(image_buf)
         ret.append(i)
     return ret
 
