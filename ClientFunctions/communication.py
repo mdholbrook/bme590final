@@ -35,4 +35,3 @@ def send_to_server(df):
         }).json()
 
     return json_dict
-
