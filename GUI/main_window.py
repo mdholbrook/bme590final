@@ -45,6 +45,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Initialize dictionary for saving user inputs
         self.df = {}
+        self.df['show1'] = False
+        self.df['show2'] = False
 
         # Load previous data
         self.preload_email()
@@ -163,7 +165,7 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             # Show error message
             error_dialog = QtWidgets.QErrorMessage(self)
-            error_dialog.showMessage("Please enter a valid email address")
+            error_dialog.showMessage("Please enter valid image files")
 
             self.process_flag = False
             self.viewer_flag = False
