@@ -1,4 +1,5 @@
 import pytest
+from PIL import Image
 from GUI.view_images import *
 
 
@@ -7,23 +8,23 @@ def setup():
     from skimage import data
 
     # test_im = data.camera()
-    test_im = np.ones((64, 64))
+    test_im = Image.fromarray(np.ones((64, 64), dtype='int8'), mode='1')
     df1 = {'imageInd': 0,
            'orig_im_array': [test_im],
            'proc_im': [test_im],
            'show1': True,
            'show2': True,
-           'imdims': [test_im.shape]
+           'imdims': [test_im.size]
            }
 
     # test_im = data.coffee()
-    test_im = np.ones((128, 128, 3))
+    test_im = Image.fromarray(np.ones((128, 128, 3), dtype='int8'), mode='RGB')
     df2 = {'imageInd': 0,
            'orig_im_array': [test_im],
            'proc_im': [test_im],
            'show1': False,
            'show2': True,
-           'imdims': [test_im.shape]
+           'imdims': [test_im.size]
            }
 
     return df1, df2
@@ -75,9 +76,9 @@ def test_separate_ims():
     # Test 1
     im = separate_ims(df1)
     size = df1['imdims'][0]
-    assert im.shape == (size[0], size[1]*2)
+    assert im.size == (size[0]*2, size[1])
 
     # Test 2
     im = separate_ims(df2)
     size = df2['imdims'][0]
-    assert im.shape == (size[0], size[1], size[2])
+    assert im.size == (size[0], size[1])

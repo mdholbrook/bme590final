@@ -12,16 +12,20 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(595, 428)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        MainWindow.resize(595, 526)
+        self.centralwidget = \
+            QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
+        self.groupBox = \
+            QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox.setGeometry(QtCore.QRect(10, 90, 301, 211))
         self.groupBox.setObjectName("groupBox")
-        self.verticalLayoutWidget = QtWidgets.QWidget(self.groupBox)
+        self.verticalLayoutWidget = \
+            QtWidgets.QWidget(self.groupBox)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 20, 171, 171))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout = \
+            QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.radioButtonHist = \
@@ -73,7 +77,7 @@ class Ui_MainWindow(object):
             QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.radioButtonShowOriginal =\
+        self.radioButtonShowOriginal = \
             QtWidgets.QRadioButton(self.verticalLayoutWidget_2)
         self.radioButtonShowOriginal.setChecked(True)
         self.radioButtonShowOriginal.setObjectName("radioButtonShowOriginal")
@@ -131,12 +135,12 @@ class Ui_MainWindow(object):
         self.pushButtonEmail.setGeometry(QtCore.QRect(470, 20, 75, 23))
         self.pushButtonEmail.setObjectName("pushButtonEmail")
         self.groupBox_4 = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox_4.setGeometry(QtCore.QRect(10, 310, 571, 101))
+        self.groupBox_4.setGeometry(QtCore.QRect(10, 310, 571, 171))
         self.groupBox_4.setObjectName("groupBox_4")
         self.listWidgetStatus = QtWidgets.QListWidget(self.groupBox_4)
-        self.listWidgetStatus.setGeometry(QtCore.QRect(10, 20, 551, 71))
-        self.listWidgetStatus.viewport()\
-            .setProperty("cursor", QtGui.QCursor(QtCore.Qt.IBeamCursor))
+        self.listWidgetStatus.setGeometry(QtCore.QRect(10, 20, 551, 141))
+        self.listWidgetStatus.viewport().\
+            setProperty("cursor", QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.listWidgetStatus.setObjectName("listWidgetStatus")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -153,50 +157,50 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(
-                            _translate("MainWindow", "MainWindow"))
+                  _translate("MainWindow", "MainWindow"))
         self.groupBox.setTitle(
-                            _translate("MainWindow", "Image Corrections"))
+                  _translate("MainWindow", "Image Corrections"))
         self.radioButtonHist.setText(
-                            _translate("MainWindow", "Histogram Equalization"))
+                  _translate("MainWindow", "Histogram Equalization"))
         self.radioButtonContrast.setText(
-                            _translate("MainWindow", "Contrast Stretching"))
+                  _translate("MainWindow", "Contrast Stretching"))
         self.radioButtonLog.setText(
-                            _translate("MainWindow", "Log Compression"))
+                  _translate("MainWindow", "Log Compression"))
         self.radioButtonReverse.setText(
-                            _translate("MainWindow", "Reverse Video"))
+                  _translate("MainWindow", "Reverse Video"))
         self.radioButtonGamma.setText(
-                            _translate("MainWindow", "Gamma Correction"))
+                  _translate("MainWindow", "Gamma Correction"))
         self.pushButtonApply.setText(
-                            _translate("MainWindow", "Apply Processing"))
+                  _translate("MainWindow", "Apply Processing"))
         self.toolButtonLoad.setText(
-                            _translate("MainWindow", "..."))
+                  _translate("MainWindow", "..."))
         self.groupBox_2.setTitle(
-                            _translate("MainWindow", "Show Images"))
+                  _translate("MainWindow", "Show Images"))
         self.pushButtonImageViewer.setText(
-                            _translate("MainWindow", "ImageViewer"))
+                  _translate("MainWindow", "ImageViewer"))
         self.radioButtonShowOriginal.setText(
-                            _translate("MainWindow", "Original"))
+                  _translate("MainWindow", "Original"))
         self.radioButtonShowProcessed.setText(
-                            _translate("MainWindow", "Processed"))
+                  _translate("MainWindow", "Processed"))
         self.radioButtonShowBoth.setText(
-                            _translate("MainWindow", "Both"))
+                  _translate("MainWindow", "Both"))
         self.checkBoxShowHist.setText(
-                            _translate("MainWindow", "Histograms"))
+                  _translate("MainWindow", "Histograms"))
         self.groupBox_3.setTitle(
-                        _translate("MainWindow", "Download Processed Image"))
+                  _translate("MainWindow", "Download Processed Image"))
         self.radioButtonJPEG.setText(
-                            _translate("MainWindow", "JPEG"))
+                  _translate("MainWindow", "JPEG"))
         self.radioButtonPNG.setText(
-                            _translate("MainWindow", "PNG"))
+                  _translate("MainWindow", "PNG"))
         self.radioButtonTIFF.setText(
-                            _translate("MainWindow", "TIFF"))
+                  _translate("MainWindow", "TIFF"))
         self.pushButtonDonwload.setText(
-                            _translate("MainWindow", "Download"))
+                  _translate("MainWindow", "Download"))
         self.label.setText(
-                            _translate("MainWindow", "Input images"))
+                  _translate("MainWindow", "Input images"))
         self.label_2.setText(
-                            _translate("MainWindow", "Email address"))
+                  _translate("MainWindow", "Email address"))
         self.pushButtonEmail.setText(
-                            _translate("MainWindow", "Validate Email"))
+                  _translate("MainWindow", "Validate Email"))
         self.groupBox_4.setTitle(
-                            _translate("MainWindow", "Status"))
+                  _translate("MainWindow", "Status"))

@@ -206,9 +206,16 @@ def separate_ims(df):
 
 
 def concatenate_ims(ims):
+    """Concatenates PIL original and processed images to a single image
+
+    Args:
+        ims (list): list of PIL image objects, [original, processed]
+
+    Returns:
+        PIL obj: a single, concatenated image
+    """
 
     num_ims = len(ims)
-
 
     # Get image dimensions
     widths, heights = zip(*(i.size for i in ims))
@@ -225,8 +232,6 @@ def concatenate_ims(ims):
         x_offset += im.size[0]
 
     return new_im
-
-
 
 
 if __name__ == "__main__":
