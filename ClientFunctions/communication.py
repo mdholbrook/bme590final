@@ -36,10 +36,9 @@ def send_to_server(df):
                 "images": encoded_images,
             }).json()
 
-        json_dict['error'] = ''
+        json_dict['error'] = ['']
 
     except BaseException:
-        # as e:
         return {'error': ['Sever unavailable!']}
 
     # TODO: Figure out this image decoding error...
