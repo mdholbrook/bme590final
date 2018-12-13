@@ -24,7 +24,7 @@ def check_user_data(user_data):
             "cont" not in user_data or \
             "log" not in user_data or \
             "rev" not in user_data or \
-            "median" not in user_data or \
+            "gamma" not in user_data or \
             "images" not in user_data:
         logging.error("A key is missing from the user data dictionary.")
         raise KeyError
