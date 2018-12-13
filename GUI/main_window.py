@@ -144,17 +144,17 @@ class MainWindow(QtWidgets.QMainWindow):
         # Update image path shown in GUI
         self.ui.lineEditLoad.setText(self.df['load_filenames'][0])
 
-        # Add images to combobox to allow for viewing
-        filenames = [os.path.basename(i) for i in self.df['load_filenames']]
-        self.ui.comboBox.clear()
-        self.ui.comboBox.addItems(filenames)
-
         # Check that the images exist
         if validate_file_exists(self.df['load_filenames']):
 
             # Load the images
             self.df['orig_im'], self.df['orig_im_names'] = \
                 load_image_series_bytes(self.df['load_filenames'])
+
+            # Add images to combobox to allow for viewing
+            filenames = [os.path.basename(i) for i in self.df['orig_im_names']]
+            self.ui.comboBox.clear()
+            self.ui.comboBox.addItems(filenames)
 
             # Enable process flag
             self.process_flag = True
