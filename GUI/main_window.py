@@ -189,6 +189,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # code = 0
         json_dict = send_to_server(self.df)
         print(json_dict)
+        print("Testing")
         self.df['proc_im'] = json_dict["proc_im"]
 
         # while code == 0:

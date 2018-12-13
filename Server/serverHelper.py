@@ -87,7 +87,7 @@ def decode_images(base64_string):
     Args:
         base64_string: A list of image(s) encoded in base64 format
 
-    Returns: A list of decoded image(s), i.e. as float array(s)
+    Returns: A list of decoded image(s), i.e. as numpy array(s) of floats
     """
     ret = []
     for bytestring in base64_string:
@@ -95,22 +95,35 @@ def decode_images(base64_string):
         image_buf = io.BytesIO(image_bytes)
         i = mpimg.imread(image_buf, format='JPG')
         ret.append(i)
-        # plt.imshow(i, interpolation='nearest')
-        # plt.show()
     return ret
 
 
-def encode_images(image_path):
+def encode_images_from_file(image_paths):
     """
     Encodes the processed image(s).
 
     Args:
-        image_path: input image ex).jpg , .png, .tiff
+        image_paths: List of input image filepath Strings ex).jpg , .png, .tiff
 
     Returns: A list of encoded image(s) as ByteStrings
     """
     ret = []
-    for path in image_path:
+    for path in image_paths:
         with open(path, "rb") as image_file:
             ret.append((base64.b64encode(image_file.read())).decode('utf-8'))
+    return ret
+
+
+def encode_images(images):
+    """
+    Encodes the processed image(s).
+
+    Args:
+        images: A list of input images (nparrays)
+
+    Returns: A list of encoded image(s) as ByteStrings
+    """
+    ret = []
+    for image in images:
+        ret.append((base64.b64encode(image)).decode('utf-8'))
     return ret
