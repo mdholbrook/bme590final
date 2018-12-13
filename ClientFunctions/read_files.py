@@ -30,7 +30,7 @@ def load_image(imfile):
         2D or 3D numpy array of image values
     """
 
-    im = np.array(Image.open(imfile))
+    im = Image.open(imfile)
 
     return [im]
 
@@ -71,7 +71,7 @@ def load_zipped_image(zipfilename):
         for entry in archive.infolist():
             with archive.open(entry) as file:
                 tmp = Image.open(file)
-                img.append(np.array(tmp))
+                img.append(tmp)
                 filenames.append(file.name)
 
     # Return the read images

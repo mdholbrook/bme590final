@@ -11,7 +11,7 @@ def send_to_server(df):
 
     Returns: The output of the new_user endpoint (see documentation)
     """
-    encoded_images = encode_images_from_file(df['orig_im_names'])
+    encoded_images = encode_images_from_file(df['load_filenames'])
     # json_dict, code = requests.post(
     #     "https://vcm-7291.vm.duke.edu/new_user", json={
     #         "email": df['email'],
@@ -35,10 +35,10 @@ def send_to_server(df):
                 "images": encoded_images,
             }).json()
 
-        json_dict['error'] = ['']
-
+        # json_dict['error'] = ['']
+    #
     except BaseException:
-        return {'error': ['Sever unavailable!']}
+        return 'Sever unavailable!'
 
     # TODO: Figure out this image decoding error...
     # json_dict["proc_im"] = decode_images(json_dict["proc_im"])

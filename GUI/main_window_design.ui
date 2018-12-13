@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>595</width>
-    <height>428</height>
+    <height>526</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -330,7 +330,7 @@
       <x>10</x>
       <y>310</y>
       <width>571</width>
-      <height>101</height>
+      <height>171</height>
      </rect>
     </property>
     <property name="title">
@@ -342,7 +342,7 @@
        <x>10</x>
        <y>20</y>
        <width>551</width>
-       <height>71</height>
+       <height>141</height>
       </rect>
      </property>
      <property name="cursor" stdset="0">

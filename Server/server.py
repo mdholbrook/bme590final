@@ -61,7 +61,9 @@ def process_images():
     The second entry is an integer representing the HTTP status code.
     """
     # Reads in and validates the inputs from the request JSON
+    print('hello')
     user_data = request.get_json()
+    print(user_data)
     upload_time = datetime.datetime.now()
     try:
         validated_user_data = check_user_data(user_data)

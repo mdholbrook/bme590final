@@ -25,9 +25,15 @@ class MainWindow(QtWidgets.QMainWindow):
         # Set up self fields
         self.save_dialog = ''
         self.load_dialog = ''
+        self.filenames = ''
 
         # Callback for changing image selection via the ComboBox
         self.ui.comboBox.currentIndexChanged.connect(self.pullcombotext)
+
+        # Callback for changing image view buttons
+        self.ui.radioButtonShowBoth.toggled.connect(self.pullcombotext)
+        self.ui.radioButtonShowOriginal.toggled.connect(self.pullcombotext)
+        self.ui.radioButtonShowProcessed.toggled.connect(self.pullcombotext)
 
         # Callbacks for button presses
         self.ui.pushButtonApply.clicked.connect(self.apply_clicked)
@@ -160,9 +166,10 @@ class MainWindow(QtWidgets.QMainWindow):
                 load_image_series_bytes(self.df['load_filenames'])
 
             # Add images to combobox to allow for viewing
-            filenames = [os.path.basename(i) for i in self.df['orig_im_names']]
+            self.filenames = [os.path.basename(i) for i in self.df[
+                'orig_im_names']]
             self.ui.comboBox.clear()
-            self.ui.comboBox.addItems(filenames)
+            self.ui.comboBox.addItems(self.filenames)
 
             # Enable process flag
             self.process_flag = True
@@ -203,9 +210,9 @@ class MainWindow(QtWidgets.QMainWindow):
         json_dict = send_to_server(self.df)
 
         # Error handling
-        if not json_dict['error'] == ['']:
+        if type(json_dict) == str:
             # self.ui.listWidgetStatus.clear()
-            self.ui.listWidgetStatus.addItems(json_dict['error'])
+            self.ui.listWidgetStatus.addItems([json_dict])
 
         else:
             print(json_dict)
@@ -217,6 +224,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # TODO: Add a check to see if the processing is complete
             self.view_pros_flag = True
+
+        self.disable_options()
 
         # while code == 0:
         #
@@ -283,15 +292,27 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def pullcombotext(self, ind):
 
+        # Get droptext index
         self.df['imageInd'] = ind
+
+        # Get radiobutton selection for which image to view
+        self.df['show1'] = self.ui.radioButtonShowOriginal.isChecked()
+        self.df['show2'] = self.ui.radioButtonShowProcessed.isChecked()
+
+        if self.ui.radioButtonShowBoth.isChecked():
+            self.df['show1'] = True
+            self.df['show2'] = True
 
         # Update image metadata
         if self.df['show2']:
 
-            data = ['Image timestamp: %s' % self.df['timestamp'],
-                    'Processing time: %d' % self.df['processing_time'],
-                    'Image dimensions: [%d, %d]' % (self.df['im_dims'][0],
-                                                    self.df['im_dims'][1])]
+            data = ['Image name: ' + self.filenames[ind],
+                    'Started processing: %s' % self.df['timestamp'],
+                    'Batch processing time: ' + self.df['processing_time'],
+                    'Image dimensions: [%d, %d]'
+                    % (self.df['im_dims'][ind][0],
+                       self.df['im_dims'][ind][1]),
+                    '']
 
             # Update list box
             self.ui.listWidgetStatus.addItems(data)
