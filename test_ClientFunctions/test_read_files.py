@@ -3,14 +3,14 @@ from ClientFunctions.read_files import *
 
 
 @pytest.mark.parametrize("file, shape", [
-    ('TestImages/Lenna.png', (220, 220, 3)),
+    ('TestImages/Lenna.png', (220, 220)),
     ('TestImages/coins.png', (246, 300))
 ])
 def test_load_image(file, shape):
 
     im = load_image(file)
 
-    assert im[0].shape == shape
+    assert im[0].size == (shape[1], shape[0])
 
 
 def test_get_zip_names():
@@ -38,12 +38,12 @@ def test_load_zipped_image():
     file_sizes = [(256, 256),
                   (512, 512),
                   (246, 300),
-                  (2336, 3504, 3),
+                  (2336, 3504),
                   (2348, 3522),
-                  (256, 320, 3),
-                  (220, 220, 3),
+                  (256, 320),
+                  (220, 220),
                   (205, 232),
-                  (1632, 1224, 3)]
+                  (1632, 1224)]
     names = ['circles.png',
              'circlesBrightDark.png',
              'coins.png', 'foosball.jpg',
@@ -62,7 +62,7 @@ def test_load_zipped_image():
 
     # Assert that the images shapes are correct
     for i in range(len(ims)):
-        assert ims[i].shape == file_sizes[i]
+        assert ims[i].size == (file_sizes[i][1], file_sizes[i][0])
 
     for i in range(len(all_filenames)):
 
@@ -96,21 +96,21 @@ def test_load_image_series():
     shapes = [(256, 256),
               (512, 512),
               (246, 300),
-              (2336, 3504, 3),
+              (2336, 3504),
               (2348, 3522),
-              (256, 320, 3),
-              (220, 220, 3),
+              (256, 320),
+              (220, 220),
               (256, 256),
               (512, 512),
               (246, 300),
-              (2336, 3504, 3),
+              (2336, 3504),
               (2348, 3522),
-              (256, 320, 3),
-              (220, 220, 3),
+              (256, 320),
+              (220, 220),
               (205, 232),
-              (1632, 1224, 3),
+              (1632, 1224),
               (205, 232),
-              (1632, 1224, 3)]
+              (1632, 1224)]
 
     # Load test images
     ims, all_filenames = load_image_series(filenames)
@@ -121,4 +121,4 @@ def test_load_image_series():
     # Check the images sizes
     for z in range(len(ims)):
 
-        assert ims[z].shape == shapes[z]
+        assert ims[z].size == (shapes[z][1], shapes[z][0])

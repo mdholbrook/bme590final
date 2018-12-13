@@ -43,10 +43,10 @@ def show_ims(im):
 
     # Generate image viewer
     # viewer = ImageViewer(im)
-    im = Image.fromarray(im)
-    im.show()
+
     # Show image
     # viewer.show()
+    im.show()
 
 
 def show_hist(df):
@@ -102,7 +102,7 @@ def show_hist(df):
                 fig, ax = plt.subplots(1, len(colors))
 
             # Allow BW images to be indexed
-            if not type(ax) == list:
+            if len(colors) == 1:
                 ax = [ax]
 
             # Plot original image
@@ -148,13 +148,10 @@ def get_num_channels(df):
         int: the number of channels in the image
     """
     ind = df['imageInd']
-    im_shape = df['orig_im_array'][ind].shape
+    im_bands = df['orig_im_array'][ind].getbands()
 
-    if len(im_shape) == 2:
-        num_chans = 1
-
-    else:
-        num_chans = im_shape[2]
+    # Assigne the number of channels based on image type
+    num_chans = len(im_bands)
 
     return num_chans
 
@@ -198,8 +195,7 @@ def separate_ims(df):
     ind = df['imageInd']
 
     if df['show1'] and df['show2']:
-        im = np.concatenate((df['orig_im_array'][ind], df['proc_im'][ind]),
-                            axis=1)
+        im = concatenate_ims([df['orig_im_array'][ind], df['proc_im'][ind]])
 
     elif df['show1']:
         im = df['orig_im_array'][ind]
@@ -209,15 +205,38 @@ def separate_ims(df):
     return im
 
 
+def concatenate_ims(ims):
+
+    num_ims = len(ims)
+
+
+    # Get image dimensions
+    widths, heights = zip(*(i.size for i in ims))
+
+    total_width = sum(widths)
+    total_height = max(heights)
+
+    # Make new concatenated image
+    new_im = Image.new(mode=ims[0].mode, size=(total_width, total_height))
+
+    x_offset = 0
+    for im in ims:
+        new_im.paste(im, (x_offset, 0))
+        x_offset += im.size[0]
+
+    return new_im
+
+
+
+
 if __name__ == "__main__":
 
     # Load sample image
-    im1 = data.coffee()
-    im1 = np.asarray(im1, dtype="int32")
+    im1 = Image.fromarray(data.coffee())
     im2 = im1.copy()
 
     # Set up sample dict
-    df = {}
+    df = dict()
     df['orig_im_array'] = [im1]
     df['proc_im'] = [im2]
 
@@ -225,6 +244,7 @@ if __name__ == "__main__":
     df['show2'] = True
 
     df['imageInd'] = 0
+    df['showHist'] = True
 
     # Set up histograms
     df['histDataOrig'] = [[[0, 1, 2, 3, 4, 5, 6],

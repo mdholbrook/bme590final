@@ -218,6 +218,8 @@ class MainWindow(QtWidgets.QMainWindow):
             # TODO: Add a check to see if the processing is complete
             self.view_pros_flag = True
 
+        self.disable_options()
+
         # while code == 0:
         #
         #     code, images = get_back_data()

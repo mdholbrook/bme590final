@@ -19,6 +19,7 @@ def check_user_data(user_data):
     """
 
     # Ensures that all expected keys are in the dictionary
+    print(user_data)
     if "email" not in user_data or \
             "hist" not in user_data or \
             "cont" not in user_data or \
@@ -49,13 +50,13 @@ def check_user_data(user_data):
             type(user_data["cont"]) != bool or \
             type(user_data["log"]) != bool or \
             type(user_data["rev"]) != bool or \
-            type(user_data["median"]) != bool:
+            type(user_data["gamma"]) != bool:
         # app.logger.error("Post-processing method flag not of type bool.")
         raise TypeError
 
     # Ensures that only one postprocessing method was chosen
     if (user_data["hist"] + user_data["cont"] + user_data["log"] +
-       user_data["rev"] + user_data["median"]) != 1:
+       user_data["rev"] + user_data["gamma"]) != 1:
         # app.logger.error("Too many post-processing methods chosen.")
         raise RuntimeError
 
