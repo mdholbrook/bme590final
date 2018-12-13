@@ -94,7 +94,7 @@ def flatten(filenames):
     return flat_filenames
 
 
-def load_image_series(filenames):
+def load_image_series_bytes(filenames):
     """This function takes a list of filenames and returns a list of numpy
     arrays containing image data.
 
@@ -125,6 +125,39 @@ def load_image_series(filenames):
 
         im = load_file_bytes(file)
         ims.append(im)
+
+    # Convert lists of lists into lists
+    all_filenames = flatten([all_filenames])
+
+    return ims, all_filenames
+
+
+def load_image_series(filenames):
+    """This function takes a list of filenames and returns a list of numpy
+    arrays containing image data.
+    Args:
+        filenames (list of str): a list of filenames selected in the GUI
+    Returns:
+        list numpy arrays containing image data
+    """
+
+    # Cycle through each file
+    ims = []
+    all_filenames = []
+    for file in filenames:
+
+        # Get file extension
+        _, ext = os.path.splitext(file)
+
+        # If file is a zip file read with load_zipped_image
+        if ext == '.zip':
+            im, filename = load_zipped_image(file)
+            ims.append(im)
+            all_filenames.append(filename)
+
+        else:
+            ims.append(load_image(file))
+            all_filenames.append(file)
 
     # Convert lists of lists into lists
     ims = flatten(ims)

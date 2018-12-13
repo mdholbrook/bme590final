@@ -162,9 +162,9 @@ if __name__ == "__main__":
 
     files = ['../TestImages/foosball.jpg', '../TestImages/coins.png']
 
-    from ClientFunctions.read_files import load_image_series
+    from ClientFunctions.read_files import load_image_series_bytes
 
-    ims = load_image_series(files)
+    ims = load_image_series_bytes(files)
 
     files = ['foosball.jpg', 'coins.png']
 
