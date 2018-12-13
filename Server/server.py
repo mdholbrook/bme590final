@@ -25,7 +25,7 @@ app.logger.addHandler(handler)
 
 
 # SERVER ENDPOINT
-@app.route("/imageprocessing", methods=["POST"])
+@app.route("/new_user", methods=["POST"])
 def process_images():
     """
     Takes in a request dictionary containing:
@@ -35,16 +35,27 @@ def process_images():
         'log' : boolean of whether this post-processing method was toggled
         'rev' : boolean of whether this post-processing method was toggled
         'median' : boolean of whether this post-processing method was toggled
-        # TODO: write these on client side first
+        # TODO: write image encode on client side
         'images' : list of ByteString(s)
-        'extension' : String representing requested return image ext. type
         # TODO: add whatever other inputs aren't reflected here yet
 
     Returns: A tuple of length 2.  The first entry is a JSON dictionary for use
     by the client GUI containing the following key-value pairs:
 
-    # TODO: figure out what exactly the client needs returned
-    <Insert key-value pairs here>
+        "proc_im": a list of base64-encoded postprocessed images
+        "histDataOrig": a list of histogram data for each original image.  each
+            entry is a list that contains two more lists, one for bins and one
+            for intensity values.  the list of bins contains integers, and the
+            list of intensity values can contain either integers or lists of 3
+            integers, depending on whether the image is black and white or
+            RGB color, respectively.
+        "histDataProc": a list of histogram data for each postprocessed image.
+            harbors the same data structure as above.
+        "upload_timestamp": a String representing the time at which the server
+            received the uploaded images and data
+        "latency": a String representing the total latency on the server side
+
+    # TODO: add whatever other outputs aren't reflected here yet
     -list of images that couldn't be read
 
     The second entry is an integer representing the HTTP status code.
@@ -72,7 +83,7 @@ def process_images():
         user.uploadTimestamp = upload_time,
         user.processedImages = [],
         user.processTimestamp = "",
-        user.returnExtension = validated_user_data["extension"]
+        # user.returnExtension = validated_user_data["extension"]
     except errors.DoesNotExist:
         user = User(validated_user_data["email"],
                     previousMetrics={"hist": [0, []],
@@ -84,7 +95,7 @@ def process_images():
                     uploadTimestamp=upload_time,
                     processedImages=[],
                     processTimestamp="",
-                    returnExtension=validated_user_data["extension"]
+                    # returnExtension=validated_user_data["extension"]
                     )
     user.save()
 
@@ -96,7 +107,6 @@ def process_images():
 
     # Calculates histogram data for all original images and packages it
     # to return to GUI client
-    # TODO: Account for channels
     orig_histogram_data = []
     for image in user.uploadedImages:
         data_per_image = []
@@ -147,9 +157,11 @@ def process_images():
 
     # Calculates histogram data for all processed images and packages it
     # to return to GUI client
-    # TODO: Account for channels
     proc_histogram_data = []
+    # TODO: Properly record image sizes in pixels
+    image_sizes = []
     for image in user.processedImages:
+        # image_sizes.append(image.size)
         data_per_image = []
         if image.shape[2] == 1:
             hist, bins = view_histogram_bw(image)
@@ -167,14 +179,12 @@ def process_images():
     for latency in processing_latency:
         total_latency += latency
 
-    # TODO: Construct final JSON of data to be returned.  Need image sizes in
-    # TODO: ...pixels
-
     return jsonify({"proc_im": images_to_return,
                     "histDataOrig": orig_histogram_data,
                     "histDataProc": proc_histogram_data,
                     "upload_timestamp": user.uploadTimestamp,
-                    "latency": total_latency}), 200
+                    "latency": total_latency,
+                    "image_sizes": image_sizes}), 200
 
 
 if __name__ == "__main__":

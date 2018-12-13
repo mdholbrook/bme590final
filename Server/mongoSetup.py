@@ -15,7 +15,6 @@ from pymodm import MongoModel, fields, connect
         -currently postprocessed image(s) --> list of ByteStrings
         -timestamp of current image postprocessing completion --> String
         (datetime)
-        -current extension type of requested return image --> String
 """
 
 connect("mongodb://alanr:bme590final@ds241493.mlab.com:41493/bme590final")
@@ -28,4 +27,4 @@ class User(MongoModel):
     uploadTimestamp = fields.CharField()
     processedImages = fields.ListField()
     processTimestamp = fields.CharField()
-    returnExtension = fields.CharField()
+    # returnExtension = fields.CharField()
