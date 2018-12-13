@@ -184,7 +184,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.df['cont'] = self.ui.radioButtonContrast.isChecked()
         self.df['log'] = self.ui.radioButtonLog.isChecked()
         self.df['rev'] = self.ui.radioButtonReverse.isChecked()
-        self.df['median'] = self.ui.radioButtonMedian.isChecked()
+        self.df['gamma'] = self.ui.radioButtonGamma.isChecked()
 
         print(self.df)
 

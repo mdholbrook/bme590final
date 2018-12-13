@@ -46,11 +46,11 @@ class Ui_MainWindow(object):
         self.radioButtonReverse.setObjectName("radioButtonReverse")
         self.buttonGroup.addButton(self.radioButtonReverse)
         self.verticalLayout.addWidget(self.radioButtonReverse)
-        self.radioButtonMedian = \
+        self.radioButtonGamma = \
             QtWidgets.QRadioButton(self.verticalLayoutWidget)
-        self.radioButtonMedian.setObjectName("radioButtonMedian")
-        self.buttonGroup.addButton(self.radioButtonMedian)
-        self.verticalLayout.addWidget(self.radioButtonMedian)
+        self.radioButtonGamma.setObjectName("radioButtonGamma")
+        self.buttonGroup.addButton(self.radioButtonGamma)
+        self.verticalLayout.addWidget(self.radioButtonGamma)
         self.pushButtonApply = QtWidgets.QPushButton(self.groupBox)
         self.pushButtonApply.setGeometry(QtCore.QRect(200, 170, 91, 23))
         self.pushButtonApply.setObjectName("pushButtonApply")
@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
             QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.radioButtonShowOriginal = \
+        self.radioButtonShowOriginal =\
             QtWidgets.QRadioButton(self.verticalLayoutWidget_2)
         self.radioButtonShowOriginal.setChecked(True)
         self.radioButtonShowOriginal.setObjectName("radioButtonShowOriginal")
@@ -135,8 +135,8 @@ class Ui_MainWindow(object):
         self.groupBox_4.setObjectName("groupBox_4")
         self.listWidgetStatus = QtWidgets.QListWidget(self.groupBox_4)
         self.listWidgetStatus.setGeometry(QtCore.QRect(10, 20, 551, 71))
-        self.listWidgetStatus.viewport().\
-            setProperty("cursor", QtGui.QCursor(QtCore.Qt.IBeamCursor))
+        self.listWidgetStatus.viewport()\
+            .setProperty("cursor", QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.listWidgetStatus.setObjectName("listWidgetStatus")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -152,39 +152,51 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.groupBox.setTitle(_translate("MainWindow", "Image Corrections"))
+        MainWindow.setWindowTitle(
+                            _translate("MainWindow", "MainWindow"))
+        self.groupBox.setTitle(
+                            _translate("MainWindow", "Image Corrections"))
         self.radioButtonHist.setText(
-            _translate("MainWindow", "Histogram Equalization"))
+                            _translate("MainWindow", "Histogram Equalization"))
         self.radioButtonContrast.setText(
-            _translate("MainWindow", "Contrast Stretching"))
+                            _translate("MainWindow", "Contrast Stretching"))
         self.radioButtonLog.setText(
-            _translate("MainWindow", "Log Compression"))
+                            _translate("MainWindow", "Log Compression"))
         self.radioButtonReverse.setText(
-            _translate("MainWindow", "Reverse Video"))
-        self.radioButtonMedian.setText(
-            _translate("MainWindow", "Gamma Correction"))
+                            _translate("MainWindow", "Reverse Video"))
+        self.radioButtonGamma.setText(
+                            _translate("MainWindow", "Gamma Correction"))
         self.pushButtonApply.setText(
-            _translate("MainWindow", "Apply Processing"))
+                            _translate("MainWindow", "Apply Processing"))
         self.toolButtonLoad.setText(
-            _translate("MainWindow", "..."))
-        self.groupBox_2.setTitle(_translate("MainWindow", "Show Images"))
+                            _translate("MainWindow", "..."))
+        self.groupBox_2.setTitle(
+                            _translate("MainWindow", "Show Images"))
         self.pushButtonImageViewer.setText(
-            _translate("MainWindow", "ImageViewer"))
+                            _translate("MainWindow", "ImageViewer"))
         self.radioButtonShowOriginal.setText(
-            _translate("MainWindow", "Original"))
+                            _translate("MainWindow", "Original"))
         self.radioButtonShowProcessed.setText(
-            _translate("MainWindow", "Processed"))
-        self.radioButtonShowBoth.setText(_translate("MainWindow", "Both"))
-        self.checkBoxShowHist.setText(_translate("MainWindow", "Histograms"))
+                            _translate("MainWindow", "Processed"))
+        self.radioButtonShowBoth.setText(
+                            _translate("MainWindow", "Both"))
+        self.checkBoxShowHist.setText(
+                            _translate("MainWindow", "Histograms"))
         self.groupBox_3.setTitle(
-            _translate("MainWindow", "Download Processed Image"))
-        self.radioButtonJPEG.setText(_translate("MainWindow", "JPEG"))
-        self.radioButtonPNG.setText(_translate("MainWindow", "PNG"))
-        self.radioButtonTIFF.setText(_translate("MainWindow", "TIFF"))
-        self.pushButtonDonwload.setText(_translate("MainWindow", "Download"))
-        self.label.setText(_translate("MainWindow", "Input images"))
-        self.label_2.setText(_translate("MainWindow", "Email address"))
+                        _translate("MainWindow", "Download Processed Image"))
+        self.radioButtonJPEG.setText(
+                            _translate("MainWindow", "JPEG"))
+        self.radioButtonPNG.setText(
+                            _translate("MainWindow", "PNG"))
+        self.radioButtonTIFF.setText(
+                            _translate("MainWindow", "TIFF"))
+        self.pushButtonDonwload.setText(
+                            _translate("MainWindow", "Download"))
+        self.label.setText(
+                            _translate("MainWindow", "Input images"))
+        self.label_2.setText(
+                            _translate("MainWindow", "Email address"))
         self.pushButtonEmail.setText(
-            _translate("MainWindow", "Validate Email"))
-        self.groupBox_4.setTitle(_translate("MainWindow", "Status"))
+                            _translate("MainWindow", "Validate Email"))
+        self.groupBox_4.setTitle(
+                            _translate("MainWindow", "Status"))

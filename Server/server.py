@@ -35,7 +35,7 @@ def process_images():
         'cont' : boolean of whether this post-processing method was toggled
         'log' : boolean of whether this post-processing method was toggled
         'rev' : boolean of whether this post-processing method was toggled
-        'median' : boolean of whether this post-processing method was toggled
+        'gamma' : boolean of whether this post-processing method was toggled
         'images' : list of ByteString(s)
         # TODO: add whatever other inputs aren't reflected here yet
 
@@ -90,7 +90,7 @@ def process_images():
                                      "cont": [0, []],
                                      "log": [0, []],
                                      "rev": [0, []],
-                                     "median": [0, []]},
+                                     "gamma": [0, []]},
                     uploadedImages=validated_user_data["images"],
                     uploadTimestamp=upload_time,
                     processedImages=["placeholder"],
@@ -146,12 +146,12 @@ def process_images():
             user.previousMetrics["rev"][0] += 1
             processing_latency.append(process_time-upload_time)
             user.previousMetrics["rev"][1].append(process_time-upload_time)
-        elif validated_user_data["median"]:
+        elif validated_user_data["gamma"]:
             transformed_image.append(gamma_correction(image))
             process_time = datetime.datetime.now()
-            user.previousMetrics["median"][0] += 1
+            user.previousMetrics["gamma"][0] += 1
             processing_latency.append(process_time-upload_time)
-            user.previousMetrics["median"][1].append(process_time-upload_time)
+            user.previousMetrics["gamma"][1].append(process_time-upload_time)
     user.processedImages = transformed_image
     user.processTimestamp = process_time
 

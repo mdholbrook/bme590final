@@ -31,7 +31,7 @@ def send_to_server(df):
             "cont": df['cont'],
             "log": df['log'],
             "rev": df['rev'],
-            "median": df['median'],
+            "gamma": df['gamma'],
             "images": encoded_images,
         }).json()
 
