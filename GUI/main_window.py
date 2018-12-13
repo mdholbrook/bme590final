@@ -263,10 +263,10 @@ class MainWindow(QtWidgets.QMainWindow):
         # Update image metadata
         if self.df['show2']:
 
-            data = ['Image timestamp: %s' %self.df['timestamp'],
-                    'Processing time: %d' %self.df['processing_time'],
-                    'Image dimensions: [%d, %d]' %(self.df['im_dims'][0],
-                                                   self.df['im_dims'][1])]
+            data = ['Image timestamp: %s' % self.df['timestamp'],
+                    'Processing time: %d' % self.df['processing_time'],
+                    'Image dimensions: [%d, %d]' % (self.df['im_dims'][0],
+                                                    self.df['im_dims'][1])]
 
             # Update list box
             self.ui.listWidgetStatus.addItems(data)
