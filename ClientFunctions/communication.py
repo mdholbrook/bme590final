@@ -1,6 +1,5 @@
 import requests
-from Server.serverHelper import encode_images, encode_images_from_file, \
-    decode_images
+from Server.serverHelper import *
 
 
 def send_to_server(df):
