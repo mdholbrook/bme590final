@@ -203,7 +203,7 @@ class MainWindow(QtWidgets.QMainWindow):
         json_dict = send_to_server(self.df)
 
         # Error handling
-        if not json_dict['error'] == '':
+        if not json_dict['error'] == ['']:
             # self.ui.listWidgetStatus.clear()
             self.ui.listWidgetStatus.addItems(json_dict['error'])
 
