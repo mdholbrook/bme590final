@@ -24,16 +24,23 @@ def send_to_server(df):
     #         "images": encoded_images,
     #     }).json()
 
-    json_dict = requests.post(
-        "http://127.0.0.1:5000/new_user", json={
-            "email": df['email'],
-            "hist": df['hist'],
-            "cont": df['cont'],
-            "log": df['log'],
-            "rev": df['rev'],
-            "median": df['median'],
-            "images": encoded_images,
-        }).json()
+    try:
+        json_dict = requests.post(
+            "http://127.0.0.1:5000/new_user", json={
+                "email": df['email'],
+                "hist": df['hist'],
+                "cont": df['cont'],
+                "log": df['log'],
+                "rev": df['rev'],
+                "gamma": df['gamma'],
+                "images": encoded_images,
+            }).json()
+
+        json_dict['error'] = ''
+
+    except BaseException:
+        # as e:
+        return {'error': ['Sever unavailable!']}
 
     # TODO: Figure out this image decoding error...
     # json_dict["proc_im"] = decode_images(json_dict["proc_im"])

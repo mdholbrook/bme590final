@@ -102,7 +102,7 @@ def show_hist(df):
                 fig, ax = plt.subplots(1, len(colors))
 
             # Allow BW images to be indexed
-            if len(ax) == 1:
+            if not type(ax) == list:
                 ax = [ax]
 
             # Plot original image

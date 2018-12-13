@@ -37,14 +37,17 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.pushButtonImageViewer.clicked.connect(self.image_viewer)
 
         # Gray out options before loading a file
-        self.process_flag = False
-        self.viewer_flag = False
-        self.save_flag = False
-        self.load_flag = False
+        self.process_flag = False       # Allow processing
+        self.viewer_flag = False        # Allower viewer
+        self.view_pros_flag = False     # Allow viewer to show processed ims
+        self.save_flag = False          # Allow saving images
+        self.load_flag = False          # Allow loading images
         self.disable_options()
 
         # Initialize dictionary for saving user inputs
         self.df = {}
+        self.df['show1'] = False
+        self.df['show2'] = False
 
         # Load previous data
         self.preload_email()
@@ -122,6 +125,11 @@ class MainWindow(QtWidgets.QMainWindow):
         # Disable viewing image if images are not loaded, do not exist
         self.ui.pushButtonImageViewer.setEnabled(self.viewer_flag)
 
+        # Disable showing histograms or processed image if not processed
+        self.ui.checkBoxShowHist.setEnabled(self.view_pros_flag)
+        self.ui.radioButtonShowProcessed.setEnabled(self.view_pros_flag)
+        self.ui.radioButtonShowBoth.setEnabled(self.view_pros_flag)
+
         # Disable Download push button if no image is loaded
         self.ui.pushButtonDonwload.setEnabled(self.save_flag)
 
@@ -163,7 +171,7 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             # Show error message
             error_dialog = QtWidgets.QErrorMessage(self)
-            error_dialog.showMessage("Please enter a valid email address")
+            error_dialog.showMessage("Please enter valid image files")
 
             self.process_flag = False
             self.viewer_flag = False
@@ -182,7 +190,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.df['cont'] = self.ui.radioButtonContrast.isChecked()
         self.df['log'] = self.ui.radioButtonLog.isChecked()
         self.df['rev'] = self.ui.radioButtonReverse.isChecked()
-        self.df['median'] = self.ui.radioButtonMedian.isChecked()
+        self.df['gamma'] = self.ui.radioButtonGamma.isChecked()
 
         print(self.df)
 
@@ -193,12 +201,22 @@ class MainWindow(QtWidgets.QMainWindow):
         # TODO: Add call to communication function
         # code = 0
         json_dict = send_to_server(self.df)
-        print(json_dict)
-        print("Testing")
-        self.df['proc_im'] = json_dict["proc_im"]
-        self.df['im_dims'] = json_dict["image_sizes"]
-        self.df["processing_time"] = json_dict["latency"]
-        self.df["timestamp"] = json_dict["upload_timestamp"]
+
+        # Error handling
+        if not json_dict['error'] == '':
+            # self.ui.listWidgetStatus.clear()
+            self.ui.listWidgetStatus.addItems(json_dict['error'])
+
+        else:
+            print(json_dict)
+            print("Testing")
+            self.df['proc_im'] = json_dict["proc_im"]
+            self.df['im_dims'] = json_dict["image_sizes"]
+            self.df["processing_time"] = json_dict["latency"]
+            self.df["timestamp"] = json_dict["upload_timestamp"]
+
+            # TODO: Add a check to see if the processing is complete
+            self.view_pros_flag = True
 
         # while code == 0:
         #

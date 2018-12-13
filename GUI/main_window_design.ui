@@ -80,7 +80,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButtonMedian">
+       <widget class="QRadioButton" name="radioButtonGamma">
         <property name="text">
          <string>Gamma Correction</string>
         </property>
