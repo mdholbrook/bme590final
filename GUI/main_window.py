@@ -177,9 +177,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         """
 
-        # Load files
-        # self.df['orig_im'] = load_image_series(self.df['load_filenames'])
-
         # Get processing settings
         self.df['hist'] = self.ui.radioButtonHist.isChecked()
         self.df['cont'] = self.ui.radioButtonContrast.isChecked()
@@ -224,6 +221,8 @@ class MainWindow(QtWidgets.QMainWindow):
         # Get histomgram request
         self.df['showHist'] = self.ui.checkBoxShowHist.isChecked()
 
+        # TODO: update status box with image info
+
         # Call image viewer
         run_image_viewer(self.df)
 
@@ -260,6 +259,17 @@ class MainWindow(QtWidgets.QMainWindow):
     def pullcombotext(self, ind):
 
         self.df['imageInd'] = ind
+
+        # Update image metadata
+        if self.df['show2']:
+
+            data = ['Image timestamp: %s' %self.df['timestamp'],
+                    'Processing time: %d' %self.df['processing_time'],
+                    'Image dimensions: [%d, %d]' %(self.df['im_dims'][0],
+                                                   self.df['im_dims'][1])]
+
+            # Update list box
+            self.ui.listWidgetStatus.addItems(data)
 
 
 if __name__ == "__main__":
