@@ -11,6 +11,11 @@ def send_to_server(df):
 
     Returns: The output of the new_user endpoint (see documentation)
     """
+
+    # Load communication information
+    comms = read_comms()
+    send_address = comms[1]
+
     encoded_images = encode_images_from_file(df['load_filenames'])
     # json_dict, code = requests.post(
     #     "https://vcm-7291.vm.duke.edu/new_user", json={
@@ -25,7 +30,7 @@ def send_to_server(df):
 
     try:
         json_dict = requests.post(
-            "http://127.0.0.1:5000/new_user", json={
+            send_address + "/new_user", json={
                 "email": df['email'],
                 "hist": df['hist'],
                 "cont": df['cont'],
@@ -40,7 +45,7 @@ def send_to_server(df):
     except BaseException:
         return 'Server unavailable!'
 
-    # TODO: Figure out this image decoding error...
+    # Decode images
     json_dict["proc_im"] = decode_images(json_dict["proc_im"])
     print(json_dict["proc_im"])
 
