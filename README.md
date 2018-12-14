@@ -80,3 +80,23 @@ has been treated with `reverse video` processing.
 
 ![Original and processed images](ProjectIms/lilly_hist.png)
 
+
+### Downloading images
+Images can be downloaded in the format of your choice by selecting the format
+ radiobutton (`JPEG`, `PNG`, or `TIFF`) and clicking `Download`. The dialog 
+ box brought up here will recommend a download location and name based on the
+  names of the input files. If more than one files were loaded into the 
+  program the save options will be limited to zip format. A zip file of 
+  processed images in the format specified by the radio buttons will be 
+  downloaded and saved to disk.
+  
+  
+  ## About the server
+  The server uses a RESTful API which provides interactions with the local 
+  GUI client via a web service. The local GUI posts to `/new_user` which 
+  handles all following requests. Images are encoded using base64 and sent 
+  via this mechanism. The images are decoded, processed, encoded, before 
+  being sent back to the GUI for viewing/downloading. This server is 
+  currently running at `http://vcm-7304.vm.duke.edu:5000`. In the release of 
+  this software the GUI will point to this address.
+
