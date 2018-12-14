@@ -39,7 +39,7 @@ def view_color_histogram(image):
     return hist_all, bins
 
 
-def histogram_eq(img):
+def histogram_eq(image):
     """
     Args: Histogram equalization is a method in image processing of contrast
     adjustment using the image's histogram.
@@ -47,7 +47,7 @@ def histogram_eq(img):
     Returns: Histogram equalize version of the image
     """
 
-    img_y_cr_cb = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
+    img_y_cr_cb = cv2.cvtColor(image, cv2.COLOR_BGR2YCrCb)
     y, cr, cb = cv2.split(img_y_cr_cb)
 
     # Applying equalize Hist operation on Y channel.
