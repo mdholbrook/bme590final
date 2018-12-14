@@ -243,3 +243,17 @@ def save_ims_to_memory(user):
     logging.debug(type(memory_file[0]))
 
     return file_paths
+
+
+def read_comms():
+    """
+    This function returns communiation addresses for a given computer.
+    Returns:
+        list: a list containing server broadcating address and client access
+            address
+    """
+
+    with open('comms.txt', 'r') as f:
+        comms = f.read().splitlines()
+
+    return comms

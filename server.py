@@ -7,7 +7,7 @@ from pymodm import errors
 from pymodm import connect
 from Server.mongoSetup import User
 from Server.serverHelper import check_user_data, decode_images, \
-    encode_images, compute_histograms, save_ims_to_memory
+    encode_images, compute_histograms, save_ims_to_memory, read_comms
 from ImageProcessing.ImgFunctions import histogram_eq, contrast_stretching, \
     log_compression, reverse_video, gamma_correction
 import io
@@ -198,4 +198,5 @@ def process_images():
 
 if __name__ == "__main__":
     connect("mongodb://alanr:bme590final@ds241493.mlab.com:41493/bme590final")
-    app.run()
+    comms = read_comms()
+    app.run(comms[0])
