@@ -1,7 +1,7 @@
 import pytest
 import os
 from ClientFunctions.write_files import *
-from test_ClientFunctions.utils import *
+from ClientFunctions.read_files import load_image_series, get_zip_names
 
 
 def clean_up(files):

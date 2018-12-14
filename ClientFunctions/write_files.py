@@ -15,7 +15,7 @@ def write_image(filename, im, fileformat):
 
     """
 
-    img = Image.fromarray(im[0])
+    img = im[0]
     img.save(filename, fileformat)
 
 
@@ -45,7 +45,7 @@ def write_zip(files, ims, fileformat):
     for i in range(len(files)):
 
         # Get a single image and create a PIL object
-        im = Image.fromarray(ims[i])
+        im = ims[i]
 
         # Set up a temporary image buffer
         tmp = BytesIO()
