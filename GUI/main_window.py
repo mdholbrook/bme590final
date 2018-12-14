@@ -58,8 +58,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Update status
         self.ui.listWidgetStatus.addItems(['Welcome to the BME590 Image '
-                                         'processing GUI!',
-                                          'Please enter a valid email address'])
+                                           'processing GUI!',
+                                           'Please enter a valid email '
+                                           'address'])
         self.ui.listWidgetStatus.scrollToBottom()
 
         # Load previous data
@@ -208,7 +209,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self.process_flag = False
             self.viewer_flag = False
 
-
         self.disable_options()
 
     def apply_clicked(self):
@@ -288,7 +288,6 @@ class MainWindow(QtWidgets.QMainWindow):
                                                'imageInd']]])
         self.ui.listWidgetStatus.scrollToBottom()
 
-
     def download_clicked(self):
         """The "Download" button was clicked
 
@@ -318,7 +317,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.listWidgetStatus.addItems(['File saved to:',
                                            self.df['save_filename']])
         self.ui.listWidgetStatus.scrollToBottom()
-
 
     def pullcombotext(self, ind):
 

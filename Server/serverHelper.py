@@ -1,12 +1,11 @@
 import base64
-import io
+from io import BytesIO
 from PIL import Image
 from zipfile import ZipFile
 import numpy as np
-import matplotlib.image as mpimg
 import logging
 from PIL import Image
-from ImageProcessing.ImgFunctions import view_color_histogram, view_histogram_bw
+from ImageProcessing.ImgFunctions import *
 
 
 def check_user_data(user_data):
@@ -95,7 +94,7 @@ def decode_images(base64_string):
     ret = []
     for bytestring in base64_string:
         image_bytes = base64.b64decode(bytestring)
-        image_buf = io.BytesIO(image_bytes)
+        image_buf = BytesIO(image_bytes)
 
         try:
             i = Image.open(image_buf)
@@ -152,7 +151,7 @@ def unpack_zip_files(zip_file):
 
     # Open the zip file
     zip_file.seek(0)
-    file = ZipFile(io.BytesIO(zip_file.read()))
+    file = ZipFile(BytesIO(zip_file.read()))
 
     # Get the list of file contents
     names = file.infolist()
@@ -224,7 +223,7 @@ def save_ims_to_memory(user):
         # import matplotlib.pyplot as plt
         # plt.imshow(image), plt.show()
 
-        memory_file.append(io.BytesIO())
+        memory_file.append(BytesIO())
         if len(image.shape) == 2:
             if image.dtype == bool:
                 image = image.astype(np.uint8)

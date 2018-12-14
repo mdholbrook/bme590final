@@ -48,3 +48,17 @@ def test_unpack_zip_files():
     # Verify that the input and output images are identical
     for im, pim in zip(ims, unpacked_ims):
         assert (np.array(im) == np.array(pim)).all()
+
+
+def test_compute_histograms():
+
+    im, _ = load_image_series(['TestImages/Lenna.png'])
+    hist, size = compute_histograms([np.array(im[0])])
+
+    # Check sizes
+    assert size[0] == [220, 220]
+    assert len(hist) == 1
+    assert len(hist[0]) == 2
+    assert len(hist[0][0]) == 257
+    assert len(hist[0][1]) == 3
+    assert len(hist[0][1][0]) == 256
