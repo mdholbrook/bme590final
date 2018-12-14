@@ -37,6 +37,46 @@ the following dialog box:
 ![load image dialog](ProjectIms/open_im.png)
 
 Images will be loaded into memory once they have been selected. The field 
-titled `Input images` will be updated to show the first image selected.
+titled `Input images` cannot be edited by the user, but will be updated to show 
+the first image selected.
 
+### Processing images
+For this project, a set of 5 image processing tasks are available:
+* Histogram equalization
+* Contrast stretching
+* Log compression
+* Reverse video
+* Gamma correction
+
+Each of these are relatively simple transforms which alter the contrast of 
+the image. These work on both RGB and black-and-white images.
+
+__Note__: histogram equalization usually only works on black-and-white 
+images. From https://prateekvjoshi.com/2013/11/22/histogram-equalization-of-rgb-images/:
+
+>Histogram equalization is a non-linear process. Channel splitting and equalizing each channel separately is incorrect. Equalization involves intensity values of the image, not the color components. So for a simple RGB color image, histogram equalization cannot be applied directly on the channels. It needs to be applied in such a way that the intensity values are equalized without disturbing the color balance of the image.
+
+We have used OpenCV to convert RBG imges to luminescence, blue difference and
+ ref difference (YCbCr). We have then performed histogram equalization on 
+ only the luninescence channel before recombining the image back to GB.
+ 
+ The GUI will wait until the prcessing on the server has completed before 
+ allowing further actions.
+ 
+ ### Viewing the images
+ Processed images will be shown in a drop down menu. These can be selected to
+  choose which image to view. Options are available for showing the original,
+   processed, or both images. Histograms will also be displayed if the 
+   `Histograms` box is checked.
+
+![GUI after processing](ProjectIms/gui_ims.png)
+
+The image will launch in your system's image viewer. You may be prompted to 
+select the viewer before seing the image appear. If the `Both` option is 
+selected the original and processed images will appear side-by-side, on the 
+left and right respectively. The images histograms will appear as a separate 
+[Matplotlib](https://matplotlib.org/) plot. In the example below the image 
+has been treated with `reverse video` processing.
+
+| [Original and processed images](ProjectIms/lilly.png) | [Histograms](ProjectIms/hist.PNG) |
 
