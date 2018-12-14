@@ -2,6 +2,7 @@ import base64
 import io
 from PIL import Image
 from zipfile import ZipFile
+import numpy as np
 import matplotlib.image as mpimg
 import logging
 from PIL import Image
@@ -19,7 +20,7 @@ def check_user_data(user_data):
     """
 
     # Ensures that all expected keys are in the dictionary
-    print(user_data)
+    # print(user_data)
     if "email" not in user_data or \
             "hist" not in user_data or \
             "cont" not in user_data or \
@@ -94,8 +95,16 @@ def decode_images(base64_string):
     for bytestring in base64_string:
         image_bytes = base64.b64decode(bytestring)
         image_buf = io.BytesIO(image_bytes)
-        i = Image.open(image_buf)
-        ret.append(i)
+
+        try:
+            i = Image.open(image_buf)
+            ret.append(i)
+
+        except OSError:
+            ims = unpack_zip_files(image_buf)
+
+            for i in ims:
+                ret.append(np.array(i))
     return ret
 
 

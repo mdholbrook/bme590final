@@ -70,9 +70,9 @@ def process_images():
                         datefmt='%m/%d/%Y %I:%M:%S %p')
 
     # Reads in and validates the inputs from the request JSON
-    print('hello')
+    # print('hello')
     user_data = request.get_json()
-    print(user_data)
+    # print(user_data)
     upload_time = datetime.datetime.now()
     try:
         validated_user_data = check_user_data(user_data)
@@ -108,7 +108,7 @@ def process_images():
                     processTimestamp="placeholder",
                     # returnExtension=validated_user_data["extension"]
                     )
-    user.save()
+    # user.save()
 
     # Decodes the uploaded images
     try:
