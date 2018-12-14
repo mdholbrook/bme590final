@@ -160,7 +160,8 @@ def process_images():
     # Calculates histogram data for all processed images and packages it
     # to return to GUI client
     proc_histogram_data = []
-    # TODO: Properly record image sizes in pixels
+
+    # Get histogram of processed images
     image_sizes = []
     for image in user.processedImages:
         image_sizes.append([image.shape[0], image.shape[1]])
@@ -184,9 +185,8 @@ def process_images():
     return jsonify({"proc_im": images_to_return,
 
                     # TODO: figure out how to serialize histogram data
-                    # "histDataOrig": encode_images(orig_histogram_data),
-                    # "histDataProc": encode_images(proc_histogram_data),
-
+                    "histDataOrig": orig_histogram_data,
+                    "histDataProc": proc_histogram_data,
                     "upload_timestamp": str(user.uploadTimestamp),
                     "latency": str(total_latency),
                     "image_sizes": image_sizes}), 200
