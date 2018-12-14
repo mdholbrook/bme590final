@@ -69,6 +69,7 @@ def write_zip_disk(zip_file, filename):
     Args:
         zip_file (BytesIO): an in-memory file containing a zip file as
             created by write_zip.
+        filename (str): path to where the zip file will be written
 
     Returns:
 
@@ -154,7 +155,7 @@ def save_images(df):
     fileformat, file_ext = gen_file_extension(df)
 
     # Determine if we save an image or zip file
-    if len(df['loaded_filenames']) == 1:
+    if len(df['orig_im_names']) == 1:
 
         # Save a single image
         write_image(df['save_filename'], df['proc_im'], fileformat)
@@ -162,11 +163,11 @@ def save_images(df):
     else:
 
         # Generate image save names
-        gen_save_filename(df['orig_im_names'], file_ext)
+        names = gen_save_filename(df['orig_im_names'], file_ext)
 
         # Save a zip file of images
-        zip_file = write_zip(df['load_filenames'],
-                             df['proc_im'], file_ext)
+        zip_file = write_zip(names,
+                             df['proc_im'], fileformat)
         write_zip_disk(zip_file, df['save_filename'])
 
 

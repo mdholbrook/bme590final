@@ -32,9 +32,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.comboBox.activated.connect(self.pullcombotext)
 
         # Callback for changing image view buttons
-        self.ui.radioButtonShowBoth.toggled.connect(self.pullcombotext)
-        self.ui.radioButtonShowOriginal.toggled.connect(self.pullcombotext)
-        self.ui.radioButtonShowProcessed.toggled.connect(self.pullcombotext)
+        # self.ui.radioButtonShowBoth.toggled.connect(self.pullcombotext)
+        # self.ui.radioButtonShowOriginal.toggled.connect(self.pullcombotext)
+        # self.ui.radioButtonShowProcessed.toggled.connect(self.pullcombotext)
 
         # Callbacks for button presses
         self.ui.pushButtonApply.clicked.connect(self.apply_clicked)
@@ -55,6 +55,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.df = {}
         self.df['show1'] = False
         self.df['show2'] = False
+
+        # Update status
+        self.ui.listWidgetStatus.addItems(['Welcome to the BME590 Image '
+                                           'processing GUI!',
+                                           'Please enter a valid email '
+                                           'address'])
+        self.ui.listWidgetStatus.scrollToBottom()
 
         # Load previous data
         self.preload_email()
@@ -78,6 +85,9 @@ class MainWindow(QtWidgets.QMainWindow):
             # Allow the user to access other options
             self.load_flag = True
 
+            # Update status
+            self.ui.listWidgetStatus.addItem('Please select files to process')
+
             self.disable_options()
 
     def validate_email(self):
@@ -99,6 +109,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # Update disabled options
             self.load_flag = True
+
+            # Update status
+            self.ui.listWidgetStatus.addItem('Please select files to process')
+            self.ui.listWidgetStatus.scrollToBottom()
 
             # Save valid email for future use
             save_email(self.df['email'])
@@ -146,6 +160,8 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns:
 
         """
+        # Define a default position for the image selected
+        self.df['imageInd'] = 0
 
         # Launch the load image dialog
         self.load_dialog = LoadDialog(self)
@@ -174,11 +190,21 @@ class MainWindow(QtWidgets.QMainWindow):
             # Enable process flag
             self.process_flag = True
             self.viewer_flag = True
+            self.view_pros_flag = False  # Allow viewer to show processed ims
+            self.save_flag = False       # Allow saving images
+
+            # Update status
+            self.ui.listWidgetStatus.addItems(['Please processing option',
+                                               '    Processing will begin '
+                                               'after clicking '
+                                               '"Apply Processing"'])
+            self.ui.listWidgetStatus.scrollToBottom()
 
         else:
             # Show error message
             error_dialog = QtWidgets.QErrorMessage(self)
             error_dialog.showMessage("Please enter valid image files")
+            self.ui.listWidgetStatus.scrollToBottom()
 
             self.process_flag = False
             self.viewer_flag = False
@@ -219,11 +245,16 @@ class MainWindow(QtWidgets.QMainWindow):
             self.df["processing_time"] = json_dict["latency"]
             self.df["timestamp"] = json_dict["upload_timestamp"]
 
-            # TODO: Add a check to see if the processing is complete
+            # Update GUI flags
             self.view_pros_flag = True
+            self.process_flag = True    # Allow processing
+            self.viewer_flag = True     # Allower viewer
+            self.view_pros_flag = True  # Allow viewer to show processed ims
+            self.save_flag = True       # Allow saving images
+            self.load_flag = True       # Allow loading images
 
-            # Update status
-            self.ui.listWidgetStatus.addItem('Done!')
+            # Set default dropbox index
+            self.pullcombotext(ind=0)
 
         self.disable_options()
 
@@ -248,10 +279,14 @@ class MainWindow(QtWidgets.QMainWindow):
         # Get histomgram request
         self.df['showHist'] = self.ui.checkBoxShowHist.isChecked()
 
-        # TODO: update status box with image info
-
         # Call image viewer
         run_image_viewer(self.df)
+
+        # Update status box
+        self.ui.listWidgetStatus.addItems(['Showing :',
+                                           self.filenames[self.df[
+                                               'imageInd']]])
+        self.ui.listWidgetStatus.scrollToBottom()
 
     def download_clicked(self):
         """The "Download" button was clicked
@@ -262,8 +297,6 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns:
 
         """
-        # TODO: add a check that the images have been processed
-        # TODO: get processed image(s)
 
         # Get save settings
         self.df['JPEG'] = self.ui.radioButtonJPEG.isChecked()
@@ -279,6 +312,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Write images
         save_images(self.df)
+
+        # Update status box
+        self.ui.listWidgetStatus.addItems(['File saved to:',
+                                           self.df['save_filename']])
+        self.ui.listWidgetStatus.scrollToBottom()
 
     def pullcombotext(self, ind):
 
@@ -297,18 +335,20 @@ class MainWindow(QtWidgets.QMainWindow):
             self.df['show2'] = True
 
         # Update image metadata
-        if self.df['show2']:
+        if self.process_flag:
 
-            data = ['Image name: ' + self.filenames[ind],
+            data = [
+                    'Image name: ' + self.filenames[ind],
                     'Started processing: %s' % self.df['timestamp'],
                     'Batch processing time: ' + self.df['processing_time'],
                     'Image dimensions: [%d, %d]'
                     % (self.df['im_dims'][ind][0],
                        self.df['im_dims'][ind][1]),
-                    '']
+                    ]
 
             # Update list box
             self.ui.listWidgetStatus.addItems(data)
+            self.ui.listWidgetStatus.scrollToBottom()
 
 
 if __name__ == "__main__":

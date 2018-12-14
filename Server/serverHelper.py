@@ -1,11 +1,11 @@
 import base64
-import io
+from io import BytesIO
 from PIL import Image
 from zipfile import ZipFile
 import numpy as np
-import matplotlib.image as mpimg
 import logging
 from PIL import Image
+from ImageProcessing.ImgFunctions import *
 
 
 def check_user_data(user_data):
@@ -94,7 +94,7 @@ def decode_images(base64_string):
     ret = []
     for bytestring in base64_string:
         image_bytes = base64.b64decode(bytestring)
-        image_buf = io.BytesIO(image_bytes)
+        image_buf = BytesIO(image_bytes)
 
         try:
             i = Image.open(image_buf)
@@ -151,7 +151,7 @@ def unpack_zip_files(zip_file):
 
     # Open the zip file
     zip_file.seek(0)
-    file = ZipFile(io.BytesIO(zip_file.read()))
+    file = ZipFile(BytesIO(zip_file.read()))
 
     # Get the list of file contents
     names = file.infolist()
@@ -170,3 +170,76 @@ def unpack_zip_files(zip_file):
         ims.append(tmp)
 
     return ims
+
+
+def compute_histograms(raw_images):
+    """
+    This function takes a list of images and computes the histograms of each
+    Args:
+        raw_images (list of numpy arrays): a list of numpy array images
+
+    Returns:
+        list: bins and histogram information formatted as following [image
+        #][bins or counts][channel]
+    """
+
+    # Calculates histogram data for all original images and packages it
+    # to return to GUI client
+    histogram_data = []
+    image_sizes = []
+    for image in raw_images:
+        image_sizes.append([image.shape[0], image.shape[1]])
+        data_per_image = []
+
+        # If the images has one channel or is BW
+        if len(image.shape) == 2:
+            hist, bins = view_histogram_bw(image)
+
+        else:
+            hist, bins = view_color_histogram(image)
+
+        # Concatenate histogram data
+        data_per_image.append(bins)
+        data_per_image.append(hist)
+        histogram_data.append(data_per_image)
+
+    return histogram_data, image_sizes
+
+
+def save_ims_to_memory(user):
+    """
+    This function takes images and numpy arrays and encodes them as PNG files
+    in an in-memory buffer
+    Args:
+        user (class): a class containing the image arrays to be processed
+
+    Returns:
+        list: a list of BytesIO objects containing image files
+    """
+
+    # Encodes the processed images to prepare to return them to the client
+    memory_file = []
+    for image in user.processedImages:
+        # import matplotlib.pyplot as plt
+        # plt.imshow(image), plt.show()
+
+        memory_file.append(BytesIO())
+        if len(image.shape) == 2:
+            if image.dtype == bool:
+                image = image.astype(np.uint8)
+
+            file_format = "L"
+            image *= 255
+            image = image.astype(np.uint8)
+        else:
+            file_format = "RGB"
+        im = Image.fromarray(image, mode=file_format)
+        im.save(memory_file[-1], "PNG")
+
+    file_paths = []
+    for file in memory_file:
+        file_paths.append(file.getvalue())
+
+    logging.debug(type(memory_file[0]))
+
+    return file_paths
