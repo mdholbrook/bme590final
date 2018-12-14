@@ -78,8 +78,11 @@ def show_hist(df):
                 fig, ax = plt.subplots(len(colors), 2)
 
             # Plot original image
-            ax[c][0].bar(df['histDataOrig'][ind][0],
-                         df['histDataOrig'][ind][1][c], color=colors[c])
+            bins = [(i + j)/2 for i, j in zip(df['histDataOrig'][ind][0][1:],
+                                              df['histDataOrig'][ind][0][
+                                              :-1])]
+            ax[c].plot(bins, df['histDataOrig'][ind][1][c], color=colors[c],
+                       linewidth=2.0)
 
             ax[c][0].set_xlabel('Image Values')
             ax[c][0].set_ylabel('Counts')
@@ -87,8 +90,11 @@ def show_hist(df):
             ax[c][0].set_title(ttl)
 
             # Plot processed image
-            ax[c][1].bar(df['histDataProc'][ind][0],
-                         df['histDataProc'][ind][1][c], color=colors[c])
+            bins = [(i + j)/2 for i, j in zip(df['histDataProc'][ind][0][1:],
+                                              df['histDataProc'][ind][0][
+                                              :-1])]
+            ax[c].plot(bins, df['histDataProc'][ind][1][c], color=colors[c],
+                       linewidth=2.0)
 
             ax[c][1].set_xlabel('Image Values')
             ax[c][1].set_ylabel('Counts')
@@ -106,8 +112,11 @@ def show_hist(df):
                 ax = [ax]
 
             # Plot original image
-            ax[c].bar(df['histDataOrig'][ind][0],
-                      df['histDataOrig'][ind][1][c], color=colors[c])
+            bins = [(i + j)/2 for i, j in zip(df['histDataOrig'][ind][0][1:],
+                                              df['histDataOrig'][ind][0][
+                                              :-1])]
+            ax[c].plot(bins, df['histDataOrig'][ind][1][c], color=colors[c],
+                       linewidth=2.0)
 
             ax[c].set_xlabel('Image Values')
             ax[c].set_ylabel('Counts')
@@ -125,8 +134,11 @@ def show_hist(df):
                 ax = [ax]
 
             # Plot processed image
-            ax[c].bar(df['histDataProc'][ind][0],
-                      df['histDataProc'][ind][1][c], color=colors[c])
+            bins = [(i + j)/2 for i, j in zip(df['histDataProc'][ind][0][1:],
+                                              df['histDataProc'][ind][0][
+                                              :-1])]
+            ax[c].plot(bins, df['histDataProc'][ind][1][c], color=colors[c],
+                       linewidth=2.0)
 
             ax[c].set_xlabel('Image Values')
             ax.set_ylabel('Counts')

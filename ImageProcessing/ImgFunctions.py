@@ -11,9 +11,12 @@ def view_histogram_bw(image):
     Returns: Hist and its bin array
     """
     hist, bins = np.histogram(image.ravel(), 256, [0, 256])
-    plt.hist(image.ravel(), 256, [0, 256])
-    plt.show()
-    return hist, bins
+
+    # Convert to a list of ints
+    hist = [int(i) for i in hist]
+    bins = [int(i) for i in bins]
+
+    return [hist], bins
 
 
 def view_color_histogram(image):
@@ -25,9 +28,14 @@ def view_color_histogram(image):
     hist_all = []
     for i in range(image.shape[2]):
         hist, bins = np.histogram(image[:, :, i].ravel(), 256, [0, 256])
+
+        # Convert to a list of ints
+        hist = [int(i) for i in hist]
+        bins = [int(i) for i in bins]
+
+        # Append to collecg all channels
         hist_all.append(hist)
-        # plt.hist(image.ravel(), 256, [0, 256])
-        # plt.show()
+
     return hist_all, bins
 
 
