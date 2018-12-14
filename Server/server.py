@@ -6,12 +6,14 @@ from flask import Flask, jsonify, request
 from pymodm import errors
 from pymodm import connect
 from Server.mongoSetup import User
-from Server.serverHelper import check_user_data, decode_images, encode_images
+from Server.serverHelper import check_user_data, decode_images, \
+    encode_images_from_file, encode_images
 from ImageProcessing.ImgFunctions import histogram_eq, contrast_stretching, \
     log_compression, reverse_video, gamma_correction, view_histogram_bw, \
     view_color_histogram
-import base64
-
+import io
+from PIL import Image
+import numpy
 
 # FLASK SERVER SETUP
 app = Flask(__name__)
@@ -60,6 +62,13 @@ def process_images():
 
     The second entry is an integer representing the HTTP status code.
     """
+
+    logging.basicConfig(filename="log.txt",
+                        filemode='w',
+                        level=logging.DEBUG,
+                        format='%(asctime)s %(message)s',
+                        datefmt='%m/%d/%Y %I:%M:%S %p')
+
     # Reads in and validates the inputs from the request JSON
     print('hello')
     user_data = request.get_json()
@@ -103,7 +112,10 @@ def process_images():
 
     # Decodes the uploaded images
     try:
-        raw_images = decode_images(user.uploadedImages)
+        raw_images_pil = decode_images(user.uploadedImages)
+        raw_images = []
+        for image in raw_images_pil:
+            raw_images.append(numpy.array(image))
     except binascii.Error:
         return jsonify("One of the images was not encoded properly."), 400
 
@@ -175,7 +187,22 @@ def process_images():
         proc_histogram_data.append(data_per_image)
 
     # Encodes the processed images to prepare to return them to the client
-    images_to_return = encode_images(user.processedImages)
+    memory_file = []
+    for image in user.processedImages:
+        memory_file.append(io.BytesIO())
+        if len(image.shape) == 1:
+            file_format = "1"
+        else:
+            file_format = "RGB"
+        im = Image.fromarray(image, mode=file_format)
+        im.save(memory_file[-1], "JPEG")
+
+    file_paths = []
+    for file in memory_file:
+        file_paths.append(file.getvalue())
+
+    logging.debug(type(memory_file[0]))
+    images_to_return = encode_images(file_paths)
 
     # Calculates the total latency of processing all images
     total_latency = upload_time-upload_time
@@ -184,7 +211,6 @@ def process_images():
 
     return jsonify({"proc_im": images_to_return,
 
-                    # TODO: figure out how to serialize histogram data
                     "histDataOrig": orig_histogram_data,
                     "histDataProc": proc_histogram_data,
                     "upload_timestamp": str(user.uploadTimestamp),

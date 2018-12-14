@@ -38,9 +38,10 @@ def send_to_server(df):
         # json_dict['error'] = ['']
     #
     except BaseException:
-        return 'Sever unavailable!'
+        return 'Server unavailable!'
 
     # TODO: Figure out this image decoding error...
-    # json_dict["proc_im"] = decode_images(json_dict["proc_im"])
+    json_dict["proc_im"] = decode_images(json_dict["proc_im"])
+    print(json_dict["proc_im"])
 
     return json_dict
