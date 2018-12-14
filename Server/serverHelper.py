@@ -1,8 +1,7 @@
 import base64
-import numpy as np
 import io
-from skimage import util, exposure
-from matplotlib import pyplot as plt
+from PIL import Image
+from zipfile import ZipFile
 import matplotlib.image as mpimg
 import logging
 
@@ -128,3 +127,36 @@ def encode_images(images):
     for image in images:
         ret.append((base64.b64encode(image)).decode('utf-8'))
     return ret
+
+
+def unpack_zip_files(zip_file):
+    """
+    Unzips in-memory zip files to return a list of PIL Image objects
+    Args:
+        zip_file (BytesIO): an in-memory zip file, containing images to process
+
+    Returns:
+        list of PIL image objects: a list of the unpacked images
+    """
+
+    # Open the zip file
+    zip_file.seek(0)
+    file = ZipFile(io.BytesIO(zip_file.read()))
+
+    # Get the list of file contents
+    names = file.infolist()
+
+    # Read from zip file
+    ims = []
+    for name in names:
+
+        # Read from zip file
+        tmp = file.open(name)
+
+        # Convert data to Image
+        tmp = Image.open(tmp)
+
+        # Append PIL Image objects
+        ims.append(tmp)
+
+    return ims

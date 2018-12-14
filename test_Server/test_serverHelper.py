@@ -1,5 +1,8 @@
 import pytest
-from skimage import io
+import os
+import numpy as np
+from ClientFunctions.read_files import load_image_series, get_zip_names
+from ClientFunctions.write_files import write_zip
 from Server.serverHelper import *
 
 
@@ -22,3 +25,25 @@ def test_base64():
     de = decode_images(a)
     aa = de[-1]
     assert aa.size == 5992704
+
+
+def test_unpack_zip_files():
+
+    # Load data
+    out_path = 'ProcessedImages/'
+    if not os.path.exists(out_path):
+        os.mkdir(out_path)
+    infiles = ['TestImages/coins.png', 'TestImages/Lenna.png']
+    ims, all_filenames = load_image_series(infiles)
+
+    # Set up inputs
+    files = ['coins.tif', 'Lenna.tif']
+    fileformat = 'TIFF'
+    zip_file = write_zip(files, ims, fileformat)
+
+    # Unpack the images
+    unpacked_ims = unpack_zip_files(zip_file)
+
+    # Verify that the input and output images are identical
+    for im, pim in zip(ims, unpacked_ims):
+        assert (np.array(im) == np.array(pim)).all()
