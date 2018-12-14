@@ -1,7 +1,7 @@
 import numpy as np
-from skimage import util, exposure, io
-
+from skimage import util, exposure, io, color
 from matplotlib import pyplot as plt
+import cv2
 
 
 def view_histogram_bw(image):
@@ -46,8 +46,16 @@ def histogram_eq(image):
         image: float array for the image
     Returns: Histogram equalize version of the image
     """
-    img_eq = exposure.equalize_hist(image)
-    return img_eq
+
+    img_y_cr_cb = cv2.cvtColor(image, cv2.COLOR_BGR2YCrCb)
+    y, cr, cb = cv2.split(img_y_cr_cb)
+
+    # Applying equalize Hist operation on Y channel.
+    y_eq = cv2.equalizeHist(y)
+
+    img_y_cr_cb_eq = cv2.merge((y_eq, cr, cb))
+    img_rgb_eq = cv2.cvtColor(img_y_cr_cb_eq, cv2.COLOR_YCR_CB2BGR)
+    return img_rgb_eq
 
 
 def contrast_stretching(image):
@@ -109,6 +117,6 @@ if __name__ == '__main__':
     img = io.imread(filename)
     his = view_histogram_bw(img)
     his2 = view_color_histogram(img)
-    img2 = reverse_video(img)
+    img2 = histogram_eq(img)
     plt.imshow(img2)
     plt.show()

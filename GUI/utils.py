@@ -9,7 +9,7 @@ def save_email(email):
 
     """
 
-    f = open('GUI/LastEmail.log', 'w')
+    f = open('../GUI/LastEmail.log', 'w')
 
     f.write(email)
 
