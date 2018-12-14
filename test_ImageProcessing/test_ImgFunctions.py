@@ -1,7 +1,6 @@
 import pytest
 from ImageProcessing.ImgFunctions import *
 from skimage import io
-from skimage.color import rgb2gray
 
 
 @pytest.mark.parametrize("filename,expected", [
