@@ -78,5 +78,5 @@ left and right respectively. The images histograms will appear as a separate
 [Matplotlib](https://matplotlib.org/) plot. In the example below the image 
 has been treated with `reverse video` processing.
 
-| [Original and processed images](ProjectIms/lilly.png) | [Histograms](ProjectIms/hist.PNG) |
+| ![Original and processed images](ProjectIms/lilly.png) | ![Histograms](ProjectIms/hist.PNG) |
 
