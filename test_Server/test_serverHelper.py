@@ -21,4 +21,4 @@ def test_base64():
     a = encode_images_from_file(imglist)
     de = decode_images(a)
     aa = de[-1]
-    assert aa.size == 5992704
+    assert aa.size == (1224, 1632)
