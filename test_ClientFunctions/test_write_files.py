@@ -1,7 +1,7 @@
 import pytest
 import os
 from ClientFunctions.write_files import *
-from test_ClientFunctions.utils import *
+from ClientFunctions.read_files import load_image_series, get_zip_names
 
 
 def clean_up(files):
@@ -72,14 +72,33 @@ def test_write_zip():
     outfile = 'ProcessedImages/zip_test.zip'
     files = ['coins.tif', 'Lenna.tif']
     fileformat = 'TIFF'
-    write_zip(outfile, files, ims, fileformat)
+    mem_file = write_zip(files, ims, fileformat)
+
+    # Read image names
+    zipnames = get_zip_names(mem_file)
+
+    assert zipnames == files
+
+
+def test_write_zip_disk():
+
+    # Load data
+    out_path = 'ProcessedImages/'
+    if not os.path.exists(out_path):
+        os.mkdir(out_path)
+    infiles = ['TestImages/coins.png', 'TestImages/Lenna.png']
+    ims, all_filenames = load_image_series(infiles)
+
+    # Set up inputs
+    outfile = 'ProcessedImages/zip_test.zip'
+    files = ['coins.tif', 'Lenna.tif']
+    fileformat = 'TIFF'
+    mem_file = write_zip(files, ims, fileformat)
+
+    # Write file to disk
+    write_zip_disk(mem_file, outfile)
 
     # Test output file
     assert os.path.exists(outfile)
-
-    # Read image names
-    zipnames = get_zip_names(outfile)
-
-    assert zipnames == files
 
     clean_up([outfile])

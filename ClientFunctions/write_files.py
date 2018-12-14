@@ -15,14 +15,13 @@ def write_image(filename, im, fileformat):
 
     """
 
-    img = Image.fromarray(im[0])
+    img = im[0]
     img.save(filename, fileformat)
 
 
-def write_zip(filename, files, ims, fileformat):
+def write_zip(files, ims, fileformat):
     """
-    This function makes an in-memory zip file of image files and writes them
-    to disk.
+    This function makes an in-memory zip file of image files.
 
     Args:
         filename (str): name of the zip file which will be saved to disk
@@ -33,7 +32,7 @@ def write_zip(filename, files, ims, fileformat):
         "JPEG", "PNG", and "TIFF".
 
     Returns:
-
+        BytesIO: an in-memory file containing zipped images.
     """
 
     # Set up in-memory file
@@ -46,7 +45,7 @@ def write_zip(filename, files, ims, fileformat):
     for i in range(len(files)):
 
         # Get a single image and create a PIL object
-        im = Image.fromarray(ims[i])
+        im = ims[i]
 
         # Set up a temporary image buffer
         tmp = BytesIO()
@@ -61,9 +60,23 @@ def write_zip(filename, files, ims, fileformat):
     # Close the in-memory zip file
     zf.close()
 
+    return memory_file
+
+
+def write_zip_disk(zip_file, filename):
+    """
+    Writes the contents of a zipfile to disk.
+    Args:
+        zip_file (BytesIO): an in-memory file containing a zip file as
+            created by write_zip.
+
+    Returns:
+
+    """
+
     # Write zip file to disk as bytes encoding
     with open(filename, 'wb') as f:
-        f.write(memory_file.getvalue())
+        f.write(zip_file.getvalue())
 
 
 def gen_save_filename(files, file_ext):
@@ -152,8 +165,9 @@ def save_images(df):
         gen_save_filename(df['orig_im_names'], file_ext)
 
         # Save a zip file of images
-        write_zip(df['save_filename'], df['load_filenames'],
-                  df['proc_im'], file_ext)
+        zip_file = write_zip(df['load_filenames'],
+                             df['proc_im'], file_ext)
+        write_zip_disk(zip_file, df['save_filename'])
 
 
 if __name__ == "__main__":
