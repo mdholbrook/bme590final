@@ -116,7 +116,7 @@ def process_images():
         for image in raw_images_pil:
 
             # Convert to numpy array for processing
-            raw_images.append(numpy.array(image))
+            raw_images.append(numpy.array(image, dtype=numpy.uint8))
 
     except binascii.Error:
         return jsonify("One of the images was not encoded properly."), 400
