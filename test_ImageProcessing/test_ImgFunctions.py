@@ -11,7 +11,7 @@ from skimage import io
     ("TestImages/coins.png", 2),
     ("TestImages/foosball.jpg", 2),
 ])
-def test_histogram_eq(filename,expected):
+def test_histogram_eq(filename, expected):
     img = io.imread(filename)
     test = histogram_eq(img)
     assert test.shape[0] == img.shape[0]
@@ -25,7 +25,7 @@ def test_histogram_eq(filename,expected):
     ("TestImages/tire.tif", 2),
     ("TestImages/coins.png", 2),
 ])
-def test_contrast_stretching(filename,expected):
+def test_contrast_stretching(filename, expected):
     img = io.imread(filename)
     test = contrast_stretching(img)
     assert test.shape[0] == img.shape[0]
@@ -39,7 +39,7 @@ def test_contrast_stretching(filename,expected):
     ("TestImages/tire.tif", 2),
     ("TestImages/coins.png", 2),
 ])
-def test_log_compression(filename,expected):
+def test_log_compression(filename, expected):
     img = io.imread(filename)
     test = log_compression(img)
     assert test.shape[0] == img.shape[0]
@@ -54,7 +54,7 @@ def test_log_compression(filename,expected):
     ("TestImages/coins.png", 2),
     ("TestImages/foosball.jpg", 2),
 ])
-def test_reverse_video(filename,expected):
+def test_reverse_video(filename, expected):
 
     img = io.imread(filename)
     test = reverse_video(img)
@@ -70,7 +70,7 @@ def test_reverse_video(filename,expected):
     ("TestImages/coins.png", 2),
     ("TestImages/foosball.jpg", 2),
 ])
-def test_gamma_correction(filename,expected):
+def test_gamma_correction(filename, expected):
     img = io.imread(filename)
     test = gamma_correction(img)
     assert test.shape[0] == img.shape[0]
