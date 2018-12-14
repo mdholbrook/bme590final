@@ -18,7 +18,7 @@ The user interface was constructed using [PyQt5](https://www.riverbankcomputing.
 and processed images, and download processed images in a variety of 
 formats. The main page of the GUI is shown below:
 
-![GUI interface](ProjectIms/GUI.png)
+![GUI interface](ProjectIms/GUI.png =250x)
 
 The GUI can be accessed by running `frontEndGUI.py` in the main project 
 directory.
@@ -34,7 +34,7 @@ Single and sets of images, including zip files containing images, can be
 loaded into the program using the button labeled `...`. This will bring up 
 the following dialog box:
 
-![load image dialog](ProjectIms/open_im.png)
+![load image dialog](ProjectIms/open_im.png =250x)
 
 Images will be loaded into memory once they have been selected. The field 
 titled `Input images` cannot be edited by the user, but will be updated to show 
@@ -78,5 +78,5 @@ left and right respectively. The images histograms will appear as a separate
 [Matplotlib](https://matplotlib.org/) plot. In the example below the image 
 has been treated with `reverse video` processing.
 
-| ![Original and processed images](ProjectIms/lilly.png) | ![Histograms](ProjectIms/hist.PNG) |
+| ![Original and processed images](ProjectIms/lilly.png =250x) | ![Histograms](ProjectIms/hist.PNG =250x) |
 
