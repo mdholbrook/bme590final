@@ -36,6 +36,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.ui.radioButtonShowOriginal.toggled.connect(self.pullcombotext)
         # self.ui.radioButtonShowProcessed.toggled.connect(self.pullcombotext)
 
+        # Disable the Input Images field
+        self.ui.lineEditLoad.setEnabled(False)
+
         # Callbacks for button presses
         self.ui.pushButtonApply.clicked.connect(self.apply_clicked)
         self.ui.pushButtonDonwload.clicked.connect(self.download_clicked)
