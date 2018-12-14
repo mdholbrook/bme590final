@@ -46,16 +46,20 @@ def histogram_eq(image):
         image: float array for the image
     Returns: Histogram equalize version of the image
     """
+    if len(image.shape) == 2:
+        img_bw = cv2.equalizeHist(image)
+        img_eq = color.gray2rgb(img_bw)
 
-    img_y_cr_cb = cv2.cvtColor(image, cv2.COLOR_BGR2YCrCb)
-    y, cr, cb = cv2.split(img_y_cr_cb)
+    else:
+        img_y_cr_cb = cv2.cvtColor(image, cv2.COLOR_BGR2YCrCb)
+        y, cr, cb = cv2.split(img_y_cr_cb)
 
-    # Applying equalize Hist operation on Y channel.
-    y_eq = cv2.equalizeHist(y)
+        # Applying equalize Hist operation on Y channel.
+        y_eq = cv2.equalizeHist(y)
 
-    img_y_cr_cb_eq = cv2.merge((y_eq, cr, cb))
-    img_rgb_eq = cv2.cvtColor(img_y_cr_cb_eq, cv2.COLOR_YCR_CB2BGR)
-    return img_rgb_eq
+        img_y_cr_cb_eq = cv2.merge((y_eq, cr, cb))
+        img_eq = cv2.cvtColor(img_y_cr_cb_eq, cv2.COLOR_YCR_CB2BGR)
+    return img_eq
 
 
 def contrast_stretching(image):
@@ -67,6 +71,9 @@ def contrast_stretching(image):
         image:float array for the image
     Returns: Contrast adjusted version of the image
     """
+    if len(image.shape) == 2:
+        image = color.gray2rgb(image)
+
     p2, p98 = np.percentile(image, (2, 98))
     img_rescale = exposure.rescale_intensity(image, in_range=(p2, p98))
     return img_rescale
@@ -84,6 +91,8 @@ def log_compression(image):
         image: float array for the image
     Returns: Log compressed version of the image
     """
+    if len(image.shape) == 2:
+        image = color.gray2rgb(image)
     logarithmic_corrected = exposure.adjust_log(image, 1)
     return logarithmic_corrected
 
@@ -95,6 +104,9 @@ def reverse_video(image):
         image: float array for the image
     Returns: reverse/invert version of the image
     """
+    if len(image.shape) == 2:
+        image = color.gray2rgb(image)
+
     inverted_img = util.invert(image)
     return inverted_img
 
@@ -108,15 +120,17 @@ def gamma_correction(image):
         image: float array for the image
     Returns: gamma corrected version of the image
     """
+    if len(image.shape) == 2:
+        image = color.gray2rgb(image)
+
     gamma_corrected = exposure.adjust_gamma(image, 2)
     return gamma_corrected
 
 
 if __name__ == '__main__':
-    filename = "../TestImages/Lenna.png"
+    filename = "../TestImages/circles.png"
     img = io.imread(filename)
-    his = view_histogram_bw(img)
-    his2 = view_color_histogram(img)
+    img = color.gray2rgb(img)
     img2 = histogram_eq(img)
     plt.imshow(img2)
     plt.show()
