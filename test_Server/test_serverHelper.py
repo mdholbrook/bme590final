@@ -24,7 +24,7 @@ def test_base64():
     a = encode_images_from_file(imglist)
     de = decode_images(a)
     aa = de[-1]
-    
+
     assert aa.size == (1224, 1632)
 
 
@@ -48,4 +48,3 @@ def test_unpack_zip_files():
     # Verify that the input and output images are identical
     for im, pim in zip(ims, unpacked_ims):
         assert (np.array(im) == np.array(pim)).all()
-        

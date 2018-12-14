@@ -29,7 +29,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.filenames = ''
 
         # Callback for changing image selection via the ComboBox
-        self.ui.comboBox.currentIndexChanged.connect(self.pullcombotext)
+        self.ui.comboBox.activated.connect(self.pullcombotext)
 
         # Callback for changing image view buttons
         self.ui.radioButtonShowBoth.toggled.connect(self.pullcombotext)
@@ -169,6 +169,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 'orig_im_names']]
             self.ui.comboBox.clear()
             self.ui.comboBox.addItems(self.filenames)
+            self.ui.comboBox.setCurrentIndex(0)
 
             # Enable process flag
             self.process_flag = True
@@ -282,6 +283,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def pullcombotext(self, ind):
 
         # Get droptext index
+        if type(ind) == bool:
+            ind = 0
+
         self.df['imageInd'] = ind
 
         # Get radiobutton selection for which image to view
