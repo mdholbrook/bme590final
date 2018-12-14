@@ -1,6 +1,6 @@
 import numpy as np
 from skimage import util, exposure, io, color
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 import cv2
 
 
@@ -132,5 +132,5 @@ if __name__ == '__main__':
     img = io.imread(filename)
     img = color.gray2rgb(img)
     img2 = histogram_eq(img)
-    plt.imshow(img2)
-    plt.show()
+    # plt.imshow(img2)
+    # plt.show()
