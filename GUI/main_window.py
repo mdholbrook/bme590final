@@ -1,5 +1,6 @@
 import sys
 import os
+from time import sleep
 from GUI.validation_functions import valid_email, validate_file_exists
 from PyQt5 import QtWidgets
 from GUI.main_window_design import Ui_MainWindow
@@ -95,7 +96,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # Add email to the dictionary
             self.df['email'] = self.ui.lineEditEmail.text()
-            print(self.df)
 
             # Update disabled options
             self.load_flag = True
@@ -150,7 +150,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # Launch the load image dialog
         self.load_dialog = LoadDialog(self)
         self.df['load_filenames'] = self.load_dialog.files
-        print(self.df)
 
         # Close dialog box
         self.load_dialog.close()
@@ -199,14 +198,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.df['rev'] = self.ui.radioButtonReverse.isChecked()
         self.df['gamma'] = self.ui.radioButtonGamma.isChecked()
 
-        print(self.df)
-
         # Allow image saving
         self.save_flag = True
         self.disable_options()
 
-        # TODO: Add call to communication function
-        # code = 0
+        # Send data to server
         json_dict = send_to_server(self.df)
 
         # Error handling
@@ -215,9 +211,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.listWidgetStatus.addItems([json_dict])
 
         else:
-            print(json_dict)
-            print("Testing")
             self.df['proc_im'] = json_dict["proc_im"]
+            self.df['histDataOrig'] = json_dict["histDataOrig"]
+            self.df['histDataProc'] = json_dict["histDataProc"]
             self.df['im_dims'] = json_dict["image_sizes"]
             self.df["processing_time"] = json_dict["latency"]
             self.df["timestamp"] = json_dict["upload_timestamp"]
@@ -225,14 +221,10 @@ class MainWindow(QtWidgets.QMainWindow):
             # TODO: Add a check to see if the processing is complete
             self.view_pros_flag = True
 
-        self.disable_options()
+            # Update status
+            self.ui.listWidgetStatus.addItem('Done!')
 
-        # while code == 0:
-        #
-        #     code, images = get_back_data()
-        #
-        #     import time
-        #     time.sleep(0.5)
+        self.disable_options()
 
     def image_viewer(self):
 
@@ -277,12 +269,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.df['PNG'] = self.ui.radioButtonPNG.isChecked()
         self.df['TIFF'] = self.ui.radioButtonTIFF.isChecked()
 
-        print(self.df)
-
         # Launch the save image dialog box
         self.save_dialog = SaveDialog(self, df=self.df)
         self.df['save_filename'] = self.save_dialog.filename
-        print(self.df)
 
         # Close dialog box
         self.save_dialog.close()
