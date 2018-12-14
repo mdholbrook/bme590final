@@ -7,10 +7,9 @@ from pymodm import errors
 from pymodm import connect
 from Server.mongoSetup import User
 from Server.serverHelper import check_user_data, decode_images, \
-    encode_images_from_file, encode_images
+    encode_images, compute_histograms, save_ims_to_memory
 from ImageProcessing.ImgFunctions import histogram_eq, contrast_stretching, \
-    log_compression, reverse_video, gamma_correction, view_histogram_bw, \
-    view_color_histogram
+    log_compression, reverse_video, gamma_correction
 import io
 from PIL import Image
 import numpy
@@ -106,6 +105,8 @@ def process_images():
                     processTimestamp="placeholder",
                     # returnExtension=validated_user_data["extension"]
                     )
+
+    # Save data to the database
     user.save()
 
     # Decodes the uploaded images
@@ -113,101 +114,72 @@ def process_images():
         raw_images_pil = decode_images(user.uploadedImages)
         raw_images = []
         for image in raw_images_pil:
+
+            # Convert to numpy array for processing
             raw_images.append(numpy.array(image))
+
     except binascii.Error:
         return jsonify("One of the images was not encoded properly."), 400
 
     # Calculates histogram data for all original images and packages it
     # to return to GUI client
-    orig_histogram_data = []
-    for image in raw_images:
-        data_per_image = []
-        if len(image.shape) == 2:
-            hist, bins = view_histogram_bw(image)
-        else:
-            hist, bins = view_color_histogram(image)
-        data_per_image.append(bins)
-        data_per_image.append(hist)
-        orig_histogram_data.append(data_per_image)
+    orig_histogram_data, image_sizes = compute_histograms(raw_images)
 
     # Processes the images and updates the database accordingly
     transformed_image = []
     processing_latency = []
     for image in raw_images:
+
+        # If using histogram equalization
         if validated_user_data["hist"]:
             transformed_image.append(histogram_eq(image))
             process_time = datetime.datetime.now()
             user.previousMetrics["hist"][0] += 1
             processing_latency.append(process_time-upload_time)
             user.previousMetrics["hist"][1].append(process_time-upload_time)
+
+        # If using contrast stretching
         elif validated_user_data["cont"]:
             transformed_image.append(contrast_stretching(image))
             process_time = datetime.datetime.now()
             user.previousMetrics["cont"][0] += 1
             processing_latency.append(process_time-upload_time)
             user.previousMetrics["cont"][1].append(process_time-upload_time)
+
+        # If using log compression
         elif validated_user_data["log"]:
             transformed_image.append(log_compression(image))
             process_time = datetime.datetime.now()
             user.previousMetrics["log"][0] += 1
             processing_latency.append(process_time-upload_time)
             user.previousMetrics["log"][1].append(process_time-upload_time)
+
+        # If using reverse video
         elif validated_user_data["rev"]:
             transformed_image.append(reverse_video(image))
             process_time = datetime.datetime.now()
             user.previousMetrics["rev"][0] += 1
             processing_latency.append(process_time-upload_time)
             user.previousMetrics["rev"][1].append(process_time-upload_time)
+
+        # If using gamme correction
         elif validated_user_data["gamma"]:
             transformed_image.append(gamma_correction(image))
             process_time = datetime.datetime.now()
             user.previousMetrics["gamma"][0] += 1
             processing_latency.append(process_time-upload_time)
             user.previousMetrics["gamma"][1].append(process_time-upload_time)
+
+    # Update transformed image
     user.processedImages = transformed_image
     user.processTimestamp = process_time
 
     # Calculates histogram data for all processed images and packages it
     # to return to GUI client
-    proc_histogram_data = []
-
-    # Get histogram of processed images
-    image_sizes = []
-    for image in user.processedImages:
-        image_sizes.append([image.shape[0], image.shape[1]])
-        data_per_image = []
-        if len(image.shape) == 2:
-            hist, bins = view_histogram_bw(image)
-        else:
-            hist, bins = view_color_histogram(image)
-        data_per_image.append(bins)
-        data_per_image.append(hist)
-        proc_histogram_data.append(data_per_image)
+    proc_histogram_data, _ = compute_histograms(user.processedImages)
 
     # Encodes the processed images to prepare to return them to the client
-    memory_file = []
-    for image in user.processedImages:
-        # import matplotlib.pyplot as plt
-        # plt.imshow(image), plt.show()
-
-        memory_file.append(io.BytesIO())
-        if len(image.shape) == 2:
-            if image.dtype == bool:
-                image = image.astype(numpy.uint8)
-
-            file_format = "L"
-            image *= 255
-            image = image.astype(numpy.uint8)
-        else:
-            file_format = "RGB"
-        im = Image.fromarray(image, mode=file_format)
-        im.save(memory_file[-1], "JPEG")
-
-    file_paths = []
-    for file in memory_file:
-        file_paths.append(file.getvalue())
-
-    logging.debug(type(memory_file[0]))
+    file_paths = save_ims_to_memory(user)
     images_to_return = encode_images(file_paths)
 
     # Calculates the total latency of processing all images

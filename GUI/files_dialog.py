@@ -35,8 +35,8 @@ class LoadDialog(QWidget):
                 "Image Files (*.jpg *.png *.tif *.zip);;JPEG (*.jpg);;"
                 "PNG (*.png);;TIFF (*.tif);;Zip files (*.zip);;All Files (*)",
                 options=options)
-        if files:
-            print(files)
+        # if files:
+        #     print(files)
 
         self.files = files
 
@@ -123,8 +123,8 @@ class SaveDialog(QWidget):
                 self, "Save Processed Image Files", self.new_file,
                 self.fileformat,
                 options=options)
-        if fileName:
-            print(fileName)
+        # if fileName:
+        #     print(fileName)
 
         self.filename = fileName
 
