@@ -86,7 +86,7 @@ def show_hist(df):
                                               df['histDataOrig'][ind][0][
                                               :-1])]
             ax[c][0].plot(bins, df['histDataOrig'][ind][1][c], color=colors[c],
-                       linewidth=2.0)
+                          linewidth=2.0)
 
             ax[c][0].set_xlabel('Image Values')
             ax[c][0].set_ylabel('Counts')
@@ -98,7 +98,7 @@ def show_hist(df):
                                               df['histDataProc'][ind][0][
                                               :-1])]
             ax[c][1].plot(bins, df['histDataProc'][ind][1][c], color=colors[c],
-                       linewidth=2.0)
+                          linewidth=2.0)
 
             ax[c][1].set_xlabel('Image Values')
             ax[c][1].set_ylabel('Counts')
