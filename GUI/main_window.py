@@ -146,6 +146,8 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns:
 
         """
+        # Define a default position for the image selected
+        self.df['imageInd'] = 0
 
         # Launch the load image dialog
         self.load_dialog = LoadDialog(self)
@@ -262,8 +264,6 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns:
 
         """
-        # TODO: add a check that the images have been processed
-        # TODO: get processed image(s)
 
         # Get save settings
         self.df['JPEG'] = self.ui.radioButtonJPEG.isChecked()

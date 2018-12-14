@@ -189,11 +189,20 @@ def process_images():
     # Encodes the processed images to prepare to return them to the client
     memory_file = []
     for image in user.processedImages:
+        # import matplotlib.pyplot as plt
+        # plt.imshow(image), plt.show()
+
         memory_file.append(io.BytesIO())
-        if len(image.shape) == 1:
-            file_format = "1"
+        if len(image.shape) == 2:
+            if image.dtype == bool:
+                image = image.astype(numpy.uint8)
+
+            file_format = "L"
+            image *= 255
+            image = image.astype(numpy.uint8)
         else:
             file_format = "RGB"
+            print(type(image))
         im = Image.fromarray(image, mode=file_format)
         im.save(memory_file[-1], "JPEG")
 

@@ -74,7 +74,7 @@ class SaveDialog(QWidget):
         Returns:
 
         """
-        if len(self.df['load_filenames']) > 1:
+        if len(self.df['orig_im_names']) > 1:
             self.fileformat = 'Zip (*.zip)'
 
         elif self.df['JPEG']:
