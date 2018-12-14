@@ -70,9 +70,7 @@ def process_images():
                         datefmt='%m/%d/%Y %I:%M:%S %p')
 
     # Reads in and validates the inputs from the request JSON
-    # print('hello')
     user_data = request.get_json()
-    # print(user_data)
     upload_time = datetime.datetime.now()
     try:
         validated_user_data = check_user_data(user_data)
@@ -108,7 +106,7 @@ def process_images():
                     processTimestamp="placeholder",
                     # returnExtension=validated_user_data["extension"]
                     )
-    # user.save()
+    user.save()
 
     # Decodes the uploaded images
     try:
@@ -202,7 +200,6 @@ def process_images():
             image = image.astype(numpy.uint8)
         else:
             file_format = "RGB"
-            print(type(image))
         im = Image.fromarray(image, mode=file_format)
         im.save(memory_file[-1], "JPEG")
 
