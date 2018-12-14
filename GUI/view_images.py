@@ -77,11 +77,15 @@ def show_hist(df):
             if c == 0:
                 fig, ax = plt.subplots(len(colors), 2)
 
+            # Allow BW images to be indexed
+            if len(colors) == 1:
+                ax = [ax]
+
             # Plot original image
             bins = [(i + j)/2 for i, j in zip(df['histDataOrig'][ind][0][1:],
                                               df['histDataOrig'][ind][0][
                                               :-1])]
-            ax[c].plot(bins, df['histDataOrig'][ind][1][c], color=colors[c],
+            ax[c][0].plot(bins, df['histDataOrig'][ind][1][c], color=colors[c],
                        linewidth=2.0)
 
             ax[c][0].set_xlabel('Image Values')
@@ -93,7 +97,7 @@ def show_hist(df):
             bins = [(i + j)/2 for i, j in zip(df['histDataProc'][ind][0][1:],
                                               df['histDataProc'][ind][0][
                                               :-1])]
-            ax[c].plot(bins, df['histDataProc'][ind][1][c], color=colors[c],
+            ax[c][1].plot(bins, df['histDataProc'][ind][1][c], color=colors[c],
                        linewidth=2.0)
 
             ax[c][1].set_xlabel('Image Values')
@@ -141,8 +145,8 @@ def show_hist(df):
                        linewidth=2.0)
 
             ax[c].set_xlabel('Image Values')
-            ax.set_ylabel('Counts')
-            ax.set_title('Processed Image')
+            ax[c].set_ylabel('Counts')
+            ax[c].set_title('Processed Image')
 
     plt.show()
 
