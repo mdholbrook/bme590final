@@ -3,3 +3,4 @@ venv/
 *.pyc
 *.log
 ProcessedImages/
+sphinx/_build
