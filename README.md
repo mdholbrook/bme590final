@@ -36,9 +36,9 @@ the following dialog box:
 
 ![load image dialog](ProjectIms/open_im.png)
 
-Images will be loaded into memory once they have been selected. The field 
+Images will be loaded into memory after the user clicks `Open`. The GUI field 
 titled `Input images` cannot be edited by the user, but will be updated to show 
-the first image selected.
+the first image selected by the user.
 
 ### Processing images
 For this project, a set of 5 image processing tasks are available:
@@ -52,11 +52,14 @@ Each of these are relatively simple transforms which alter the contrast of
 the image. These work on both RGB and black-and-white images.
 
 __Note__: histogram equalization usually only works on black-and-white 
-images. From https://prateekvjoshi.com/2013/11/22/histogram-equalization-of-rgb-images/:
-
+images. 
 >Histogram equalization is a non-linear process. Channel splitting and equalizing each channel separately is incorrect. Equalization involves intensity values of the image, not the color components. So for a simple RGB color image, histogram equalization cannot be applied directly on the channels. It needs to be applied in such a way that the intensity values are equalized without disturbing the color balance of the image.
 
-We have used OpenCV to convert RBG imges to luminescence, blue difference and
+From https://prateekvjoshi.com/2013/11/22/histogram-equalization-of-rgb-images/:
+
+Here we have overcome this limitation by changing RGB images into images 
+which can be histogram equalized. We have used OpenCV to convert RBG imges to 
+luminescence, blue difference and
  ref difference (YCbCr). We have then performed histogram equalization on 
  only the luninescence channel before recombining the image back to GB.
  
@@ -86,7 +89,8 @@ Images can be downloaded in the format of your choice by selecting the format
  radiobutton (`JPEG`, `PNG`, or `TIFF`) and clicking `Download`. The dialog 
  box brought up here will recommend a download location and name based on the
   names of the input files. If more than one files were loaded into the 
-  program the save options will be limited to zip format. A zip file of 
+  program the, all images will download at once, and save options will be 
+  limited to zip format. A zip file of 
   processed images in the format specified by the radio buttons will be 
   downloaded and saved to disk.
   
