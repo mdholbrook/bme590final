@@ -12,7 +12,10 @@ includes a graphical user interface, or GUI, in which a user can specify
 images and processing methods and a server endpoint which performs all of the 
 processing. Processed images are returned to the user to view and download.
 
-Documentation Link:
+Please see our [documentation](https://mdholbrook.github.io/bme590final/) for information on the modulues and function
+ in this repository.
+ 
+For a demonstration of the GUI in action, see this brief [video](https://photos.app.goo.gl/aYyDjsefwkZ3iW5z5).
 
 ## About the GUI
 The user interface was constructed using [PyQt5](https://www.riverbankcomputing.com/software/pyqt/intro)
@@ -57,7 +60,7 @@ __Note__: histogram equalization usually only works on black-and-white
 images. 
 >Histogram equalization is a non-linear process. Channel splitting and equalizing each channel separately is incorrect. Equalization involves intensity values of the image, not the color components. So for a simple RGB color image, histogram equalization cannot be applied directly on the channels. It needs to be applied in such a way that the intensity values are equalized without disturbing the color balance of the image.
 
-From https://prateekvjoshi.com/2013/11/22/histogram-equalization-of-rgb-images/:
+From https://prateekvjoshi.com/2013/11/22/histogram-equalization-of-rgb-images/
 
 Here we have overcome this limitation by changing RGB images into images 
 which can be histogram equalized. We have used OpenCV to convert RBG imges to 
