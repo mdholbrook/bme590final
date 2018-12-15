@@ -12,6 +12,8 @@ includes a graphical user interface, or GUI, in which a user can specify
 images and processing methods and a server endpoint which performs all of the 
 processing. Processed images are returned to the user to view and download.
 
+Documentation Link:
+
 ## About the GUI
 The user interface was constructed using [PyQt5](https://www.riverbankcomputing.com/software/pyqt/intro)
 . It allows the user to select images, processing methods, view the original 
