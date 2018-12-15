@@ -4,4 +4,4 @@ venv/
 *.log
 ProcessedImages/
 sphinx/_build
-sphinx/
+sphinx/conf.py
