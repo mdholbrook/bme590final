@@ -74,8 +74,9 @@ luminescence, blue difference and
 
 ![GUI after processing](ProjectIms/gui_ims.png)
 
-The image will launch in your system's image viewer. You may be prompted to 
-select the viewer before seing the image appear. If the `Both` option is 
+The image will launch in a Matplotlib window. This will allow the user to 
+navigate the images better, giving options such as zooming in or saving the 
+images. If the `Both` radio button is
 selected the original and processed images will appear side-by-side, on the 
 left and right respectively. The images histograms will appear as a separate 
 [Matplotlib](https://matplotlib.org/) plot. In the example below the image 

@@ -258,6 +258,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # Set default dropbox index
             self.pullcombotext(ind=0)
+            self.ui.comboBox.setCurrentIndex(0)
 
         self.disable_options()
 

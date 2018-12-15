@@ -28,6 +28,8 @@ def run_image_viewer(df):
     # Show images
     show_ims(im)
 
+    plt.show()
+
 
 def show_ims(im):
     """Function which uses skimage viewer to display the desired image(s).
@@ -35,18 +37,28 @@ def show_ims(im):
     continue.
 
     Args:
-        im (numpy array): a 2D numpy array (or 3D with channels)
+        im (PIL object): a PIL image object
 
     Returns:
 
     """
 
-    # Generate image viewer
-    # viewer = ImageViewer(im)
+    # Get an array to plot
+    im_array = np.array(im)
 
-    # Show image
-    # viewer.show()
-    im.show()
+    # Set up the figure
+    fig, ax = plt.subplots()
+
+    # Show the image
+    if len(im_array.shape) == 2:
+        plt.imshow(im_array, cmap='gray')
+
+    else:
+        plt.imshow(im_array)
+
+    # Set the plot properties
+    ax.grid(False)
+    ax.axis('off')
 
 
 def show_hist(df):
@@ -88,10 +100,19 @@ def show_hist(df):
             ax[c][0].plot(bins, df['histDataOrig'][ind][1][c], color=colors[c],
                           linewidth=2.0)
 
-            ax[c][0].set_xlabel('Image Values')
+            # Only apply xlabels to last plot
+            if c == len(colors)-1:
+                ax[c][0].set_xlabel('Image Values')
+
+            else:
+                ax[c][0].set_xticklabels([])
+
             ax[c][0].set_ylabel('Counts')
-            ttl = 'Original Image - ' + color_names[c]
-            ax[c][0].set_title(ttl)
+
+            # Only title the first plot
+            if c == 0:
+                ttl = 'Original Image'
+                ax[c][0].set_title(ttl)
 
             # Plot processed image
             bins = [(i + j)/2 for i, j in zip(df['histDataProc'][ind][0][1:],
@@ -100,10 +121,21 @@ def show_hist(df):
             ax[c][1].plot(bins, df['histDataProc'][ind][1][c], color=colors[c],
                           linewidth=2.0)
 
-            ax[c][1].set_xlabel('Image Values')
-            ax[c][1].set_ylabel('Counts')
-            ttl = 'Processed Image - ' + color_names[c]
-            ax[c][1].set_title(ttl)
+            # Only apply xlabels to last plot
+            if c == len(colors)-1:
+                ax[c][1].set_xlabel('Image Values')
+
+            else:
+                ax[c][1].set_xticklabels([])
+
+            # ax[c][1].set_ylabel('Counts')
+            ax[c][1].set_yticklabels([])
+            ax[c][1].set_ylim(ax[c][0].get_ylim())
+
+            # Only title the first plot
+            if c == 0:
+                ttl = 'Processed Image'
+                ax[c][1].set_title(ttl)
 
         # If we only want the original image
         elif df['show1']:
@@ -147,8 +179,6 @@ def show_hist(df):
             ax[c].set_xlabel('Image Values')
             ax[c].set_ylabel('Counts')
             ax[c].set_title('Processed Image')
-
-    plt.show()
 
 
 def get_num_channels(df):
