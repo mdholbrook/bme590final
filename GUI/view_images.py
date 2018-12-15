@@ -111,7 +111,7 @@ def show_hist(df):
 
             # Only title the first plot
             if c == 0:
-                ttl = 'Original Image'  #+ color_names[c]
+                ttl = 'Original Image'
                 ax[c][0].set_title(ttl)
 
             # Plot processed image
