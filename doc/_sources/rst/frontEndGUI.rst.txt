@@ -1,0 +1,7 @@
+frontEndGUI module
+==================
+
+.. automodule:: frontEndGUI
+    :members:
+    :undoc-members:
+    :show-inheritance:

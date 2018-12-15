@@ -1,0 +1,7 @@
+write\_files module
+===================
+
+.. automodule:: write_files
+    :members:
+    :undoc-members:
+    :show-inheritance:

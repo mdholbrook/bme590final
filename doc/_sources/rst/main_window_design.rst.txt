@@ -1,0 +1,7 @@
+main\_window\_design module
+===========================
+
+.. automodule:: main_window_design
+    :members:
+    :undoc-members:
+    :show-inheritance:
