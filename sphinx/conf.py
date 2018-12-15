@@ -14,12 +14,15 @@
 #
 import os
 import sys
+sys.path.insert(0, os.path.abspath('../ImageProcessing'))
+sys.path.insert(0, os.path.abspath('../GUI'))
+sys.path.insert(0, os.path.abspath('../ClientFunctions'))
+sys.path.insert(0, os.path.abspath('../Server'))
 sys.path.insert(0, os.path.abspath('../'))
-
 
 # -- Project information -----------------------------------------------------
 
-project = 'bme590finalDoc'
+project = 'BME590final'
 copyright = '2018, Alan Register'
 author = 'Alan Register'
 
@@ -104,7 +107,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'bme590finalDocdoc'
+htmlhelp_basename = 'BME590finaldoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -131,7 +134,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'bme590finalDoc.tex', 'bme590finalDoc Documentation',
+    (master_doc, 'BME590final.tex', 'BME590final Documentation',
      'Alan Register', 'manual'),
 ]
 
@@ -141,7 +144,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'bme590finaldoc', 'bme590finalDoc Documentation',
+    (master_doc, 'bme590final', 'BME590final Documentation',
      [author], 1)
 ]
 
@@ -152,8 +155,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'bme590finalDoc', 'bme590finalDoc Documentation',
-     author, 'bme590finalDoc', 'One line description of project.',
+    (master_doc, 'BME590final', 'BME590final Documentation',
+     author, 'BME590final', 'One line description of project.',
      'Miscellaneous'),
 ]
 
